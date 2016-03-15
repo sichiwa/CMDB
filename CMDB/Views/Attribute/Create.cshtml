@@ -1,0 +1,143 @@
+﻿@model CMDB.ViewModels.vCI_Attributes_CU
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>建立屬性</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttributeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AttributeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.AttributeTypeID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AttributeTypeID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AttributeTypeID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttributeType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.AttributeTypeID, (SelectList)Model.AttributeType, new { Class = "form-control", id = "AttributeTypeID" })
+            </div>
+        </div>
+
+        <div class="form-group DropDownValue">
+            @Html.LabelFor(model => model.DropDownValues, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DropDownValues, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DropDownValues, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回屬性清單", "Index")
+</div>
+
+@*@Html.Raw(TempData["CreateMsg"])*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section CreateAttributeScript
+{
+    <script>
+        $(function () {
+
+            var form = $("#CUform");
+            jQuery.validator.setDefaults({
+                debug: false,
+                success: "valid"
+            });
+
+            $("#DropDownValues").rules("add", {
+                required: {
+                    depends: function (element) {
+                        if ($("#AttributeTypeID").val() == 4) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                },
+                messages: {
+                    required: "此欄位為必填欄位",
+                }
+            });
+
+            $(".DropDownValue").hide();
+
+            $("#AttributeTypeID").change(function () {
+                var AttributeTypeID = $(this).val();
+                if (AttributeTypeID == "4") {
+                    $(".DropDownValue").show();
+                }
+                else {
+                    $(".DropDownValue").hide();
+                }
+            });
+
+            $("#submitbtn").click(function () {
+                var Description = $("#Description").val();
+                var AttributeName = $("#AttributeName").val();
+                var AttributeTypeID = $("#AttributeTypeID").val()
+                var DropDownValue = $("#DropDownValue").val()
+
+                if (form.valid() == true) {
+                    $.ajax({
+                        url: "@Url.Content("~/Attribute/Create")",
+                        type: "POST",
+                        contextType: "text/html; charset=utf-8",
+                        data: { AttributeName: AttributeName, Description: Description, AttributeTypeID: AttributeTypeID, DropDownValue: DropDownValue },
+                        success: function (data) {
+                            //  $.unblockUI();
+                            if (data == "建立屬性作業成功") {
+                                var url = "@Url.Action("Index", "Attribute")";
+                                window.location.href = url;
+                            }
+                            else {
+                                alert(data);
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("資料輸入錯誤");
+                }
+            });
+
+        });
+    </script>
+}

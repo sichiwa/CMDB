@@ -1,0 +1,52 @@
+﻿@model CMDB.Models.SystemInfo
+
+@{
+    ViewBag.Title = "About";
+}
+
+<h2>關於</h2>
+
+@if (TempData["SystemInfo"].ToString() == "OK")
+{
+
+<div class="container">
+    <div class="row">
+        <h3>
+            版號
+        </h3>
+        <p class="lead bg-success">@Model.ProjectVersion</p>
+    </div>
+    <hr />
+    <div class="row">
+        <h3>
+            開發代號
+        </h3>
+        <p class="lead bg-success">@Model.ProjectName</p>
+    </div>
+    <hr />
+    <div class="row">
+        <h3>
+            開發軟體
+        </h3>
+        <p class="lead bg-success">@Model.DevelopmentTools</p>
+    </div>
+    <hr />
+    <div class="row">
+        <h3>
+            .net framework版本
+        </h3>
+        <p class="lead bg-success">@Model.FrameworkVersion</p>
+    </div>
+    <hr />
+    <div class="row ">
+        <h3>
+            開發歷程
+        </h3>
+        <pre class="lead bg-success">@Model.DevelopmentHistory</pre>
+    </div>
+</div>
+}
+else
+{
+    <h3>@TempData["SystemInfo"].ToString()</h3>
+}

@@ -1,0 +1,63 @@
+﻿@model CMDB.Models.LoginInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title>登入</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body style="background: url(../../Content/SystemImgs/background.jpg)">
+    @if (TempData["LoginMsg"] != null)
+    {
+        <script type="text/javascript">
+            var message = "@TempData["LoginMsg"]";
+            alert(message);
+        </script>
+    }
+    <div class="container">
+        <div class="row vertical-offset-100">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h3 class="panel-title">組態管理系統</h3></div>
+                    <div class="panel-body ">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form" }))
+                        {
+                            <fieldset>
+                                <div class="form-group">
+                                    @*@Html.LabelFor(m => Model.UserID, new { @class = "control-label col-md-2" })*@
+                                    @Html.TextBoxFor(m => Model.UserID, new { @class = "form-control", @name = "UserName", @placeholder = "請輸入帳號" })
+                                    @Html.ValidationMessageFor(m => Model.UserID, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group ">
+                                    @*@Html.LabelFor(m => Model.Pwd, new { @class = "control-label  col-md-2" })*@
+                                    @Html.TextBoxFor(m => Model.Pwd, new { @type = "password", @class = "form-control ", @name = "Pwd", @placeholder = "請輸入密碼" })
+                                    @Html.ValidationMessageFor(m => Model.Pwd, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-lg btn btn-success " id="submitbtn" value="登入" />
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                    <div class="panel-footer">2015年開發版</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/respond.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

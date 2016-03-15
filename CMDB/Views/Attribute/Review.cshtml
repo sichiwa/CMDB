@@ -1,0 +1,186 @@
+﻿@model CMDB.ViewModels.vTmp_CI_Attributes_R
+
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2>覆核屬性</h2>
+
+
+@using (Html.BeginForm())
+{
+    string disabled = "disabled";
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>vTmp_CI_Attributes_D</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.AttributeID)
+
+        <div class="col-md-6 divnew">
+            <div class="form-group">
+                <label class="control-label col-md-2">來源</label>
+                <div class="col-md-6">
+                    <h5>編輯後資料</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AttributeName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.AttributeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AttributeTypeName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.AttributeTypeName, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.AttributeTypeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DropDownValues, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.DropDownValues, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.DropDownValues, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Creator, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Creator, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Type == "編輯" || Model.Type == "刪除")
+        {
+            <div class="col-md-6 divold">
+                <div class="form-group">
+                    <label class="control-label col-md-2">來源</label>
+                    <div class="col-md-6">
+                        <h5>原始資料</h5>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oAttributeName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oAttributeName, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oAttributeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oDescription, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oAttributeTypeName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oAttributeTypeName, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oAttributeTypeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oDropDownValues, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oDropDownValues, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oDropDownValues, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oUpadter, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oUpadter, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oUpadter, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oUpdateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oUpdateTime, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oUpdateTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="覆核" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回待覆核屬性清單", "ReviewIndex")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cmdb")
+}
+
+@section ReviewAttributeScript
+{
+    <script>
+        $(function () {
+            compareReviewData();
+            $("#AttributeTypeID").change(function () {
+                var AttributeTypeID = $(this).val();
+                if (AttributeTypeID == "4") {
+                    $(".DropDownValue").show();
+                }
+                else {
+                    $(".DropDownValue").hide();
+                }
+            });
+        });
+    </script>
+}

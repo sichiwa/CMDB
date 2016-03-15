@@ -1,0 +1,267 @@
+﻿@model CMDB.ViewModels.vCI_Proflies_CU
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>編輯範本</h2>
+
+<div id="modalWrapper">
+    @* Inject form here *@
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>vCI_Proflies_CU</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProfileID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImgID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8 form-inline ImgArea ">
+                <input type="button" value="選擇" class="btn btn-default" id="chooseImg" />
+                <img id=SysImg src=@Url.Content(Model.ImgPath) />
+                <input type="hidden" id="ImgID" value=@Model.ImgID />
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.ImgID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <img id=@Model.ImgID src=@Url.Content(Model.ImgPath) />
+                    @Html.ValidationMessageFor(model => model.ImgID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                新增屬性
+            </label>
+            <div class="col-md-offset-2 col-md-10 form-inline">
+                @*屬性下拉式選單 + 按鈕*@
+                <input type="button" class="btn btn-default" value="新增" id="addAttributebtn" />
+                <select id="AttributeDrop" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-md-10 col-md-offset-2">
+                <table class="table table-bordered" id="Attributetb">
+                    <thead>
+                        <tr class="active">
+                            <th>
+                                <label>刪除</label>
+                            </th>
+                            <th style="display:none">
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeTypeName)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AttributesData)
+                        {
+                            string trname = "tr" + item.AttributeID;
+                            string btnname = "btn" + item.AttributeID;
+                            <tr class=@trname>
+                                <td>
+                                    <input type="button" class="btn btn-danger delAttribute" value="刪除" id=@btnname />
+                                </td>
+                                <td class="AttrbuteID" style="display:none">
+                                    @Html.DisplayFor(modelItem => item.AttributeID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeTypeName)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回範本清單", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cmdb")
+}
+
+@section EditProfileScript
+{
+    <script>
+        $(function () {
+            //取得屬性選單
+            getAttributeDropList();
+
+            $('tbody').sortable();
+
+            jQuery.validator.setDefaults({
+                debug: false,
+                success: "valid"
+            });
+
+            var form = $("#CUform");
+            form.validate({
+                errorPlacement: function (label, element) {
+                    label.addClass('text-danger');
+                    label.insertAfter(element);
+                }
+            });
+
+            $("#ProfileName").rules("add", {
+                required: true,
+                messages: {
+                    required: "此欄位為必填欄位",
+                }
+            });
+
+            $("#addAttributebtn").click(function () {
+                var AttributeID = $("#AttributeDrop").val();
+                var AttributeName = $("#AttributeDrop :selected").text();
+                var AttTypeName = $("#AttributeDrop :selected").attr("class");
+
+                if ($(".tr" + AttributeID).length == 0) {
+                    //當比對Table內沒有該筆屬性資料時，組合出TR資料
+                    var trdata = "<tr class=tr" + AttributeID + ">" +
+                    "<td> <input type='button' class='btn btn-danger delAttribute' value='刪除' id=btn" + AttributeID + " /></td>" +
+                    "<td class='AttrbuteID' style='display:none'>" + AttributeID + "</td><td>" + AttributeName + "</td>" +
+                    "<td>" + AttTypeName + "</td></tr>"
+
+                    //將屬性資料加入Table
+                    $(trdata).appendTo($("#Attributetb"));
+
+                    $(".delAttribute").click(function () {
+                        //取得該筆TR
+                        var trid = $(this).closest("tr").attr("class");
+                        var Removetrid = trid.split(" ")[0];
+                        //alert(trid);
+                        //Table移除TR
+                        $("." + Removetrid).remove();
+                    });
+                }
+                else {
+                    alert("範本已含有此屬性");
+                }
+            });
+
+            $(".delAttribute").click(function () {
+                var trid = $(this).closest("tr").attr("class");
+                var Removetrid = trid.split(" ")[0];
+                //alert(trid);
+                //alert(trid.split(" ")[0]);
+                $("." + Removetrid).remove();
+            });
+
+            $("#chooseImg").click(function () {
+                $.ajax({
+                    url: "@Url.Content("~/SystemImg/getImgs")",
+                    success: function (data) {
+                        $('#modalWrapper').html(data);
+                        $("#ImgModal").modal();
+
+                        $(".addImg").click(function () {
+                            var ImgID = this.id
+                            var ImgPath = $("#SysImg" + ImgID).attr("src");
+                            //alert("ImgID:" + ImgID);
+                            //alert("ImgPath:" + ImgPath);
+                            if (ImgID != "") {
+                                $("#ImgID").val(ImgID);
+                                $("#SysImg").attr("src", ImgPath);
+
+                                $(".ImgArea").show();
+                            }
+                        });
+                    }
+                });
+            });
+
+            $("#submitbtn").click(function () {
+                var AttributesData = [];
+                var Order = 1;
+                $(".AttrbuteID").each(function () {
+                    //this is the current td
+                    var currentid = $(this).text().trim();
+                    //alert("currentid:" + currentid);
+                    var AttributeID = currentid;
+                    var AttributeOrder = Order;
+                    if (AttributeID != "") {
+                        //alert("AttributeID:" + AttributeID);
+                        AttributesData.push({ AttributeID: AttributeID, AttributeOrder: AttributeOrder });
+                        Order += 1;
+                    }
+                });
+
+                if (AttributesData.length > 0) {
+                    var ProfileID = $("#ProfileID").val();
+                    var ProfileName = $("#ProfileName").val();
+                    var Description = $("#Description").val();
+                    var ImgID = $("#ImgID").val();
+
+                    if (form.valid() == true) {
+                        $.ajax({
+                            url: "@Url.Content("~/Profile/Edit")",
+                            type: "POST",
+                            contextType: "text/html; charset=utf-8",
+                            data: { ProfileID: ProfileID, ProfileName: ProfileName, Description: Description, ImgID: ImgID, AttributesData: AttributesData },
+                            success: function (data) {
+                                //  $.unblockUI();
+                                if (data == "編輯範本作業成功") {
+                                    var url = "@Url.Action("Index", "Profile")";
+                                    window.location.href = url;
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        alert("資料輸入錯誤");
+                    }
+                }
+                else {
+                    alert("請至少選一屬性");
+                }
+            });
+        });
+    </script>
+}

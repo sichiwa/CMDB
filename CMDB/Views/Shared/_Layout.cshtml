@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - TWCA-組態管理系統</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryuicss")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("回主畫面", "Home", "Account", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                        <li>@Html.ActionLink("關於", "About", "Home")</li>
+                        <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>*@
+                    @Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)
+                </ul>
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2015 - 組態管理系統</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+    @RenderSection("CreateAttributeScript", required: false)
+    @RenderSection("ReviewAttributeScript", required: false)
+    @RenderSection("EditAttributeScript", required: false)
+    @RenderSection("EditProfileScript", required: false)
+    @RenderSection("CreateProfileScript", required: false)
+    @RenderSection("ReviewProfileScript", required: false)
+    @RenderSection("CreateObjectScript", required:false)
+    @RenderSection("EditObjectScript",required:false)
+    @RenderSection("ReviewObjectScript", required: false)
+    @*@@Scripts.Render("~/bundles/angular")
+        @RenderSection("EditItemScript", required: false)
+        @RenderSection("ProcessIndexScript", required: false)
+        @RenderSection("ReviewIndexScript", required: false)
+        @RenderSection("ReviewSummaryScript", required: false)
+        @RenderSection("LogSearchScript", required: false)*@
+</body>
+</html>

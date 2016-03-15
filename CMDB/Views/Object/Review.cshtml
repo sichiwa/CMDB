@@ -1,0 +1,257 @@
+﻿@model CMDB.ViewModels.vTmp_CI_Objects_R
+
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2>覆核物件</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    string disabled = "disabled";
+
+    <div class="form-horizontal">
+        @*<h4>vTmp_CI_Objects_R</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ObjectID)
+
+        <div class="col-md-6 divnew">
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.oObjectID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oObjectID, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oObjectID, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                <label class="control-label col-md-2">來源</label>
+                <div class="col-md-6">
+                    <h5>編輯後資料</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.ProfileID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.ProfileID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProfileID, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control" , @disabled } })
+                    @Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AttributesData, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <tr class="active">
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeValue)
+                            </th>
+                        </tr>
+                        @foreach (var item in Model.AttributesData)
+                        {
+                            string inputName = item.AttributeID +"_"+ item.AttributeName;
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeName)
+                                </td>
+                                <td>
+                                    @*@Html.EditorFor(modelItem => item.AttributeValue, new { htmlAttributes = new { @class = "form-control", @disabled } })*@
+                                    @*@Html.DisplayFor(modelItem => item.AttributeValue)*@
+                                    <input type="text" name=@inputName  value="@item.AttributeValue" class="form-control" @disabled>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Creator, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Creator, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        @if (Model.Type == "編輯" || Model.Type == "刪除")
+        {
+            <div class="col-md-6 divold">
+                <div class="form-group">
+                    <label class="control-label col-md-2">來源</label>
+                    <div class="col-md-6">
+                        <h5>原始資料</h5>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oObjectName, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oObjectName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oDescription, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.oProfileID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.oProfileID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.oProfileID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oProfileName, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oProfileName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oAttributesData, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr class="active">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.oAttributesData.First().AttributeName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.oAttributesData.First().AttributeValue)
+                                </th>
+                            </tr>
+                            @foreach (var item in Model.oAttributesData)
+                            {
+                                string inputName ="o"+ item.AttributeID + "_" + item.AttributeName;
+                                 <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AttributeName)
+                                    </td>
+                                    <td>
+                                        @*@Html.EditorFor(modelItem => item.AttributeValue, new { htmlAttributes = new { @class = "form-control", @disabled } })*@
+                                        @*@Html.DisplayFor(modelItem => item.AttributeValue)*@
+                                        <input type="text" name=@inputName value="@item.AttributeValue" class="form-control" @disabled>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oUpadter, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oUpadter, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oUpadter, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.oUpdateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.oUpdateTime, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                        @Html.ValidationMessageFor(model => model.oUpdateTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="覆核" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cmdb")
+}
+
+@section ReviewObjectScript
+{
+    <script>
+        $(function () {
+            compareReviewData();
+            // $(".SysImg").hide();
+
+            //$("#submitbtn").click(function () {
+            //    var ProfileID = $("#ProfileID").val();
+            //    var ProfileName = $("#ProfileName").val();
+            //    var Description = $("#Description").val();
+            //    var ImgID = $("#ImgID").val();
+
+            //});
+        });
+    </script>
+}

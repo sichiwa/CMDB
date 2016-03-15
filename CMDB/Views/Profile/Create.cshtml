@@ -1,0 +1,237 @@
+﻿@model CMDB.ViewModels.vCI_Proflies_CU
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>建立範本</h2>
+
+<div id="modalWrapper">
+    @* Inject form here *@
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>vCI_Proflies_CU</h4>*@
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImgID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2 ">
+                <input type="button" value="選擇" class="btn btn-default" id="chooseImg" />
+            </div>
+            <div class="col-md-8 ImgArea">
+                <img id="SysImg" />
+                <input type="hidden" id="ImgID" value="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-10">
+                    <label>
+                        <input type="checkbox" id="CheckAllcbx"> 全選
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-md-10 col-md-offset-2">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>
+                                <label>加入</label>
+                            </th>
+                            <th style="display:none">
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AttributesData.First().AttributeTypeName)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AttributesData)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.CheckBox("Attribute", new { id = "Attribute" + "_" + item.AttributeID, Class = "checkbox" })
+                                </td>
+                                <td style="display:none">
+                                    @Html.DisplayFor(modelItem => item.AttributeID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeTypeName)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回範本清單", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section CreateProfileScript
+{
+    <script>
+        $(function () {
+            
+            $(".ImgArea").hide();
+
+            $('tbody').sortable();
+
+            jQuery.validator.setDefaults({
+                debug: false,
+                success: "valid"
+            });
+
+            var form = $("#CUform");
+            form.validate({
+                errorPlacement: function (label, element) {
+                    label.addClass('text-danger');
+                    label.insertAfter(element);
+                }
+            });
+
+            $("#ProfileName").rules("add", {
+                required: true,
+                messages: {
+                    required: "此欄位為必填欄位",
+                }
+            });
+
+            $("#CheckAllcbx").change(function () {
+                if ($("#CheckAllcbx").prop("checked")) {
+                    $(".checkbox").prop("checked", true);
+                }
+                else {
+                    $(".checkbox").prop("checked", false);
+                }
+            });
+
+            $("#chooseImg").click(function () {
+                $.ajax({
+                    url: "@Url.Content("~/SystemImg/getImgs")",
+                    success: function (data) {
+                        $('#modalWrapper').html(data);
+                        $("#ImgModal").modal();
+
+                        $(".addImg").click(function () {
+                            var ImgID = this.id
+                            var ImgPath = $("#SysImg" + ImgID).attr("src");
+                            //alert("ImgID:" + ImgID);
+                            //alert("ImgPath:" + ImgPath);
+                            if (ImgID != "") {
+                                $("#ImgID").val(ImgID);
+                                $("#SysImg").attr("src", ImgPath);
+
+                                $(".ImgArea").show();
+                            }
+                        });
+                    }
+                });
+            });
+
+            $("#submitbtn").click(function () {
+                var AttributesData = [];
+                var Order = 1;
+                $(".table").find('input[type="checkbox"]:checked').each(function () {
+                    //this is the current checkbox
+                    var currentid = this.id;
+                    var AttributeOrder = Order;
+                    //alert("currentid:" + currentid);
+                    var AttributeID = currentid.split("_")[1];
+                    if (AttributeID != "") {
+                       // alert("AttributeID:" + AttributeID);
+                        AttributesData.push({ AttributeID: AttributeID, AttributeOrder: AttributeOrder });
+                        Order += 1;
+                    }
+                });
+
+                //alert("AttributesData.length:" + AttributesData.length);
+
+                if (AttributesData.length > 0) {
+                    var ProfileName = $("#ProfileName").val();
+                    var Description = $("#Description").val();
+                    var ImgID = $("#ImgID").val();
+
+                    //alert("ImgID:" + ImgID);
+
+                    if (ImgID == "") {
+                        //如果使用者沒有選擇圖片，就用預設的圖片
+                        ImgID = 1;
+                    }
+                    //alert("ImgID:" + ImgID);
+                    if (form.valid() == true) {
+                        $.ajax({
+                            url: "@Url.Content("~/Profile/Create")",
+                            type: "POST",
+                            contextType: "text/html; charset=utf-8",
+                            data: { ProfileName: ProfileName, Description: Description, ImgID: ImgID, AttributesData: AttributesData },
+                            success: function (data) {
+                                //  $.unblockUI();
+                                if (data == "建立範本作業成功") {
+                                    var url = "@Url.Action("Index", "Profile")";
+                                    window.location.href = url;
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        alert("資料輸入錯誤");
+                    }
+                }
+                else {
+                    alert("請至少選一屬性");
+                }
+            });
+        });
+    </script>
+}

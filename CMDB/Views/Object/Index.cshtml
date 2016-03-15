@@ -1,0 +1,101 @@
+﻿@model  CMDB.ViewModels.vCI_Objects_list
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>物件管理</h2>
+
+@if (Model.Authority == 1)
+{
+    <p>
+        @Html.ActionLink("建立物件", "Create")
+    </p>
+}
+
+@if (Model.ReviewCount > 0)
+{
+    <hr />
+    <div class="row">
+        <label class="control-label col-md-12">待覆核物件:<a href=@Url.Action("ReviewIndex")>@Model.ReviewCount.ToString()</a></label>
+    </div>
+    <hr />
+}
+
+@if (TempData["SystemInfo"].ToString() == "OK")
+{
+    <table class="table table-bordered">
+        <tr class="active">
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().ObjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().ProfileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().CreateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().Upadter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectsData.First().UpdateTime)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.ObjectsData)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Upadter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateTime)
+                </td>
+                <td>
+                    @if (Model.Authority == 1)
+                    {
+                        string aa = " |";
+                        if (item.EditAccount == "noBody")
+                        {
+
+                            @Html.ActionLink("編輯", "Edit", new { ObjectID = item.ObjectID }) ;
+                            @aa;
+                            @*@Html.ActionLink("刪除", "Delete", new { AttributeID = item.AttributeID });*@
+                        }
+                        else
+                        {
+                            <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
+                            @aa;
+                        }
+                        @Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID }) ;
+                    }
+                    else
+                    {
+                        @Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID });
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>@TempData["SystemInfo"].ToString()</h3>
+}

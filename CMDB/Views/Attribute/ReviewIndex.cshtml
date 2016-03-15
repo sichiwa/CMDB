@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CMDB.ViewModels.vTmp_CI_Attributes>
+
+@{
+    ViewBag.Title = "ReviewIndex";
+}
+
+<h2>待覆核屬性</h2>
+
+<table class="table table-bordered">
+    <tr class="active">
+        <th>
+            @Html.DisplayNameFor(model => model.AttributeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttributeTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    string TRClass = "";
+
+    if (item.Type== "建立")
+    {
+        TRClass = "success";
+    }
+    else if (item.Type == "編輯")
+    {
+        TRClass = "info";
+    }
+    else if (item.Type == "移除")
+    {
+        TRClass = "danger";
+    }
+    <tr class=@TRClass>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttributeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttributeTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.AttributeID }) |*@
+            @Html.ActionLink("詳細資料", "Review", new { AttributeID = item.AttributeID }) |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.AttributeID })*@
+        </td>
+    </tr>
+}
+</table>

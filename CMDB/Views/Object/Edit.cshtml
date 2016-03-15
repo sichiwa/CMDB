@@ -1,0 +1,187 @@
+﻿@model CMDB.ViewModels.vCI_Objects_CU
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>編輯物件</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+{
+    @Html.AntiForgeryToken()
+    string disabled = "disabled";
+    <div class="form-horizontal">
+        @*<h4>vCI_Objects_CU</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ObjectID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group Attr">
+            @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID" , @disabled })
+            </div>
+        </div>
+
+        @foreach (var item in Model.AttributesData)
+        {
+            <div class="form-group AttrInput">
+                <label class="control-label col-md-2"> @item.AttributeName</label>
+                <div class="col-md-10">
+
+                    @if (item.AttributeTypeID == 1) //一般文字輸入
+                    {
+                        <input type="text" id=@item.AttributeID class="form-control AttrInputField" value="@item.AttributeValue" />
+                    }
+
+                    else if (item.AttributeTypeID == 2)  //一般文字輸入(多行)
+                    {
+                        <textarea id=@item.AttributeID class="form-control AttrInputField" rows="4" cols="50">@item.AttributeValue</textarea>
+                    }
+
+                    else if (item.AttributeTypeID == 3)     //日期輸入
+                    {
+                        <input type="text" id=@item.AttributeID class="form-control date-picker AttrInputField" value="@item.AttributeValue" />
+                    }
+
+                    else if (item.AttributeTypeID == 4)   //下拉式選單輸入
+                    {
+                        string DropdownList = "<select id=" + item.AttributeID + " class='form-control AttrInputField'>";
+                        char sp = '#';
+                        string[] DropValues = item.DropDownValues.Split(sp);
+
+                        foreach (var x in DropValues)
+                        {
+                            string OpetionValue = "";
+                            if (x == item.AttributeValue)
+                            {
+                                OpetionValue = "<option  value='" + x + "'  selected> " + x + "</option>";
+                            }
+                            else
+                            {
+                                OpetionValue = "<option  value='" + x + "' > " + x + "</option>";
+                            }
+
+                            DropdownList += OpetionValue;
+                        }
+                        DropdownList += "</select>";
+
+                        @(new HtmlString(DropdownList));
+                    }
+                    else   //未知輸入
+                    {
+
+                    }
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回物件清單", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cmdb")
+}
+
+@section EditObjectScript{
+    <script>
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd"
+            });
+
+            $("#ProfileID").change(function () {
+                var _ProfileID = $("#ProfileID").val();
+                getAttributeInputList(_ProfileID);
+            });
+
+            jQuery.validator.setDefaults({
+                debug: false,
+                success: "valid"
+            });
+
+            var form = $("#CUform");
+            form.validate({
+                errorPlacement: function (label, element) {
+                    label.addClass('text-danger');
+                    label.insertAfter(element);
+                }
+            });
+
+            $("#ObjectName").rules("add", {
+                required: true,
+                messages: {
+                    required: "此欄位為必填欄位",
+                }
+            });
+
+            $("#submitbtn").click(function () {
+                var ObjectID = $("#ObjectID").val();
+                var ObjectName = $("#ObjectName").val();
+                var Description = $("#Description").val();
+                var ProfileID = $("#ProfileID").val();
+                var AttributesData = [];
+                var Order = 1;
+                //alert("aaaa");
+                $.each($(".AttrInputField"), function (i, obj) {
+                    var AttributeID = obj.id;
+                    var AttributeValue = $("#" + AttributeID).val();
+                    var AttributeOrder = Order;
+                    //alert(AttributeID);
+                    //alert(AttributeValue);
+                    AttributesData.push({ AttributeID: AttributeID, AttributeValue: AttributeValue, AttributeOrder: AttributeOrder });
+                    Order += 1;
+                });
+
+                if (form.valid() == true) {
+                    $.ajax({
+                        url: "@Url.Content("~/Object/Edit")",
+                        type: "POST",
+                        contextType: "text/html; charset=utf-8",
+                        data: { ObjectID:ObjectID,ObjectName: ObjectName, Description: Description, ProfileID: ProfileID, AttributesData: AttributesData },
+                        success: function (data) {
+                            //  $.unblockUI();
+                            if (data == "編輯物件作業成功") {
+                                var url = "@Url.Action("Index", "Object")";
+                                window.location.href = url;
+                            }
+                            else {
+                                alert(data);
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("資料輸入錯誤");
+                }
+            });
+        });
+    </script>
+}

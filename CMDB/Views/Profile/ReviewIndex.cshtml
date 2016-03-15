@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CMDB.ViewModels.vTmp_CI_Profiles>
+
+@{
+    ViewBag.Title = "ReviewIndex";
+}
+
+<h2>待覆核範本</h2>
+
+@if (TempData["SystemInfo"].ToString() == "OK")
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ImgID)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ImgPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string TRClass = "";
+            string ID = "SysImg" + item.ImgID;
+
+            if (item.Type == "建立")
+            {
+                TRClass = "success";
+            }
+            else if (item.Type == "編輯")
+            {
+                TRClass = "info";
+            }
+            else if (item.Type == "移除")
+            {
+                TRClass = "danger";
+            }
+            <tr class=@TRClass>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ImgID)
+                    </td>*@
+                <td>
+                    <img id=@ID src=@Url.Content(item.ImgPath) />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.ProfileID }) |*@
+                    @Html.ActionLink("詳細資料", "Review", new { ProfileID = item.ProfileID }) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id=item.ProfileID })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h3>@TempData["SystemInfo"].ToString()</h3>
+}
+
+

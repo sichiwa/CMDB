@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CMDB.Models.SystemImgs>
+<div class="modal fade" id="ImgModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h4 class="modal-title">Confirmation</h4>
+        </div>
+        <div class="modal-body">
+            @if (TempData["SystemInfo"].ToString() == "OK")
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            選擇
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImgName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            圖片
+                        </th>
+                    </tr>
+                @foreach (var item in Model)
+                {
+                    string ID = "SysImg" + @item.ImgID;
+                    <tr>
+                            <td>
+                                <input type="button" id=@item.ImgID value="選擇" class="btn btn-default addImg"  data-dismiss="modal"/>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ImgName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <img id=@ID src=@Url.Content(item.ImgPath) />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <h3>@TempData["SystemInfo"].ToString()</h3>
+            }
+
+        </div>
+
+        @*<div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>*@
+    </div>
+</div>
+
+@*@section AddSystemImgsScript
+{
+    <script>
+        $(function () {
+            $(".addImg").click(function () {
+                var ImgID =this.id;
+                alert(ImgID);
+            });
+        });
+    </script>
+}*@

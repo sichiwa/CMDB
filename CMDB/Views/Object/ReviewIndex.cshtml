@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CMDB.ViewModels.vTmp_CI_Objects>
+
+@{
+    ViewBag.Title = "ReviewIndex";
+}
+
+<h2>待覆核物件</h2>
+
+@if (TempData["SystemInfo"].ToString() == "OK")
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string TRClass = "";
+
+            if (item.Type == "建立")
+            {
+                TRClass = "success";
+            }
+            else if (item.Type == "編輯")
+            {
+                TRClass = "info";
+            }
+            else if (item.Type == "移除")
+            {
+                TRClass = "danger";
+            }
+
+            <tr class=@TRClass>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.ObjectID }) |*@
+                    @Html.ActionLink("詳細資料", "Review", new { ObjectID = item.ObjectID }) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ObjectID })*@
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>@TempData["SystemInfo"].ToString()</h3>
+}
+
