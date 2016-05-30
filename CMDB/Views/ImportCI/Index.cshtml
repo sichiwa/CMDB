@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>批次匯入</h2>
+
+<div class="well">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#UploadModal">
+        匯入組態
+    </button>
+</div>
+
+@Html.Partial("_UploadFile")
+
+@section ImporrtCIScript
+{
+    <script>
+        $(function () {
+
+            $("#UploadForm").ajaxForm({
+                iframe: true,
+                dataType: "json",
+                success: function (result) {
+                    $("#UploadForm").resetForm();
+                    if (!result.Result) {
+                        $('#UploadModal').modal('hide');
+                        bootbox.alert(result.Msg);
+                    }
+                    else {
+                        $('#UploadModal').modal('hide');
+                        bootbox.alert(result.Msg);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $('#UploadModal').modal('hide');
+                    bootbox.alert(result.Msg);
+                }
+            });
+
+
+            @*$("#ButtonSubmit").click(function () {
+                //alert("aaa");
+                $.ajax({
+                    url: "@Url.Action("Upload", "ImportCI")",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (result) {
+                        //alert(result.Result);
+                        $("#UploadForm").resetForm();
+                        if (!result.Result) {
+                            $('#UploadModal').modal('hide');
+                            bootbox.alert(result.Msg);
+                        }
+                        else {
+                            $('#UploadModal').modal('hide');
+                            bootbox.alert(result.Msg);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#UploadForm").resetForm();
+                        bootbox.alert("錯誤", function () {
+                            $('#UploadModal').modal('hide');
+                            bootbox.alert(result.Msg);
+                        });
+                    }
+                });
+            });*@
+
+
+        });
+    </script>
+}

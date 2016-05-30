@@ -38,6 +38,8 @@ namespace CMDB.SystemClass
         private string _LoginAction;
         private string _LogoutAction;
 
+        private string _UploadPath;
+
         private string _MailServer;
         private int _MailServerPort;
         private string _MailSender;
@@ -367,6 +369,18 @@ namespace CMDB.SystemClass
         }
 
         /// <summary>
+        /// 檔案上傳路徑
+        /// </summary>
+        /// <value></value>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public string UploadPath
+        {
+            get { return _UploadPath; }
+            set { _UploadPath = value; }
+        }
+
+        /// <summary>
         /// 郵件伺服器使用Port
         /// </summary>
         /// <value></value>
@@ -526,6 +540,7 @@ namespace CMDB.SystemClass
         string SystemHashAlg,string SystemSlat, string SystemDateTimeFormat, string SplitSymbol, string SplitSymbol2, string SplitSymbol3,
         int PublicRoleID,
         string CreateAction,string EditAction,string RemoveAction,string InsertAction,string UpdateAction,string DeleteAction,string GetAction,string ReviewAction,string LoginAction,string LogoutAction,
+        string UploadPath,
         string MailServer, int MailServerPort, string MailSender, List<string> MailReceiver, List<string> MailCC, bool MailUseSSL, bool MailBodyUseHTML, string MailPriority, int MailCodePage, string MailSubject, string MailBody,
         List<string> TextReceivers,
         string TextSubject, string TextBody)
@@ -558,6 +573,8 @@ namespace CMDB.SystemClass
             this.ReviewAction = ReviewAction;
             this.LoginAction = LoginAction;
             this.LogoutAction = LogoutAction;
+
+            this.UploadPath = UploadPath;
 
             this.MailServer = MailServer;
             this.MailServerPort = Convert.ToInt16(MailServerPort);
@@ -608,6 +625,8 @@ namespace CMDB.SystemClass
             this.ReviewAction = WebConfigurationManager.AppSettings["ReviewAction"];
             this.LoginAction = WebConfigurationManager.AppSettings["LoginAction"];
             this.LogoutAction = WebConfigurationManager.AppSettings["LogoutAction"];
+
+            this.UploadPath= WebConfigurationManager.AppSettings["UploadPath"];
 
             this.MailServer = WebConfigurationManager.AppSettings["MailServer"];
             this.MailServerPort = Convert.ToInt16(WebConfigurationManager.AppSettings["MailServerPort"]);

@@ -19,9 +19,10 @@ namespace CMDB.Models
         [Display(Name = "屬性ID")]
         public int AttributeID { get; set; }
 
+        [Key]
         [Required]
-        [Column(TypeName = "nvarchar")]
-        [StringLength(200)]
+        [Column(TypeName = "nvarchar", Order = 3)]
+        [StringLength(4000)]
         [Display(Name = "屬性資料")]
         public string AttributeValue { get; set; }
 

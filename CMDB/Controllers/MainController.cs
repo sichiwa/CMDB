@@ -63,6 +63,8 @@ namespace CMDB.Controllers
                 SI.DevelopmentHistory += "5.2016/01/08 介面優化，支援範本建立/編輯時能夠拖拉屬性並決定顯示順序；增加頁面授權檢查機制，需有權限角色才能建立/編輯組態\r\n";
                 SI.DevelopmentHistory += "6.2016/01/11 增加屬性、範本、物件清單顯示時檢查是否正常被編輯，如果正在被編輯則無法被下一位使用者編輯；物件編輯時將無法修改範本\r\n";
                 SI.DevelopmentHistory += "7.2016/01/25 增加屬性、範本、物件新增編輯時，使用系統預設的雜湊演算法進行資料HASH計算並儲存，確保資料異動時不會被竄改\r\n";
+                SI.DevelopmentHistory += "8.2016/03/31 增加批次匯入組態資料功能(excel2SQL)\r\n";
+                SI.DevelopmentHistory += "9.2016/05/30  配合組態資料匯入，修改物件編輯頁面支援多屬性值存檔\r\n";
 
                 SL.TotalCount = 1;
                 SL.SuccessCount = 1;
