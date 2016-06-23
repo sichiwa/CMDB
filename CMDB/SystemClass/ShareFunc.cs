@@ -634,6 +634,7 @@ namespace CMDB.SystemClass
                             AttributeTypeID = Att.AttributeTypeID,
                             AttributeTypeName = AttType.AttributeTypeName,
                             AttributeOrder = ObjAtts.AttributeOrder,
+                            AllowMutiValue= Att.AllowMutiValue,
                             DropDownValues = Att.DropDownValues,
                             Creator = Cre.Name,
                             CreateTime = Att.CreateTime,

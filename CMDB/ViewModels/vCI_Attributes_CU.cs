@@ -24,6 +24,9 @@ namespace CMDB.ViewModels
         [Display(Name = "屬性類型")]
         public SelectList AttributeType { get; set; }
 
+        [Display(Name = "允許多值")]
+        public bool AllowMutiValue { get; set; }
+
         [StringLength(1000)]
         [Display(Name = "選單值")]
         public string DropDownValues { get; set; }

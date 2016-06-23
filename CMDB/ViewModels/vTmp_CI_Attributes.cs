@@ -18,6 +18,9 @@ namespace CMDB.ViewModels
         [Display(Name = "屬性類型")]
         public string AttributeTypeName { get; set; }
 
+        [Display(Name = "允許多值")]
+        public bool AllowMutiValue { get; set; }
+
         [Display(Name = "建立者")]
         public string Creator { get; set; }
 

@@ -60,7 +60,23 @@
         $(function () {
             var ProfileID = $("#ProfileID").val();
             // alert(ProfileID);
+
             getAttributeInputList(ProfileID);
+            
+            $("#CUform").on("click", ".add", function () {
+                $(this).parent().parent().clone().appendTo($($(this).parent().parent().parent()));
+                CheckAdd();
+            });
+            $("#CUform").on("click", ".del", function () {
+                CheckDel();
+
+               if ($(this).parent().parent().siblings().length == 0) {
+                    return false;
+               }
+            else {
+                   $(this).parent().parent().remove();
+               }
+            });
 
             $("#ProfileID").change(function () {
                 var _ProfileID = $("#ProfileID").val();
@@ -128,5 +144,22 @@
                 }
             });
         });
+
+        function CheckDel() {
+            $(".del").each(function(){
+                if ($(this).parent().parent().siblings().length == 0) {
+                    $(this).attr("disabled", true);
+                }
+            });
+        }
+
+        function CheckAdd() {
+            $(".del").each(function () {
+                if ($(this).is(":disabled")) {
+                    $(this).attr("disabled", false);
+                }
+            });
+        }
+
     </script>
 }

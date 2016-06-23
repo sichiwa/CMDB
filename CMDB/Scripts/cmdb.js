@@ -58,12 +58,12 @@ function getAttributeInputList(ProfileID) {
         $.each(data, function (i, opt) {
             //alert("bbbb");
             if (ImputElement != "") {
-                ImputElement = ImputElement + "<div class='form-group AttrInput'>" +
+                ImputElement = ImputElement + "<div><div class='form-group AttrInput' >" +
                                              "<label class='control-label col-md-2'>" + opt.AttributeName + "</label> " +
                                              " <div class='col-md-10'>";
             }
             else {
-                ImputElement = "<div class='form-group AttrInput'>" +
+                ImputElement = "<div><div class='form-group AttrInput' >" +
                                              "<label class='control-label col-md-2'>" + opt.AttributeName + "</label> " +
                                              " <div class='col-md-10'>";
             }
@@ -72,14 +72,36 @@ function getAttributeInputList(ProfileID) {
             //一般文字輸入
             if (opt.AttributeTypeID == 1) {
                 ImputElement = ImputElement + "<input type='text' id='" + opt.AttributeID + "' class='form-control AttrInputField'></input>";
+
+                //判斷此屬性是否支援多值
+                if (opt.AllowMutiValue) {
+                   
+                    //加入新增與刪除按鈕
+                    ImputElement = ImputElement + " <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>";
+                }
+
             }
                 //一般文字輸入(多行)
             else if (opt.AttributeTypeID == 2) {
                 ImputElement = ImputElement + "<textarea  id='" + opt.AttributeID + "' class='form-control AttrInputField' rows='4' cols='50'></textarea >";
+
+                //判斷此屬性是否支援多值
+                if (opt.AllowMutiValue) {
+
+                    //加入新增與刪除按鈕
+                    ImputElement = ImputElement + " <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>";
+                }
             }
                 //日期輸入
             else if (opt.AttributeTypeID == 3) {
                 ImputElement = ImputElement + "<input type='text' id='" + opt.AttributeID + "' class='form-control date-picker AttrInputField'></input>";
+
+                //判斷此屬性是否支援多值
+                if (opt.AllowMutiValue) {
+
+                    //加入新增與刪除按鈕
+                    ImputElement = ImputElement + " <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>";
+                }
             }
                 //下拉式選單輸入
             else if (opt.AttributeTypeID == 4) {
@@ -92,13 +114,20 @@ function getAttributeInputList(ProfileID) {
                     ImputElement = ImputElement + "<option  value='" + DropValues[x] + "' > " + DropValues[x] + "</option>";
                 }
                 ImputElement = ImputElement + "</select>";
+
+                //判斷此屬性是否支援多值
+                if (opt.AllowMutiValue) {
+
+                    //加入新增與刪除按鈕
+                    ImputElement = ImputElement + " <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>";
+                }
             }
                 //未知輸入
             else {
 
             }
 
-            ImputElement = ImputElement + "</div></div>";
+            ImputElement = ImputElement + "</div></div></div>";
             //alert(ImputElement);
         });
         // alert(ImputElement);
@@ -114,3 +143,5 @@ function getAttributeInputList(ProfileID) {
    
  
 }
+
+

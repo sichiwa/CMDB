@@ -1197,7 +1197,6 @@ namespace CMDB.Controllers
 
                                                     foreach (var item in query1.ToList())
                                                     {
-
                                                         CI_Object_Data _CI_Object_Data = new CI_Object_Data();
                                                         Tmp_CI_Object_Data _Tmp_CI_Object_Data = new Tmp_CI_Object_Data();
 
@@ -1523,7 +1522,7 @@ namespace CMDB.Controllers
                                 join Att in context.CI_Attributes on Pro.AttributeID equals Att.AttributeID
                                 join AttType in context.CI_AttributeTypes on Att.AttributeTypeID equals AttType.AttributeTypeID
                                 orderby(Pro.AttributeOrder)
-                                select new { Att.AttributeID, Att.AttributeName, AttType.AttributeTypeID, AttType.AttributeTypeName,Att.DropDownValues };
+                                select new { Att.AttributeID, Att.AttributeName, AttType.AttributeTypeID, AttType.AttributeTypeName,Att.DropDownValues,Att.AllowMutiValue };
 
             if (AttributeList != null)
             {

@@ -23,6 +23,9 @@ namespace CMDB.Models
         [Display(Name = "屬性類型")]
         public int AttributeTypeID { get; set; }
 
+        [Display(Name = "允許多值")]
+        public bool AllowMutiValue { get; set; }
+
         [Column(TypeName = "nvarchar")]
         [StringLength(1000)]
         [Display(Name = "屬性下拉選單值")]
