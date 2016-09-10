@@ -67,6 +67,7 @@ namespace CMDB.Controllers
                 SI.DevelopmentHistory += "9.2016/05/30  配合組態資料匯入，修改物件編輯頁面支援多屬性值存檔(0.5.2.20160530)\r\n";
                 SI.DevelopmentHistory += "10.2016/06/23  支援建立、編輯物件頁面屬性多值屬性的新增及刪除(0.6.0.20160623)\r\n";
                 SI.DevelopmentHistory += "11.2016/06/28  修正新增/編輯物件時如果沒填屬性值時，系統會自動帶入預設值N/A，避免資料庫操作發生錯誤(0.6.1.20160628)\r\n";
+                SI.DevelopmentHistory += "11.2016/09/10  支援屬性可設定為搜尋條件(0.6.2.20160910)\r\n";
 
                 SL.TotalCount = 1;
                 SL.SuccessCount = 1;
