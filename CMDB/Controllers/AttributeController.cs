@@ -240,6 +240,9 @@ namespace CMDB.Controllers
                     _Tmp_CI_Attributes.AllowMutiValue = vAttrCU.AllowMutiValue;
                     PlainText.Append(_Tmp_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
 
+                    _Tmp_CI_Attributes.AllowSearch = vAttrCU.AllowSearch;
+                    PlainText.Append(_Tmp_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
+
                     _Tmp_CI_Attributes.DropDownValues = vAttrCU.DropDownValues;
                     PlainText.Append(_Tmp_CI_Attributes.DropDownValues + Configer.SplitSymbol);
 
@@ -353,6 +356,7 @@ namespace CMDB.Controllers
                     vAttrCU.Description = _CI_Attributes.Description;
                     vAttrCU.AttributeType = SF.getAttributeTypeList(_CI_Attributes.AttributeTypeID);
                     vAttrCU.AllowMutiValue = _CI_Attributes.AllowMutiValue;
+                    vAttrCU.AllowSearch = _CI_Attributes.AllowSearch;
                     vAttrCU.AttributeTypeID = _CI_Attributes.AttributeTypeID;
                     vAttrCU.DropDownValues = _CI_Attributes.DropDownValues;
 
@@ -444,6 +448,9 @@ namespace CMDB.Controllers
 
                     _Tmp_CI_Attributes.AllowMutiValue = vAttrCU.AllowMutiValue;
                     PlainText.Append(_Tmp_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
+
+                    _Tmp_CI_Attributes.AllowSearch = vAttrCU.AllowSearch;
+                    PlainText.Append(_Tmp_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
 
                     _Tmp_CI_Attributes.DropDownValues = vAttrCU.DropDownValues;
                     PlainText.Append(_Tmp_CI_Attributes.DropDownValues + Configer.SplitSymbol);
@@ -557,6 +564,7 @@ namespace CMDB.Controllers
                                 Description=Att.Description,
                                 AttributeTypeName = AttType.AttributeTypeName,
                                 AllowMutiValue=Att.AllowMutiValue,
+                                AllowSearch = Att.AllowSearch,
                                 Creator = Cre.Name,
                                 CreateTime = Att.CreateTime,
                                 Type = Att.Type
@@ -752,6 +760,10 @@ namespace CMDB.Controllers
                                         verifyPlainText.Append(_Tmp_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
                                         PlainText.Append(_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
 
+                                        _CI_Attributes.AllowSearch = _Tmp_CI_Attributes.AllowSearch;
+                                        verifyPlainText.Append(_Tmp_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
+                                        PlainText.Append(_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
+
                                         _CI_Attributes.DropDownValues = _Tmp_CI_Attributes.DropDownValues;
                                         verifyPlainText.Append(_Tmp_CI_Attributes.DropDownValues + Configer.SplitSymbol);
                                         PlainText.Append(_CI_Attributes.DropDownValues + Configer.SplitSymbol);
@@ -915,6 +927,10 @@ namespace CMDB.Controllers
                                             _CI_Attributes.AllowMutiValue = _Tmp_CI_Attributes.AllowMutiValue;
                                             verifyPlainText.Append(_Tmp_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
                                             PlainText.Append(_CI_Attributes.AllowMutiValue.ToString() + Configer.SplitSymbol);
+
+                                            _CI_Attributes.AllowSearch = _Tmp_CI_Attributes.AllowSearch;
+                                            verifyPlainText.Append(_Tmp_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
+                                            PlainText.Append(_CI_Attributes.AllowSearch.ToString() + Configer.SplitSymbol);
 
                                             _CI_Attributes.DropDownValues = _Tmp_CI_Attributes.DropDownValues;
                                             verifyPlainText.Append(_Tmp_CI_Attributes.DropDownValues + Configer.SplitSymbol);
@@ -1149,6 +1165,7 @@ namespace CMDB.Controllers
                             AttributeTypeName = AttType.AttributeTypeName,
                             DropDownValues = Att.DropDownValues,
                             AllowMutiValue = Att.AllowMutiValue,
+                            AllowSearch = Att.AllowSearch,
                             Creator = x.Name,
                             CreateTime = Att.CreateTime,
                             Type = Att.Type
@@ -1172,6 +1189,8 @@ namespace CMDB.Controllers
                         _vTmp_CI_Attributes_R.oDescription = _vCI_Attributes.Description;
                         _vTmp_CI_Attributes_R.oAttributeTypeName = _vCI_Attributes.AttributeTypeName;
                         _vTmp_CI_Attributes_R.oDropDownValues = _vCI_Attributes.DropDownValues;
+                        _vTmp_CI_Attributes_R.AllowMutiValue = _vCI_Attributes.AllowMutiValue;
+                        _vTmp_CI_Attributes_R.AllowSearch = _vCI_Attributes.AllowSearch;
                         _vTmp_CI_Attributes_R.oUpadter = _vCI_Attributes.Upadter;
                         _vTmp_CI_Attributes_R.oUpdateTime = _vCI_Attributes.UpdateTime;
 
@@ -1218,6 +1237,7 @@ namespace CMDB.Controllers
                             AttributeTypeName = AttType.AttributeTypeName,
                             DropDownValues=Att.DropDownValues,
                             AllowMutiValue = Att.AllowMutiValue,
+                            AllowSearch = Att.AllowSearch,
                             Creator = Cre.Name,
                             CreateTime = Att.CreateTime,
                             Upadter = x.Name,

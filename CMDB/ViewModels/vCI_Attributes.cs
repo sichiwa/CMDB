@@ -24,6 +24,9 @@ namespace CMDB.ViewModels
         [Display(Name = "允許多值")]
         public bool AllowMutiValue { get; set; }
 
+        [Display(Name = "允許搜尋")]
+        public bool AllowSearch { get; set; }
+
         [Display(Name = "屬性說明")]
         public string Description { get; set; }
 

@@ -285,7 +285,15 @@ namespace CMDB.Controllers
                             _Tmp_CI_Object_Data.AttributeID = item.AttributeID;
                             PlainText.Append(_Tmp_CI_Object_Data.AttributeID.ToString() + Configer.SplitSymbol);
 
-                            _Tmp_CI_Object_Data.AttributeValue = item.AttributeValue;
+                            //如果沒填值，給預設值
+                            if (string.IsNullOrEmpty(item.AttributeValue))
+                            {
+                                _Tmp_CI_Object_Data.AttributeValue ="N/A";
+                            }
+                            else
+                            {
+                                _Tmp_CI_Object_Data.AttributeValue = item.AttributeValue;
+                            }
                             PlainText.Append(_Tmp_CI_Object_Data.AttributeValue + Configer.SplitSymbol);
 
                             _Tmp_CI_Object_Data.AttributeOrder = item.AttributeOrder;

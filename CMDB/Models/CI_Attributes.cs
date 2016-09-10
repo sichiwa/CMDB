@@ -27,6 +27,9 @@ namespace CMDB.Models
         [Display(Name = "允許多值")]
         public bool AllowMutiValue { get; set; }
 
+        [Display(Name = "允許搜尋")]
+        public bool AllowSearch { get; set; }
+
         [Column(TypeName = "nvarchar")]
         [StringLength(1000)]
         [Display(Name = "屬性下拉選單值")]

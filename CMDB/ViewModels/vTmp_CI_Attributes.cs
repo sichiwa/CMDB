@@ -21,6 +21,9 @@ namespace CMDB.ViewModels
         [Display(Name = "允許多值")]
         public bool AllowMutiValue { get; set; }
 
+        [Display(Name = "允許搜尋")]
+        public bool AllowSearch { get; set; }
+
         [Display(Name = "建立者")]
         public string Creator { get; set; }
 
