@@ -79,7 +79,7 @@ namespace CMDB.Controllers
                         SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
                         item.EditAccount = SF.canEdit("CI_Profiles", item.ProfileID.ToString(), "");
                         SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結果:屬性[" + item.ProfileName + "];編輯帳號[" + item.EditAccount + "]", log_Info);
+                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結果:範本[" + item.ProfileName + "];編輯帳號[" + item.EditAccount + "]", log_Info);
                     }
                     SL.EndTime = DateTime.Now;
                     SF.logandshowInfo(Configer.GetAction + "範本清單結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -121,7 +121,7 @@ namespace CMDB.Controllers
                 SL.SuccessCount = 0;
                 SL.FailCount = 0;
                 SL.Result = false;
-                SL.Msg = Configer.GetAction + "屬性清單作業失敗，" + "異常訊息[" + ex.ToString() + "]";
+                SL.Msg = Configer.GetAction + "範本清單作業失敗，" + "異常訊息[" + ex.ToString() + "]";
                 SF.log2DB(SL, MailServer, MailServerPort, MailSender, MailReceiver);
 
                 return RedirectToAction("Login", "Account");
@@ -818,7 +818,7 @@ namespace CMDB.Controllers
                     Tmp_CI_Proflies _Tmp_CI_Proflies = new Tmp_CI_Proflies();
 
                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                    _Tmp_CI_Proflies = context.Tmp_CI_Proflies.Find(_vTmp_CI_Profiles_R.ProfileID);
+                    _Tmp_CI_Proflies = context.Tmp_CI_Proflies.Where(b=>b.oProfileID==_vTmp_CI_Profiles_R.ProfileID).Where(b=>b.isClose==false).First();
                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
 
                     if (_Tmp_CI_Proflies != null)
@@ -900,8 +900,10 @@ namespace CMDB.Controllers
                                                     CI_Proflie_Attributes _CI_Proflie_Attributes = new CI_Proflie_Attributes();
                                                     Tmp_CI_Proflie_Attributes _Tmp_CI_Proflie_Attributes = new Tmp_CI_Proflie_Attributes();
 
-                                                    _Tmp_CI_Proflie_Attributes = context.Tmp_CI_Proflie_Attributes.Where(b => b.AttributeID == item.AttributeID)
-                                                         .Where(b => b.ProfileID == _Tmp_CI_Proflies.ProfileID).First();
+                                                    _Tmp_CI_Proflie_Attributes = context.Tmp_CI_Proflie_Attributes
+                                                        .Where(b => b.AttributeID == item.AttributeID)
+                                                         .Where(b => b.ProfileID == _Tmp_CI_Proflies.ProfileID)
+                                                         .Where(b=>b.isClose==false).First();
 
                                                     if (_Tmp_CI_Proflie_Attributes != null)
                                                     {
@@ -1601,7 +1603,7 @@ namespace CMDB.Controllers
                                     SL.Msg = Configer.ReviewAction + "範本作業失敗，作業類型[" + _Tmp_CI_Proflies.Type + "]，異常訊息[系統不存在的作業類型]";
                                     SF.log2DB(SL, MailServer, MailServerPort, MailSender, MailReceiver);
 
-                                    return RedirectToAction("Review", "Profile", new { AttributeID = _vTmp_CI_Profiles_R.ProfileID });
+                                    return RedirectToAction("Review", "Profile", new { ProfileID = _vTmp_CI_Profiles_R.ProfileID });
                             }
                         }
                     }
@@ -1620,7 +1622,7 @@ namespace CMDB.Controllers
                         SL.Msg = Configer.ReviewAction + "範本作業失敗，作業類型[" + _vTmp_CI_Profiles_R.Type + "]，異常訊息[查無待覆核範本資料]";
                         SF.log2DB(SL, MailServer, MailServerPort, MailSender, MailReceiver);
 
-                        return RedirectToAction("Review", "Profile", new { AttributeID = _vTmp_CI_Profiles_R.ProfileID });
+                        return RedirectToAction("Review", "Profile", new { ProfileID = _vTmp_CI_Profiles_R.ProfileID });
                     }
                 }
                 else
@@ -1638,7 +1640,7 @@ namespace CMDB.Controllers
                     SL.Msg = Configer.ReviewAction + "範本作業失敗，異常訊息[資料驗證失敗]";
                     SF.log2DB(SL, MailServer, MailServerPort, MailSender, MailReceiver);
 
-                    return RedirectToAction("Review", "Profile", new { AttributeID = _vTmp_CI_Profiles_R.ProfileID });
+                    return RedirectToAction("Review", "Profile", new { ProfileID = _vTmp_CI_Profiles_R.ProfileID });
                 }
             }
             catch (Exception ex)

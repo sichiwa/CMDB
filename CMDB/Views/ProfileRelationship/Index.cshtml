@@ -1,0 +1,118 @@
+﻿@model CMDB.ViewModels.vCI_Profile_Relationship_List
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>範本關係管理</h2>
+
+@if (Model.Authority == 1)
+{
+    <p>
+        @Html.ActionLink("建立範本關係", "Create")
+    </p>
+}
+
+@if (Model.ReviewCount > 0)
+{
+    <hr />
+    <div class="row">
+        <label class="control-label col-md-12">待覆核範本關係:<a href=@Url.Action("ReviewIndex")>@Model.ReviewCount.ToString()</a></label>
+    </div>
+    <hr />
+}
+
+@if (TempData["SystemInfo"].ToString() == "OK")
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr class="active">
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().ProfileName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().RelationshipProfileName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().Creator)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().CreateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().Upadter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().UpdateTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ProfileRelationshipData)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProfileName)
+                    </td>
+                        @{
+                            string RelationshipProfileNames = "";
+                            foreach (var s in item.RelationshipProfileNames)
+                            {
+                                if (RelationshipProfileNames == "")
+                                {
+                                    RelationshipProfileNames = s;
+                                }
+                                else {
+                                    RelationshipProfileNames = RelationshipProfileNames+","+ s ;
+                                }
+                            }
+                            <td>@RelationshipProfileNames </td>
+                            //@Html.Display(RelationshipProfileNames)
+                        }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creator)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Upadter)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateTime)
+                    </td>
+                    <td>
+                        @if (Model.Authority == 1)
+                        {
+                            string aa = " |";
+
+                            if (item.EditAccount == "noBody")
+                            {
+                                @Html.ActionLink("編輯", "Edit", new { ProfileID = item.ProfileID })
+                                @aa;
+                                @Html.ActionLink("刪除", "Delete", new { ProfileID = item.ProfileID }, new { onclick = "return confirm('確認刪除? 此動作將一併刪除相關物件關係');" });
+                                @aa;
+                            }
+                            else
+                            {
+                                <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
+                                @aa;
+                            }
+                            @Html.ActionLink("詳細資料", "Details", new { ProfileID = item.ProfileID }) ;
+                        }
+                        else
+                        {
+                            @Html.ActionLink("詳細資料", "Details", new { ProfileID = item.ProfileID }) ;
+                    }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>@TempData["SystemInfo"].ToString()</h3>
+}
+

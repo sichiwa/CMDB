@@ -1,0 +1,113 @@
+﻿@model CMDB.ViewModels.vCI_Profile_Relationship_CU
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>編輯範本關係</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProfileList, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.ProfileList, new { Class = "form-control", id = "ProfileID" ,disabled= "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RelationshipProfileList, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.RelationshipProileID, Model.RelationshipProfileList as SelectList, new { @class = "form-control", style = "height: 18em;" })
+                @Html.ValidationMessageFor(model => model.RelationshipProfileList, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回範本關係清單", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section EditProfileRelationshipScript
+{
+    <script>
+        $(function () {
+            var form = $("#CUform");
+            jQuery.validator.setDefaults({
+                debug: false,
+                success: "valid"
+            });
+
+            $("#ProfileID").change(function () {
+                //先將被Disable的item解除
+                $("#RelationshipProileID option").each(function () {
+                    if ($(this).is(':disabled')) {
+                        $(this).prop('disabled', false);
+                    }
+                });
+
+                //根據選單值Disable item
+                var ProfileID = $(this).val();
+                //alert("ProfileID:" + ProfileID);
+                $("#RelationshipProileID option[value=" + ProfileID + "]").prop('disabled', true);
+            }).change();
+
+            $("#submitbtn").click(function () {
+                var ProfileID = $("#ProfileID").val();
+                var RelationshipData = [];
+                $("#RelationshipProileID option:selected").each(function () {
+                    var RelationshipProileID = $(this).val();
+                    //alert("ProfileID:" + ProfileID);
+                    if (RelationshipProileID != "") {
+                        //alert("RelationshipProileID:" + RelationshipProileID);
+                        RelationshipData.push(RelationshipProileID);
+                    }
+                });
+
+                if (RelationshipData.length > 0) {
+                    if (form.valid() == true) {
+                        //alert("RelationshipData" + RelationshipData[0]);
+                        $.ajax({
+                            url: "@Url.Content("~/ProfileRelationship/Edit")",
+                            type: "POST",
+                            contextType: "text/html; charset=utf-8",
+                            data: { ProfileID: ProfileID, RelationshipProileID: RelationshipData },
+                            success: function (data) {
+                                // $.unblockUI();
+                                if (data == "編輯範本關係作業成功") {
+                                    var url = "@Url.Action("Index", "ProfileRelationship")";
+                                    window.location.href = url;
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        alert("資料輸入錯誤");
+                    }
+                }
+                else {
+                    alert("請至少選一範本");
+                }
+            });
+        });
+    </script>
+}

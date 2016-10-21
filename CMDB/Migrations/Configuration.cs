@@ -210,6 +210,21 @@ namespace CMDB.Migrations
 
             //context.Functions.Add(new Functions()
             //{
+            //    FunctionID = 24,
+            //    FunctionName = "範本關係管理",
+            //    Controller = "ProfileRelationship",
+            //    Action = "Index",
+            //    ParentID = 2,
+            //    ShowOrder = 24,
+            //    IsEnable = true,
+            //    CreateAccount = "TAS170",
+            //    UpdateAccount = "TAS170",
+            //    CreateTime = DateTime.Now,
+            //    UpdateTime = DateTime.Now
+            //});
+
+            //context.Functions.Add(new Functions()
+            //{
             //    FunctionID = 100,
             //    FunctionName = "登出",
             //    Controller = "Account",

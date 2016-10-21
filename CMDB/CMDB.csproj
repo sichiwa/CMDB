@@ -293,6 +293,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ObjectController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ProfileRelationshipController.cs" />
     <Compile Include="Controllers\SystemImgController.cs" />
     <Compile Include="DAL\CMDBContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -304,6 +305,8 @@
     <Compile Include="Models\CI_AttributeTypes.cs" />
     <Compile Include="Models\CI_Objects.cs" />
     <Compile Include="Models\CI_Object_Data.cs" />
+    <Compile Include="Models\CI_Object_Relationship.cs" />
+    <Compile Include="Models\CI_Profile_Relationship.cs" />
     <Compile Include="Models\CI_Proflies.cs" />
     <Compile Include="Models\CI_Proflie_Attributes.cs" />
     <Compile Include="Models\Functions.cs" />
@@ -319,6 +322,8 @@
     <Compile Include="Models\Tmp_CI_AttributeTypes.cs" />
     <Compile Include="Models\Tmp_CI_Objects.cs" />
     <Compile Include="Models\Tmp_CI_Object_Data.cs" />
+    <Compile Include="Models\Tmp_CI_Object_Relationship.cs" />
+    <Compile Include="Models\Tmp_CI_Profile_Relationship.cs" />
     <Compile Include="Models\Tmp_CI_Proflies.cs" />
     <Compile Include="Models\Tmp_CI_Proflie_Attributes .cs" />
     <Compile Include="Models\Tmp_Functions.cs" />
@@ -334,6 +339,10 @@
     <Compile Include="ViewModels\vCI_Objects.cs" />
     <Compile Include="ViewModels\vCI_Objects_CU.cs" />
     <Compile Include="ViewModels\vCI_Objects_list.cs" />
+    <Compile Include="ViewModels\vCI_Profile_Relationship.cs" />
+    <Compile Include="ViewModels\vCI_Profile_Relationship_CU.cs" />
+    <Compile Include="ViewModels\vCI_Profile_Relationship_List.cs" />
+    <Compile Include="ViewModels\vTmp_CI_Profile_Relationship_R.cs" />
     <Compile Include="ViewModels\vCI_Proflies.cs" />
     <Compile Include="ViewModels\vCI_Proflies_CU.cs" />
     <Compile Include="ViewModels\vCI_Proflies_List.cs" />
@@ -343,6 +352,7 @@
     <Compile Include="ViewModels\vTmp_CI_Objects_R.cs" />
     <Compile Include="ViewModels\vTmp_CI_Profiles.cs" />
     <Compile Include="ViewModels\vTmp_CI_Profiles_R.cs" />
+    <Compile Include="ViewModels\vTmp_CI_Profile_Relationship.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -378,6 +388,11 @@
     <Content Include="Views\Object\Edit.cshtml" />
     <Content Include="Views\ImportCI\_UploadFile.cshtml" />
     <Content Include="Views\ImportCI\Index.cshtml" />
+    <Content Include="Views\ProfileRelationship\Index.cshtml" />
+    <Content Include="Views\ProfileRelationship\Create.cshtml" />
+    <Content Include="Views\ProfileRelationship\ReviewIndex.cshtml" />
+    <Content Include="Views\ProfileRelationship\Review.cshtml" />
+    <Content Include="Views\ProfileRelationship\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

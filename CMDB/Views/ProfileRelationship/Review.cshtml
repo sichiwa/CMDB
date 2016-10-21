@@ -1,0 +1,201 @@
+﻿@model CMDB.ViewModels.vTmp_CI_Profile_Relationship_R
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2>覆核範本關係</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    string disabled = "disabled";
+
+<div class="form-horizontal">
+    @*<h4>vTmp_CI_Profiles_R</h4>*@
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ProfileID)
+
+    <div class="col-md-6 divnew">
+     
+        <div class="form-group">
+            <label class="control-label col-md-2">來源</label>
+            <div class="col-md-6">
+                <h5>編輯後資料</h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                @Html.ValidationMessageFor(model => model.ProfileName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProfileRelationshipData, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <tr class="active">
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().RelationshipProfileID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProfileRelationshipData.First().RelationshipProfileName)
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.ProfileRelationshipData)
+                    {
+                        string RelationshipProfileName = item.RelationshipProfileID + "_" + item.RelationshipProfileName;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RelationshipProfileID)
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.AttributeName)*@
+                                <input type="text" name=@RelationshipProfileName value="@item.RelationshipProfileName" class="form-control" @disabled>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.Creator, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                @Html.ValidationMessageFor(model => model.Creator, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Type == "編輯" || Model.Type == "刪除")
+    {
+        <div class="col-md-6 divold">
+            <div class="form-group">
+                <label class="control-label col-md-2">來源</label>
+                <div class="col-md-6">
+                    <h5>原始資料</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control ", @disabled } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.oProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.oProfileName, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.oProfileName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.oProfileRelationshipData, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <tr class="active">
+                            <th>
+                                @Html.DisplayNameFor(model => model.oProfileRelationshipData.First().RelationshipProfileID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.oProfileRelationshipData.First().RelationshipProfileName)
+                            </th>
+                       
+                        </tr>
+                        @foreach (var item in Model.oProfileRelationshipData)
+                        {
+                            string RelationshipProfileName = "o" + item.RelationshipProfileID + "_" + item.RelationshipProfileName;
+                     
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RelationshipProfileID)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.AttributeName)*@
+                                    <input type="text" name=@RelationshipProfileName value="@item.RelationshipProfileName" class="form-control" @disabled>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.oUpadter, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.oUpadter, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.oUpadter, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.oUpdateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.oUpdateTime, new { htmlAttributes = new { @class = "form-control", @disabled } })
+                    @Html.ValidationMessageFor(model => model.oUpdateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="覆核" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+
+<div>
+    @Html.ActionLink("返回待覆核範本關係清單", "ReviewIndex")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/cmdb")
+}
+
+@section ReviewProfileRelationshipScript
+{
+    <script>
+        $(function () {
+            compareReviewData();
+            //$(".SysImg").hide();
+
+            //$("#submitbtn").click(function () {
+            //    var ProfileID = $("#ProfileID").val();
+            //    var ProfileName = $("#ProfileName").val();
+            //    var Description = $("#Description").val();
+            //    var ImgID = $("#ImgID").val();
+
+            //});
+
+        });
+    </script>
+}
+

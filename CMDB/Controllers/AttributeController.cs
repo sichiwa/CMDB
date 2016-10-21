@@ -1152,6 +1152,7 @@ namespace CMDB.Controllers
             vCI_Attributes _vCI_Attributes = new vCI_Attributes();
             var query = from Att in context.Tmp_CI_Attributes
                         .Where(b => b.AttributeID == AttributeID)
+                        .Where(b=>b.isClose==false)
                         join AttType in context.CI_AttributeTypes on Att.AttributeTypeID equals AttType.AttributeTypeID
                         join Cre in context.Accounts on Att.CreateAccount equals Cre.Account
                          into y

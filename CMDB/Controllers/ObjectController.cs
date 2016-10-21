@@ -1553,6 +1553,7 @@ namespace CMDB.Controllers
             vCI_Objects _vCI_Objects = new vCI_Objects();
             var query = from Obj in context.Tmp_CI_Objects
                         .Where(b => b.ObjectID == ObjectID)
+                        .Where(b=>b.isClose==false)
                         join Pro in context.CI_Proflies on Obj.ProfileID equals Pro.ProfileID
                         join Cre in context.Accounts on Obj.CreateAccount equals Cre.Account
                          into y

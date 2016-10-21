@@ -36,7 +36,13 @@ namespace CMDB.DAL
 
         public DbSet<CI_Object_Data> CI_Object_Data { get; set; }
         public DbSet<Tmp_CI_Object_Data> Tmp_CI_Object_Data { get; set; }
-       
+
+        public DbSet<CI_Profile_Relationship> CI_Profile_Relationship { get; set; }
+        public DbSet<Tmp_CI_Profile_Relationship> Tmp_CI_Profile_Relationship { get; set; }
+
+        public DbSet<CI_Object_Relationship> CI_Object_Relationship { get; set; }
+        public DbSet<Tmp_CI_Object_Relationship> Tmp_CI_Object_Relationshipp { get; set; }
+
         public DbSet<Accounts> Accounts { get; set; }
         public DbSet<Tmp_Accounts> Tmp_Accounts { get; set; }
 

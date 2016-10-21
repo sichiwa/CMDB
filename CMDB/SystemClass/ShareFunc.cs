@@ -380,15 +380,16 @@ namespace CMDB.SystemClass
         /// <returns></returns>
         public SelectList getProfileList(int nowProfileID)
         {
+            SelectList ProfileList = null;
             var query = context.CI_Proflies.ToList();
-
-            //List<SelectListItem> items = query.Select(b => new SelectListItem() {
-            //    Text=b.UserName,
-            //    Value=b.UId,
-            //}).ToList();
-
-            SelectList ProfileList = new SelectList(query, "ProfileID", "ProfileName", nowProfileID);
-
+            if (nowProfileID < 0)
+            {
+                 ProfileList = new SelectList(query, "ProfileID", "ProfileName");
+            }
+            else
+            {
+                 ProfileList = new SelectList(query, "ProfileID", "ProfileName", nowProfileID);
+            }
             return ProfileList;
         }
 
@@ -499,6 +500,138 @@ namespace CMDB.SystemClass
             if (query.Count() > 0)
             {
                 return query.OrderBy(b=>b.ProfileID).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得待覆核範本關係清單資料
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<vCI_Profile_Relationship> getReviewProfileRelationshipData(int ProfileID)
+        {
+            var query = from ProR in context.Tmp_CI_Profile_Relationship
+                        .Where(b => b.ProfileID == ProfileID)
+                        join Pro in context.CI_Proflies on ProR.ProfileID equals Pro.ProfileID
+                        join Pro1 in context.CI_Proflies on ProR.RelationshipProileID equals Pro1.ProfileID
+                        join Cre in context.Accounts on ProR.CreateAccount equals Cre.Account
+                       // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Profile_Relationship
+                        {
+                            ProfileID = ProR.ProfileID,
+                            ProfileName = Pro.ProfileName,
+                            RelationshipProfileID = ProR.RelationshipProileID,
+                            RelationshipProfileName = Pro1.ProfileName,
+                            Creator = x.Name,
+                            CreateTime = ProR.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = x.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                return query.OrderBy(b => b.ProfileID).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得範本關係清單資料
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<vCI_Profile_Relationship> getProfileRelationshipData()
+        {
+            var query = from ProR in context.CI_Profile_Relationship
+                        join Pro in context.CI_Proflies on ProR.ProfileID equals Pro.ProfileID
+                        join Pro1 in context.CI_Proflies on ProR.RelationshipProfileID equals Pro1.ProfileID
+                        join Cre in context.Accounts on ProR.CreateAccount equals Cre.Account
+                        join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Profile_Relationship
+                        {
+                            ProfileID = ProR.ProfileID,
+                            ProfileName=Pro.ProfileName,
+                            RelationshipProfileID = ProR.RelationshipProfileID,
+                            RelationshipProfileName= Pro1.ProfileName,
+                            Creator = Cre.Name,
+                            CreateTime = ProR.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = ProR.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                var query1 = query.Select(b => b.ProfileID).Distinct().ToList();
+                List<vCI_Profile_Relationship> vCIProfileRelationships = new List<vCI_Profile_Relationship>();
+
+                foreach (var item in query1)
+                {
+                    vCI_Profile_Relationship T = new vCI_Profile_Relationship();
+                    T.ProfileID = item;
+                    StringBuilder bb = new StringBuilder();
+                    List<string> RelationshipProfileNames = new List<string>();
+                    foreach (var item1 in query.Where(b => b.ProfileID == item).ToList())
+                    {
+                        if (string.IsNullOrEmpty(T.ProfileName))
+                        {
+                            T.ProfileName = item1.ProfileName;
+                            T.Creator = item1.Creator;
+                            T.CreateTime = item1.CreateTime;
+                            T.Upadter = item1.Upadter;
+                            T.UpdateTime = item1.UpdateTime;
+                        }
+                        string RelationshipProfileName = item1.RelationshipProfileName;
+                        RelationshipProfileNames.Add(RelationshipProfileName);
+                    }
+                    T.RelationshipProfileNames = RelationshipProfileNames;
+                    vCIProfileRelationships.Add(T);
+                }
+                return vCIProfileRelationships;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得特定範本關係清單資料
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<vCI_Profile_Relationship> getProfileRelationshipData(int ProfileID)
+        {
+            var query = from ProR in context.CI_Profile_Relationship
+                        .Where(b => b.ProfileID == ProfileID)
+                        join Pro in context.CI_Proflies on ProR.ProfileID equals Pro.ProfileID
+                        join Pro1 in context.CI_Proflies on ProR.RelationshipProfileID equals Pro1.ProfileID
+                        join Cre in context.Accounts on ProR.CreateAccount equals Cre.Account
+                        join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Profile_Relationship
+                        {
+                            ProfileID = ProR.ProfileID,
+                            ProfileName = Pro.ProfileName,
+                            RelationshipProfileID = ProR.RelationshipProfileID,
+                            RelationshipProfileName = Pro1.ProfileName,
+                            Creator = Cre.Name,
+                            CreateTime = ProR.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = Cre.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                return query.OrderBy(b => b.ProfileID).ToList();
             }
             else
             {
@@ -774,6 +907,14 @@ namespace CMDB.SystemClass
                         Result = CI_Objects.First().CreateAccount;
                     }
                     break;
+                case "CI_Profile_Relationship":
+                    int ProfileID1 = Convert.ToInt32(EntityKey);
+                    var CI_Profile_Relationship = context.Tmp_CI_Profile_Relationship.Where(b => b.isClose == false).Where(b => b.oProfileID == ProfileID1);
+                    if (CI_Profile_Relationship.Count() > 0)
+                    {
+                        Result = CI_Profile_Relationship.First().CreateAccount;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -788,7 +929,6 @@ namespace CMDB.SystemClass
         /// <returns>BASE64編碼的HASH值或null</returns>
         public string getHashValue(string PlainText)
         {
-
             //初始化系統參數
             Configer.Init();
 
