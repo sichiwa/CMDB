@@ -5,121 +5,161 @@
 }
 
 <h2>編輯物件</h2>
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
-{
-    @Html.AntiForgeryToken()
-    string disabled = "disabled";
-    <div class="form-horizontal">
-        @*<h4>vCI_Objects_CU</h4>*@
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ObjectID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group Attr">
-            @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID", @disabled })
-            </div>
-        </div>
-
-        @foreach (var item in Model.AttributesData)
+<ul class="nav nav-tabs">
+    <li class="active" id="mainli"><a data-toggle="tab" href="#home">物件資料</a></li>
+</ul>
+<div class="tab-content" id="maindiv">
+    <div id="home" class="tab-pane fade in active">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
         {
-            <div>
-                <div class="form-group AttrInput">
-                    <label class="control-label col-md-2"> @item.AttributeName</label>
+            @Html.AntiForgeryToken()
+            string disabled = "disabled";
+            <div class="form-horizontal">
+                @*<h4>vCI_Objects_CU</h4>*@
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ObjectID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
+                        @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                        @if (item.AttributeTypeID == 1) //一般文字輸入
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group Attr">
+                    @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID", @disabled })
+                    </div>
+                </div>
+
+                @foreach (var item in Model.AttributesData)
+                {
+                    <div>
+                        <div class="form-group AttrInput">
+                            <label class="control-label col-md-2"> @item.AttributeName</label>
+                            <div class="col-md-10">
+
+                                @if (item.AttributeTypeID == 1) //一般文字輸入
                     {
-                            <input type="text" id=@item.AttributeID class="form-control AttrInputField" value="@item.AttributeValue" />
+                                    <input type="text" id=@item.AttributeID class="form-control AttrInputField" value="@item.AttributeValue" />
 
-                            if (item.AllowMutiValue)
-                            {
-                                <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
-                            }
-                        }
-
-                        else if (item.AttributeTypeID == 2)  //一般文字輸入(多行)
-                        {
-                            <textarea id=@item.AttributeID class="form-control AttrInputField" rows="4" cols="50">@item.AttributeValue</textarea>
-
-                            if (item.AllowMutiValue)
-                            {
-                                <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
-                            }
-                        }
-
-                        else if (item.AttributeTypeID == 3)     //日期輸入
-                        {
-                            <input type="text" id=@item.AttributeID class="form-control date-picker AttrInputField" value="@item.AttributeValue" />
-
-                            if (item.AllowMutiValue)
-                            {
-                                <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
-                            }
-                        }
-
-                        else if (item.AttributeTypeID == 4)   //下拉式選單輸入
-                        {
-                            string DropdownList = "<select id=" + item.AttributeID + " class='form-control AttrInputField'>";
-                            char sp = '#';
-                            string[] DropValues = item.DropDownValues.Split(sp);
-
-                            foreach (var x in DropValues)
-                            {
-                                string OpetionValue = "";
-                                if (x == item.AttributeValue)
-                                {
-                                    OpetionValue = "<option  value='" + x + "'  selected> " + x + "</option>";
-                                }
-                                else
-                                {
-                                    OpetionValue = "<option  value='" + x + "' > " + x + "</option>";
+                                    if (item.AllowMutiValue)
+                                    {
+                                        <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
+                                    }
                                 }
 
-                                DropdownList += OpetionValue;
-                            }
-                            DropdownList += "</select>";
+                                else if (item.AttributeTypeID == 2)  //一般文字輸入(多行)
+                                {
+                                    <textarea id=@item.AttributeID class="form-control AttrInputField" rows="4" cols="50">@item.AttributeValue</textarea>
 
-                            @(new HtmlString(DropdownList));
+                                    if (item.AllowMutiValue)
+                                    {
+                                        <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
+                                    }
+                                }
+
+                                else if (item.AttributeTypeID == 3)     //日期輸入
+                                {
+                                    <input type="text" id=@item.AttributeID class="form-control date-picker AttrInputField" value="@item.AttributeValue" />
+
+                                    if (item.AllowMutiValue)
+                                    {
+                                        <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
+                                    }
+                                }
+
+                                else if (item.AttributeTypeID == 4)   //下拉式選單輸入
+                                {
+                                    string DropdownList = "<select id=" + item.AttributeID + " class='form-control AttrInputField'>";
+                                    char sp = '#';
+                                    string[] DropValues = item.DropDownValues.Split(sp);
+
+                                    foreach (var x in DropValues)
+                                    {
+                                        string OpetionValue = "";
+                                        if (x == item.AttributeValue)
+                                        {
+                                            OpetionValue = "<option  value='" + x + "'  selected> " + x + "</option>";
+                                        }
+                                        else
+                                        {
+                                            OpetionValue = "<option  value='" + x + "' > " + x + "</option>";
+                                        }
+
+                                        DropdownList += OpetionValue;
+                                    }
+                                    DropdownList += "</select>";
+
+                                    @(new HtmlString(DropdownList));
 
                         if (item.AllowMutiValue)
                         {
-                                <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
-                            }
-                        }
-                        else   //未知輸入
-                        {
+                                        <button type='button' class='add btn btn-primary'>新增</button> <button type='button' class='del btn btn-danger' disabled='disabled'>刪除</button>
+                                    }
+                                }
+                                else   //未知輸入
+                                {
 
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+             
+
+                <div class="form-group ">
+                    <label class="control-label col-md-2">物件關係</label>
+                    <div class="col-md-10 ObjectRelationship">
+
+                        @if (Model.ObjectRelationshipDatas != null)
+                        {
+                            <table class="table table-bordered" id="objectrelationshiptb">
+                                <tr class="active">
+                                    <th>物件名稱</th>
+                                    <th>移除</th>
+                                </tr>
+                                @foreach (var item in Model.ObjectRelationshipDatas)
+                                {
+                                    <tr class="datatr">
+                                        <td class="col-md-1">
+                                            @item.RelationshipObjectName
+                                        </td>
+                                        <td class="col-md-1">
+                                            <input type="hidden" id="hidden" + @item.RelationshipObjectID value=@item.RelationshipObjectID class="RelationshipObjectID">
+                                            <input type="hidden" id="hidden" + @item.RelationshipProfileID value=@item.RelationshipProfileID class="RelationshipProfileID">
+                                            <input type="button" value="移除" class="btn btn-danger" id="removebtn">
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
                         }
+   
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
                     </div>
                 </div>
             </div>
         }
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
-            </div>
-        </div>
     </div>
-}
+</div>
+
 
 <div>
     @Html.ActionLink("返回物件清單", "Index")
@@ -133,6 +173,9 @@
 @section EditObjectScript{
     <script>
         $(function () {
+            var ProfileID = $("#ProfileID").val();
+            getRelationshipProfileMenu(ProfileID);
+
             $(".date-picker").datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -142,6 +185,7 @@
             $("#ProfileID").change(function () {
                 var _ProfileID = $("#ProfileID").val();
                 getAttributeInputList(_ProfileID);
+                getRelationshipProfileMenu(_ProfileID);
             });
 
             $("#CUform").on("click", ".add", function () {
@@ -185,6 +229,7 @@
                 var Description = $("#Description").val();
                 var ProfileID = $("#ProfileID").val();
                 var AttributesData = [];
+                var RelationshipObjectIDs = [];
                 var Order = 1;
                 //alert("aaaa");
                 $.each($(".AttrInputField"), function (i, obj) {
@@ -197,12 +242,26 @@
                     Order += 1;
                 });
 
+                var RelationshipProfileID = "";
+                $.each($(".datatr"), function (j, obj) {
+                    var RelationshipObjectID = $(this).find('.RelationshipObjectID').val();
+                    //alert("RelationshipObjectID:" + RelationshipObjectID);
+                    if (RelationshipProfileID == "") {
+                        RelationshipProfileID = $(this).find('.RelationshipProfileID').val();
+                    }
+                    //alert("RelationshipProfileID:"+RelationshipProfileID);
+                    RelationshipObjectIDs.push(RelationshipObjectID);
+                });
+
+                var ObjectRelationshipData = { objectID: ObjectID, ProfileID: ProfileID, RelationshipObjectID: RelationshipObjectIDs, RelationshipProfileID: RelationshipProfileID };
+
+
                 if (form.valid() == true) {
                     $.ajax({
                         url: "@Url.Content("~/Object/Edit")",
                         type: "POST",
                         contextType: "text/html; charset=utf-8",
-                        data: { ObjectID: ObjectID, ObjectName: ObjectName, Description: Description, ProfileID: ProfileID, AttributesData: AttributesData },
+                        data: { ObjectID: ObjectID, ObjectName: ObjectName, Description: Description, ProfileID: ProfileID, AttributesData: AttributesData, ObjectRelationshipData: ObjectRelationshipData },
                         success: function (data) {
                             //  $.unblockUI();
                             if (data == "編輯物件作業成功") {

@@ -28,5 +28,14 @@ namespace CMDB.ViewModels
 
         [Display(Name = "物件屬性")]
         public IEnumerable<vCI_Attributes> AttributesData { get; set; }
+
+        [Display(Name = "關聯範本")]
+        public List<string> RelationshipProfiles { get; set; }
+
+        [Display(Name = "關聯物件")]
+        public vCI_Object_Relationship_CU ObjectRelationshipData { get; set; }
+
+        [Display(Name = "關聯物件")]
+        public IEnumerable<vCI_Object_Relationship> ObjectRelationshipDatas { get; set; }
     }
 }

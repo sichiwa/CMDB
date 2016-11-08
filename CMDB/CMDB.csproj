@@ -338,10 +338,16 @@
     <Compile Include="ViewModels\vCI_Attributes_List.cs" />
     <Compile Include="ViewModels\vCI_Objects.cs" />
     <Compile Include="ViewModels\vCI_Objects_CU.cs" />
-    <Compile Include="ViewModels\vCI_Objects_list.cs" />
+    <Compile Include="ViewModels\vCI_Objects_List.cs" />
+    <Compile Include="ViewModels\vCI_Objects_S.cs" />
+    <Compile Include="ViewModels\vCI_Object_Relationship.cs" />
+    <Compile Include="ViewModels\vCI_Object_Relationship_CU.cs" />
+    <Compile Include="ViewModels\vCI_Object_Relationship_List.cs" />
     <Compile Include="ViewModels\vCI_Profile_Relationship.cs" />
     <Compile Include="ViewModels\vCI_Profile_Relationship_CU.cs" />
     <Compile Include="ViewModels\vCI_Profile_Relationship_List.cs" />
+    <Compile Include="ViewModels\vTmp_CI_Object_Relationship.cs" />
+    <Compile Include="ViewModels\vTmp_CI_Object_Relationship_R.cs" />
     <Compile Include="ViewModels\vTmp_CI_Profile_Relationship_R.cs" />
     <Compile Include="ViewModels\vCI_Proflies.cs" />
     <Compile Include="ViewModels\vCI_Proflies_CU.cs" />

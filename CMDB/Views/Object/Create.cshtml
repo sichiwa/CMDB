@@ -5,48 +5,59 @@
 }
 
 <h2>建立物件</h2>
+<ul class="nav nav-tabs">
+    <li class="active" id="mainli"><a data-toggle="tab" href="#home">物件資料</a></li>
+</ul>
+<div class="tab-content" id="maindiv">
+    <div id="home" class="tab-pane fade in active">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
+        {
+            @Html.AntiForgeryToken()
 
+            <div class="form-horizontal">
+                @*<h4>vCI_Objects_CU</h4>*@
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CUform" }))
-{
-    @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-    <div class="form-horizontal">
-        @*<h4>vCI_Objects_CU</h4>*@
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+                <div class="form-group Attr">
+                    @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID" })
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-md-2">物件關係</label>
+                    <div class="col-md-10 ObjectRelationship">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group Attr">
-            @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="儲存" class="btn btn-default" id="submitbtn" />
-            </div>
-        </div>
+        }
     </div>
-}
+</div>
 
-<div>
+<div class="row">
     @Html.ActionLink("返回物件清單", "Index")
 </div>
 
@@ -60,9 +71,9 @@
         $(function () {
             var ProfileID = $("#ProfileID").val();
             // alert(ProfileID);
-
             getAttributeInputList(ProfileID);
-            
+            getRelationshipProfileMenu(ProfileID);
+
             $("#CUform").on("click", ".add", function () {
                 $(this).parent().parent().clone().appendTo($($(this).parent().parent().parent()));
                 CheckAdd();
@@ -70,17 +81,18 @@
             $("#CUform").on("click", ".del", function () {
                 CheckDel();
 
-               if ($(this).parent().parent().siblings().length == 0) {
+                if ($(this).parent().parent().siblings().length == 0) {
                     return false;
-               }
-            else {
-                   $(this).parent().parent().remove();
-               }
+                }
+                else {
+                    $(this).parent().parent().remove();
+                }
             });
 
             $("#ProfileID").change(function () {
                 var _ProfileID = $("#ProfileID").val();
                 getAttributeInputList(_ProfileID);
+                getRelationshipProfileMenu(_ProfileID);
             });
 
             jQuery.validator.setDefaults({
@@ -108,6 +120,8 @@
                 var Description = $("#Description").val();
                 var ProfileID = $("#ProfileID").val();
                 var AttributesData = [];
+             
+                var RelationshipObjectIDs = [];
                 var Order = 1;
                 //alert("aaaa");
                 $.each($(".AttrInputField"), function (i, obj) {
@@ -120,12 +134,27 @@
                     Order += 1;
                 });
 
+                var RelationshipProfileID = "";
+                $.each($(".datatr"), function (j, obj) {
+                    var RelationshipObjectID = $(this).find('.RelationshipObjectID').val();
+                    //alert("RelationshipObjectID:" + RelationshipObjectID);
+                    if (RelationshipProfileID=="") {
+                        RelationshipProfileID = $(this).find('.RelationshipProfileID').val();
+                    }
+                    //alert("RelationshipProfileID:"+RelationshipProfileID);
+                    RelationshipObjectIDs.push(RelationshipObjectID);
+                });
+
+                var ObjectRelationshipData = { objectID: 1, ProfileID: ProfileID, RelationshipObjectID: RelationshipObjectIDs, RelationshipProfileID: RelationshipProfileID };
+
+                //alert(ObjectRelationshipDatas);
+
                 if (form.valid() == true) {
                     $.ajax({
                         url: "@Url.Content("~/Object/Create")",
                         type: "POST",
                         contextType: "text/html; charset=utf-8",
-                        data: { ObjectName: ObjectName, Description: Description, ProfileID: ProfileID, AttributesData: AttributesData },
+                        data: { ObjectName: ObjectName, Description: Description, ProfileID: ProfileID, AttributesData: AttributesData, ObjectRelationshipData: ObjectRelationshipData },
                         success: function (data) {
                             //  $.unblockUI();
                             if (data == "建立物件作業成功") {
@@ -146,7 +175,7 @@
         });
 
         function CheckDel() {
-            $(".del").each(function(){
+            $(".del").each(function () {
                 if ($(this).parent().parent().siblings().length == 0) {
                     $(this).attr("disabled", true);
                 }
@@ -160,6 +189,5 @@
                 }
             });
         }
-
     </script>
 }

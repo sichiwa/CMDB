@@ -1,4 +1,4 @@
-﻿@model  CMDB.ViewModels.vCI_Objects_list
+﻿@model  CMDB.ViewModels.vCI_Objects_List
 
 @{
     ViewBag.Title = "Index";
@@ -21,7 +21,6 @@
     </div>
     <hr />
 }
-
 @if (TempData["SystemInfo"].ToString() == "OK")
 {
     <table class="table table-bordered">
@@ -48,7 +47,7 @@
         </tr>
 
         @foreach (var item in Model.ObjectsData)
-        {
+                {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ObjectName)
@@ -82,7 +81,7 @@
                         else
                         {
                             <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
-                            @aa;
+                                    @aa;
                         }
                         @Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID }) ;
                     }
@@ -99,3 +98,9 @@ else
 {
     <h3>@TempData["SystemInfo"].ToString()</h3>
 }
+
+
+
+ 
+
+

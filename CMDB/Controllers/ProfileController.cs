@@ -48,14 +48,14 @@ namespace CMDB.Controllers
             try
             {
                 vCI_Proflies_List vProList = new vCI_Proflies_List();
-                SF.logandshowInfo(Configer.GetAction + "範本清單-子程序-" + Configer.GetAction + "待覆核範本資料筆數開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本清單-子程序-" + Configer.GetAction + "待覆核範本資料筆數開始@" + SF.getNowDateString(), log_Info);
                 vProList.ReviewCount = context.Tmp_CI_Proflies.Where(b => b.CreateAccount != nowUser).Where(b => b.isClose == false).Count();
-                SF.logandshowInfo(Configer.GetAction + "範本清單子程序" + Configer.GetAction + "待覆核範本資料筆數結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本清單子程序" + Configer.GetAction + "待覆核範本資料筆數結束@" + SF.getNowDateString(), log_Info);
                 SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "待覆核範本資料結果:共取得[" + vProList.ReviewCount.ToString() + "]筆", log_Info);
 
-                SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "範本資料開始@" + SF.getNowDateString(), log_Info);
                 vProList.ProfilesData = SF.getProfilesData();
-                SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "範本資料結束@" + SF.getNowDateString(), log_Info);
 
                 int ProfileCount = 0;
 
@@ -76,9 +76,9 @@ namespace CMDB.Controllers
                 {
                     foreach (var item in vProList.ProfilesData)
                     {
-                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號開始@" + SF.getNowDateString(), log_Info);
                         item.EditAccount = SF.canEdit("CI_Profiles", item.ProfileID.ToString(), "");
-                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結束@" + SF.getNowDateString(), log_Info);
                         SF.logandshowInfo(Configer.GetAction + "範本清單子程序-" + Configer.GetAction + "正在編輯範本資料的帳號結果:範本[" + item.ProfileName + "];編輯帳號[" + item.EditAccount + "]", log_Info);
                     }
                     SL.EndTime = DateTime.Now;
@@ -153,9 +153,9 @@ namespace CMDB.Controllers
             try
             {
                 vCI_Proflies_CU vProCU = new vCI_Proflies_CU();
-                SF.logandshowInfo(Configer.CreateAction + "新增範本表單子程序-" + Configer.GetAction + "屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "新增範本表單子程序-" + Configer.GetAction + "屬性資料開始@" + SF.getNowDateString(), log_Info);
                 vProCU.AttributesData = SF.getAttributesData();
-                SF.logandshowInfo(Configer.CreateAction + "新增範本表單子程序-" + Configer.GetAction + "屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "新增範本表單子程序-" + Configer.GetAction + "屬性資料結束@" + SF.getNowDateString(), log_Info);
 
               
                 int AttributeCount = vProCU.AttributesData.Count();
@@ -266,15 +266,15 @@ namespace CMDB.Controllers
                         PlainText.Append(_Tmp_CI_Proflies.isClose.ToString());
 
                         //計算HASH值
-                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                         _Tmp_CI_Proflies.HashValue = SF.getHashValue(PlainText.ToString());
-                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                         SF.logandshowInfo(Configer.CreateAction + "範本子程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Proflies.HashValue + "]", log_Info);
 
-                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-新增資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-新增資料開始@" + SF.getNowDateString(), log_Info);
                         context.Tmp_CI_Proflies.Add(_Tmp_CI_Proflies);
                         context.SaveChanges();
-                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-新增資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.CreateAction + "範本子程序-新增資料結束@" + SF.getNowDateString(), log_Info);
 
                         StringProcessor.Claersb(PlainText);
 
@@ -304,16 +304,16 @@ namespace CMDB.Controllers
                             PlainText.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
                             //計算HASH值
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.CreateAction + "屬性子程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.CreateAction + "屬性子程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                             _Tmp_CI_Proflie_Attributes.HashValue = SF.getHashValue(PlainText.ToString());
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                             SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Proflie_Attributes.HashValue + "]", log_Info);
 
                             StringProcessor.Claersb(PlainText);
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-新增資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-新增資料開始@" + SF.getNowDateString(), log_Info);
                             context.Tmp_CI_Proflie_Attributes.Add(_Tmp_CI_Proflie_Attributes);
                             context.SaveChanges();
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-新增資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序--" + Configer.CreateAction + "屬性子程序-新增資料結束@" + SF.getNowDateString(), log_Info);
                         }
 
                         //context.SaveChanges();
@@ -396,9 +396,9 @@ namespace CMDB.Controllers
                 CI_Proflies _CI_Proflies = new CI_Proflies();
                 vCI_Proflies_CU vProCU = new vCI_Proflies_CU();
 
-                SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "範本資料開始@" + SF.getNowDateString(), log_Info);
                 _CI_Proflies = context.CI_Proflies.Where(b => b.ProfileID == ProfileID).First();
-                SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "範本資料結束@" + SF.getNowDateString(), log_Info);
 
                 if (_CI_Proflies != null)
                 {
@@ -406,13 +406,13 @@ namespace CMDB.Controllers
                     vProCU.ProfileName = _CI_Proflies.ProfileName;
                     vProCU.Description = _CI_Proflies.Description;
                     vProCU.ImgID = _CI_Proflies.ImgID;
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "圖片路徑開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "圖片路徑開始@" + SF.getNowDateString(), log_Info);
                     vProCU.ImgPath = SF.getSysImgPath(_CI_Proflies.ImgID);
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "圖片路徑開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "圖片路徑開始@" + SF.getNowDateString(), log_Info);
 
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "屬性清單開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "屬性清單開始@" + SF.getNowDateString(), log_Info);
                     vProCU.AttributesData = SF.getProfileAttributesData(ProfileID);
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "屬性清單結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "屬性清單結束@" + SF.getNowDateString(), log_Info);
                     SF.logandshowInfo(Configer.CreateAction + "編輯範本表單-子程序" + Configer.GetAction + "屬性清單結果:共取得[" + vProCU.AttributesData.Count() + " ]筆資料", log_Info);
 
                     SL.EndTime = DateTime.Now;
@@ -516,15 +516,15 @@ namespace CMDB.Controllers
                         PlainText.Append(_Tmp_CI_Proflies.isClose.ToString());
 
                         //計算HASH值
-                        SF.logandshowInfo(Configer.EditAction + "範本子程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.EditAction + "範本子程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                         _Tmp_CI_Proflies.HashValue = SF.getHashValue(PlainText.ToString());
-                        SF.logandshowInfo(Configer.EditAction + "範本子程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.EditAction + "範本子程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                         SF.logandshowInfo(Configer.EditAction + "範本子程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Proflies.HashValue + "]", log_Info);
 
-                        SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "資料開始@" + SF.getNowDateString(), log_Info);
                         context.Tmp_CI_Proflies.Add(_Tmp_CI_Proflies);
                         context.SaveChanges();
-                        SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "資料結束@" + SF.getNowDateString(), log_Info);
 
                         StringProcessor.Claersb(PlainText);
 
@@ -553,17 +553,17 @@ namespace CMDB.Controllers
                             PlainText.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
                             //計算HASH值
-                            SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "屬性子程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.EditAction + "範本子程序-"+ Configer.EditAction + "屬性子程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                             _Tmp_CI_Proflie_Attributes.HashValue = SF.getHashValue(PlainText.ToString());
-                            SF.logandshowInfo(Configer.EditAction + "範本子程序-" + Configer.EditAction + "屬性子程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.EditAction + "範本子程序-" + Configer.EditAction + "屬性子程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                             SF.logandshowInfo(Configer.EditAction + "範本子程序-" + Configer.EditAction + "屬性子程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Proflie_Attributes.HashValue + "]", log_Info);
 
                             StringProcessor.Claersb(PlainText);
 
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.EditAction + "屬性子程序-"+ Configer.EditAction + "資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.EditAction + "屬性子程序-"+ Configer.EditAction + "資料開始@" + SF.getNowDateString(), log_Info);
                             context.Tmp_CI_Proflie_Attributes.Add(_Tmp_CI_Proflie_Attributes);
                             context.SaveChanges();
-                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.EditAction + "屬性子程序-"+ Configer.EditAction + "資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本子程序-" + Configer.EditAction + "屬性子程序-"+ Configer.EditAction + "資料結束@" + SF.getNowDateString(), log_Info);
                         }
 
                         //context.SaveChanges();
@@ -739,9 +739,9 @@ namespace CMDB.Controllers
             try
             {
                 vTmp_CI_Profiles_R _vTmp_CI_Profiles_R = new vTmp_CI_Profiles_R();
-                SF.logandshowInfo(Configer.GetAction + "待覆核範本資料子程序-" + Configer.GetAction + "資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "待覆核範本資料子程序-" + Configer.GetAction + "資料開始@" + SF.getNowDateString(), log_Info);
                 _vTmp_CI_Profiles_R = getReviewData(ProfileID);
-                SF.logandshowInfo(Configer.GetAction + "待覆核範本資料子程序-" + Configer.GetAction + "資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "待覆核範本資料子程序-" + Configer.GetAction + "資料結束@" + SF.getNowDateString(), log_Info);
 
                 SL.EndTime = DateTime.Now;
                 SF.logandshowInfo(Configer.GetAction + "待覆核範本資料結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -817,9 +817,9 @@ namespace CMDB.Controllers
                     CI_Proflies _CI_Proflies = new CI_Proflies();
                     Tmp_CI_Proflies _Tmp_CI_Proflies = new Tmp_CI_Proflies();
 
-                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本開始@" + SF.getNowDateString(), log_Info);
                     _Tmp_CI_Proflies = context.Tmp_CI_Proflies.Where(b=>b.oProfileID==_vTmp_CI_Profiles_R.ProfileID).Where(b=>b.isClose==false).First();
-                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本結束@" + SF.getNowDateString(), log_Info);
 
                     if (_Tmp_CI_Proflies != null)
                     {
@@ -829,7 +829,7 @@ namespace CMDB.Controllers
                             switch (_Tmp_CI_Proflies.Type)
                             {
                                 case "建立":
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業開始@" + SF.getNowDateString(), log_Info);
                                     StringBuilder verifyPlainText = new StringBuilder();
                                     string verifyHashValue = string.Empty;
                                     StringBuilder PlainText = new StringBuilder();
@@ -860,9 +860,9 @@ namespace CMDB.Controllers
                                     verifyPlainText.Append(_Tmp_CI_Proflies.isClose.ToString());
 
                                     //重新計算HASH
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                     verifyHashValue = SF.getHashValue(verifyPlainText.ToString());
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                     verifyPlainText.Replace("False", "");
                                     verifyPlainText.Remove(verifyPlainText.Length-1,1);
                                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業子程序-重新計算HASH值結果:原HASH[" + _Tmp_CI_Proflies.HashValue + "];重新計算HASH值[" + verifyHashValue + "]", log_Info);
@@ -877,15 +877,15 @@ namespace CMDB.Controllers
                                         PlainText.Append(_CI_Proflies.UpdateTime.ToString());
 
                                         //計算HASH值
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值開始@" + SF.getNowDateString(), log_Info);
                                         _CI_Proflies.HashValue = SF.getHashValue(PlainText.ToString());
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值結束@" + SF.getNowDateString(), log_Info);
                                         SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算屬性HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _CI_Proflies.HashValue + "]", log_Info);
 
                                         //新增範本
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料開始@" + SF.getNowDateString(), log_Info);
                                         context.CI_Proflies.Add(_CI_Proflies);
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + SF.getNowDateString(), log_Info);
 
                                         var query = context.Tmp_CI_Proflie_Attributes.Where(b => b.ProfileID == _vTmp_CI_Profiles_R.ProfileID);
 
@@ -935,9 +935,9 @@ namespace CMDB.Controllers
                                                         verifyPlainText1.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
                                                         //重新計算HASH
-                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本屬性作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本屬性作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                                         verifyHashValue = SF.getHashValue(verifyPlainText1.ToString());
-                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本屬性作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本屬性作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                                         verifyPlainText1.Replace("False", "");
                                                         verifyPlainText1.Remove(verifyPlainText1.Length-1, 1);
                                                         SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本屬性作業子程序-重新計算HASH值結果:原HASH值[" + _Tmp_CI_Proflie_Attributes.HashValue + "];重新計算HASH值[" + verifyHashValue + "]", log_Info);
@@ -951,15 +951,15 @@ namespace CMDB.Controllers
                                                             PlainText1.Append(_CI_Proflie_Attributes.UpdateTime.ToString());
 
                                                             //計算HASH值
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                             _CI_Proflie_Attributes.HashValue = SF.getHashValue(PlainText1.ToString());
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                                             SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值結果:明文:[" + PlainText1.ToString() + "];HASH值[" + _CI_Proflie_Attributes.HashValue + "]", log_Info);
 
                                                             //新增範本屬性
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料開始@" + SF.getNowDateString(), log_Info);
                                                             context.CI_Proflie_Attributes.Add(_CI_Proflie_Attributes);
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + SF.getNowDateString(), log_Info);
 
                                                             //修改待覆核屬性
                                                             _Tmp_CI_Proflie_Attributes.ReviewAccount = nowUser;
@@ -972,9 +972,9 @@ namespace CMDB.Controllers
                                                             verifyPlainText1.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
                                                             //計算HASH值
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                             _Tmp_CI_Proflie_Attributes.HashValue = SF.getHashValue(verifyPlainText1.ToString());
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                                             SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結果:明文:[" + verifyPlainText1.ToString() + "];HASH值[" + _Tmp_CI_Proflie_Attributes.HashValue + "]", log_Info);
 
                                                             context.Entry(_Tmp_CI_Proflie_Attributes).State = EntityState.Modified;
@@ -982,8 +982,8 @@ namespace CMDB.Controllers
                                                         else
                                                         {
                                                             dbContextTransaction.Rollback();
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
                                                             //HASH驗證失敗
                                                             SL.EndTime = DateTime.Now;
                                                             SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1001,8 +1001,8 @@ namespace CMDB.Controllers
                                                     else
                                                     {
                                                         dbContextTransaction.Rollback();
-                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
                                                         //記錄錯誤
                                                         SL.EndTime = DateTime.Now;
                                                         SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1029,16 +1029,16 @@ namespace CMDB.Controllers
                                                 verifyPlainText.Append( _Tmp_CI_Proflies.isClose.ToString());
 
                                                 //計算HASH值
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 _Tmp_CI_Proflies.HashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核屬性HASH值結果:明文:[" + verifyPlainText.ToString() + "];HASH[" + _Tmp_CI_Proflies.HashValue + "]", log_Info);
 
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料開始@" + SF.getNowDateString(), log_Info);
                                                 context.Entry(_Tmp_CI_Proflies).State = EntityState.Modified;
                                                 context.SaveChanges();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料結束@" + SF.getNowDateString(), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                 //範本及範本屬性一起異動
                                                 dbContextTransaction.Commit();
@@ -1067,7 +1067,7 @@ namespace CMDB.Controllers
                                             catch (Exception ex)
                                             {
                                                 dbContextTransaction.Rollback();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                 //記錄錯誤
                                                 SL.EndTime = DateTime.Now;
@@ -1086,8 +1086,8 @@ namespace CMDB.Controllers
                                         else
                                         {
                                             dbContextTransaction.Rollback();
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                            SF.logandshowInfo(Configer.ReviewAction + "屬性子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "屬性子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                             //記錄錯誤
                                             SL.EndTime = DateTime.Now;
@@ -1106,8 +1106,8 @@ namespace CMDB.Controllers
                                     else
                                     {
                                         dbContextTransaction.Rollback();
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + SF.getNowDateString(), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                         //HASH驗證失敗
                                         SL.EndTime = DateTime.Now;
@@ -1128,15 +1128,15 @@ namespace CMDB.Controllers
                                     string verifyHashValue2 = string.Empty;
                                     StringBuilder PlainText2 = new StringBuilder();
 
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-取得待覆核範本開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-取得待覆核範本開始@" + SF.getNowDateString(), log_Info);
                                     _CI_Proflies = context.CI_Proflies.Where(b => b.ProfileID == _Tmp_CI_Proflies.oProfileID).First();
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-取得待覆核範本結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-取得待覆核範本結束@" + SF.getNowDateString(), log_Info);
 
                                     if (_CI_Proflies != null)
                                     {
                                         try
                                         {
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業開始@" + SF.getNowDateString(), log_Info);
                                             _CI_Proflies.ProfileID = _Tmp_CI_Proflies.oProfileID;
                                             verifyPlainText2.Append(_Tmp_CI_Proflies.oProfileID.ToString() + Configer.SplitSymbol);
                                             PlainText2.Append(_CI_Proflies.ProfileID.ToString() + Configer.SplitSymbol);
@@ -1158,9 +1158,9 @@ namespace CMDB.Controllers
                                             verifyPlainText2.Append(_Tmp_CI_Proflies.Type + Configer.SplitSymbol);
                                             verifyPlainText2.Append(_Tmp_CI_Proflies.isClose.ToString());
 
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                             verifyHashValue2 = SF.getHashValue(verifyPlainText2.ToString());
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                             verifyPlainText2.Replace("False","");
                                             verifyPlainText2.Remove(verifyPlainText2.Length - 1, 1);
 
@@ -1177,16 +1177,16 @@ namespace CMDB.Controllers
                                                 _CI_Proflies.UpdateTime = DateTime.Now;
                                                 PlainText2.Append(_CI_Proflies.UpdateTime.ToString());
 
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 _CI_Proflies.HashValue = SF.getHashValue(PlainText2.ToString());
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本HASH值結果:明文:[" + PlainText2.ToString() + "];HASH值[" + _CI_Proflies.HashValue + "]", log_Info);
 
                                                 context.Entry(_CI_Proflies).State = EntityState.Modified;
 
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-"+Configer.GetAction + "待覆核範本屬性開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-"+Configer.GetAction + "待覆核範本屬性開始@" + SF.getNowDateString(), log_Info);
                                                 var query1 = context.Tmp_CI_Proflie_Attributes.Where(b => b.ProfileID == _vTmp_CI_Profiles_R.ProfileID);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本屬性結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本屬性結束@" + SF.getNowDateString(), log_Info);
 
                                                 int TmpProflieAttributesCount1 = query1.Count();
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本屬性結果，共取得[" + TmpProflieAttributesCount1 .ToString()+"]筆", log_Info);
@@ -1194,9 +1194,9 @@ namespace CMDB.Controllers
                                                 if (TmpProflieAttributesCount1 > 0)
                                                 {
                                                     //移除CI_Proflie_Attributes
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-移除原範本屬性開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-移除原範本屬性開始@" + SF.getNowDateString(), log_Info);
                                                     context.CI_Proflie_Attributes.RemoveRange(context.CI_Proflie_Attributes.Where(b => b.ProfileID == _Tmp_CI_Proflies.oProfileID));
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-移除原範本屬性結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-移除原範本屬性結束@" + SF.getNowDateString(), log_Info);
                                                
                                                     foreach (var item in query1.ToList())
                                                     {
@@ -1236,9 +1236,9 @@ namespace CMDB.Controllers
                                                             verifyPlainText3.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
                                                             //重新計算HASH
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本屬性作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本屬性作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                                             verifyHashValue3 = SF.getHashValue(verifyPlainText3.ToString());
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本屬性作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本屬性作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                                             verifyPlainText3.Replace("False", "");
                                                             verifyPlainText3.Remove(verifyPlainText3.Length - 1, 1);
                                                             SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本屬性作業子程序-重新計算HASH值結果:原HASH[" + _Tmp_CI_Proflie_Attributes.HashValue + "];重新計算HASH[" + verifyPlainText3.ToString() + "]", log_Info);
@@ -1251,16 +1251,16 @@ namespace CMDB.Controllers
                                                                 _CI_Proflie_Attributes.UpdateTime = DateTime.Now;
                                                                 PlainText3.Append(_CI_Proflie_Attributes.UpdateTime.ToString());
 
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                                 _CI_Proflie_Attributes.HashValue = SF.getHashValue(PlainText3.ToString());
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算範本屬性HASH值結果:明文:[" + PlainText3.ToString() + "];HASH值[" + _CI_Proflie_Attributes.HashValue + "]", log_Info);
                                                                 StringProcessor.Claersb(PlainText3);
 
                                                                 //新增範本屬性
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料開始@" + SF.getNowDateString(), log_Info);
                                                                 context.CI_Proflie_Attributes.Add(_CI_Proflie_Attributes);
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + SF.getNowDateString(), log_Info);
 
                                                                 //修改待覆核屬性
                                                                 _Tmp_CI_Proflie_Attributes.ReviewAccount = nowUser;
@@ -1272,9 +1272,9 @@ namespace CMDB.Controllers
                                                                 _Tmp_CI_Proflie_Attributes.isClose = true;
                                                                 verifyPlainText3.Append(_Tmp_CI_Proflie_Attributes.isClose.ToString());
 
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                                 _Tmp_CI_Proflie_Attributes.HashValue = SF.getHashValue(verifyPlainText3.ToString());
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結果:明文:[" + verifyPlainText3.ToString() + "];HASH值[" + _Tmp_CI_Proflie_Attributes.HashValue + "]", log_Info);
 
                                                                 StringProcessor.Claersb(verifyPlainText3);
@@ -1286,8 +1286,8 @@ namespace CMDB.Controllers
                                                             {
                                                                 //HASH驗證錯誤
                                                                 dbContextTransaction.Rollback();
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                                 //HASH驗證失敗
                                                                 SL.EndTime = DateTime.Now;
@@ -1306,8 +1306,8 @@ namespace CMDB.Controllers
                                                         else
                                                         {
                                                             dbContextTransaction.Rollback();
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                             //記錄錯誤
                                                             SL.EndTime = DateTime.Now;
@@ -1325,9 +1325,9 @@ namespace CMDB.Controllers
                                                     }
 
                                                     //尋覽有用到此範本的物件，更新異動後屬性
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-"+Configer.UpdateAction+"物件子程序-"+Configer.GetAction+"使用[" + _Tmp_CI_Proflies.oProfileID + "]範本的物件開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-"+Configer.UpdateAction+"物件子程序-"+Configer.GetAction+"使用[" + _Tmp_CI_Proflies.oProfileID + "]範本的物件開始@" + SF.getNowDateString(), log_Info);
                                                     var _CI_Objects = context.CI_Objects.Where(b => b.ProfileID == _Tmp_CI_Proflies.oProfileID);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本的物件結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本的物件結束@" + SF.getNowDateString(), log_Info);
 
                                                     int ObjectCount = _CI_Objects.Count();
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本的物件結果，共取得["+ ObjectCount + "]筆", log_Info);
@@ -1336,9 +1336,9 @@ namespace CMDB.Controllers
                                                     {
                                                         foreach (var o in _CI_Objects.ToList())
                                                         {
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本屬性開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本屬性開始@" + SF.getNowDateString(), log_Info);
                                                             var ObjectsData = context.CI_Object_Data.Where(b => b.ObjectID == o.ObjectID);
-                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本屬性結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本屬性結束@" + SF.getNowDateString(), log_Info);
 
                                                             int ObjectsDataCount = ObjectsData.Count();
                                                             SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "使用[" + _Tmp_CI_Proflies.oProfileID + "]範本屬性結果，共取得[" + ObjectsDataCount + "]筆", log_Info);
@@ -1348,9 +1348,9 @@ namespace CMDB.Controllers
                                                                 var Set1 = context.CI_Proflie_Attributes.Where(b => b.ProfileID == o.ProfileID).Select(b => b.AttributeID);
                                                                 var Set2 = ObjectsData.Select(b => b.AttributeID);
                                                                 //用Tmp差集Objects Attribute--新增
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction+ "需"+Configer.InsertAction+ "物件屬性作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction+ "需"+Configer.InsertAction+ "物件屬性作業開始@" + SF.getNowDateString(), log_Info);
                                                                 var insertAttributeIDs = Set1.Except(Set2).ToList();
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需" + Configer.InsertAction + "物件屬性作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需" + Configer.InsertAction + "物件屬性作業結束@" + SF.getNowDateString(), log_Info);
 
                                                                 //var insertAttributeIDs =context.Tmp_CI_Proflie_Attributes.Where(b=>b.ProfileID==o.ProfileID).Select(b=>b.AttributeID).ToArray()
                                                                 //                     .Except(ObjectsData.Select(b=> b.AttributeID).ToArray()).ToArray();
@@ -1389,17 +1389,17 @@ namespace CMDB.Controllers
 
                                                                         // _insert_CI_Object_Data.HashValue = SF.getHashValue(PlainText4.ToString());
 
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.InsertAction + "物件屬性作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.InsertAction + "物件屬性作業開始@" + SF.getNowDateString(), log_Info);
                                                                         context.CI_Object_Data.Add(_insert_CI_Object_Data);
                                                                         context.SaveChanges();
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" +  Configer.InsertAction + "物件屬性作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" +  Configer.InsertAction + "物件屬性作業結束@" + SF.getNowDateString(), log_Info);
                                                                     }
                                                                 }
 
                                                                 //用Objects Attribute差集Tmp--移除
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需"+Configer.RemoveAction+ "物件屬性作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需"+Configer.RemoveAction+ "物件屬性作業開始@" + SF.getNowDateString(), log_Info);
                                                                 var removeAttributeIDs = Set2.Except(Set1).ToList();
-                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需" + Configer.RemoveAction + "物件屬性作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat),log_Info);
+                                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需" + Configer.RemoveAction + "物件屬性作業結束@" + SF.getNowDateString(),log_Info);
 
                                                                 int removeCount = removeAttributeIDs.Count();
                                                                 SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.GetAction + "需" + Configer.RemoveAction + "物件屬性作業結果，共取得[" + insertCount.ToString() + "]筆需" + Configer.RemoveAction + "屬性", log_Info);
@@ -1411,10 +1411,10 @@ namespace CMDB.Controllers
                                                                         CI_Object_Data _remove_CI_Object_Data = context.CI_Object_Data.Where(b => b.ObjectID == o.ObjectID)
                                                                             .Where(b => b.AttributeID == removeAttributeID).First();
 
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" +  Configer.RemoveAction + "物件屬性作業開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat),log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" +  Configer.RemoveAction + "物件屬性作業開始@" + SF.getNowDateString(),log_Info);
                                                                         context.CI_Object_Data.Remove(_remove_CI_Object_Data);
                                                                         context.SaveChanges();
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.RemoveAction + "物件屬性作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-" + Configer.RemoveAction + "物件屬性作業結束@" + SF.getNowDateString(), log_Info);
                                                                     }
                                                                 }
 
@@ -1448,9 +1448,9 @@ namespace CMDB.Controllers
                                                                         PlainText4.Append(newObj.UpdateAccount + Configer.SplitSymbol);
                                                                         PlainText4.Append(newObj.UpdateTime.ToString());
 
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-重新計算物件屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-重新計算物件屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                                         newObj.HashValue = SF.getHashValue(PlainText4.ToString());
-                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-重新計算物件屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-重新計算物件屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                                                         SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.UpdateAction + "物件子程序-重新計算物件屬性結果:明文:["+ PlainText4.ToString() + "];HASH值[" + newObj.HashValue + "]", log_Info);
 
                                                                         context.Entry(newObj).State = EntityState.Modified;
@@ -1478,17 +1478,17 @@ namespace CMDB.Controllers
                                                     _Tmp_CI_Proflies.isClose = true;
                                                     verifyPlainText2.Append(_Tmp_CI_Proflies.isClose.ToString() + Configer.SplitSymbol);
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _Tmp_CI_Proflies.HashValue = SF.getHashValue(verifyPlainText2.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-計算待覆核範本屬性HASH值結果:明文:[" + verifyPlainText2.ToString() + "];HASH值[" + _Tmp_CI_Proflies.HashValue + "]", log_Info);
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料開始@" + SF.getNowDateString(), log_Info);
                                                     context.Entry(_Tmp_CI_Proflies).State = EntityState.Modified;
                                                     context.SaveChanges();
                                                     dbContextTransaction.Commit();
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存待覆核範本資料結束@" + SF.getNowDateString(), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                     SL.EndTime = DateTime.Now;
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.StartTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1514,8 +1514,8 @@ namespace CMDB.Controllers
                                                 else
                                                 {
                                                     dbContextTransaction.Rollback();
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "屬性子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本屬性資料結束@" + SF.getNowDateString(), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "屬性子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                     //記錄錯誤
                                                     SL.EndTime = DateTime.Now;
@@ -1535,8 +1535,8 @@ namespace CMDB.Controllers
                                             {
                                                 //HASH驗證錯誤
                                                 dbContextTransaction.Rollback();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + SF.getNowDateString(), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                                 //HASH驗證失敗
                                                 SL.EndTime = DateTime.Now;
@@ -1555,8 +1555,8 @@ namespace CMDB.Controllers
                                         catch (Exception ex)
                                         {
                                             dbContextTransaction.Rollback();
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-儲存範本資料結束@" + SF.getNowDateString(), log_Info);
+                                            SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                             //記錄錯誤
                                             SL.EndTime = DateTime.Now;
@@ -1575,7 +1575,7 @@ namespace CMDB.Controllers
                                     else
                                     {
                                         //記錄錯誤
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                         SL.EndTime = DateTime.Now;
                                         SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1591,7 +1591,7 @@ namespace CMDB.Controllers
                                     }
                                 default:
                                     //記錄錯誤
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                     SL.EndTime = DateTime.Now;
                                     SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1610,7 +1610,7 @@ namespace CMDB.Controllers
                     else
                     {
                         //記錄錯誤
-                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                         SL.EndTime = DateTime.Now;
                         SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1628,7 +1628,7 @@ namespace CMDB.Controllers
                 else
                 {
                     //記錄錯誤
-                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                     SL.EndTime = DateTime.Now;
                     SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1645,7 +1645,7 @@ namespace CMDB.Controllers
             }
             catch (Exception ex)
             {
-                //SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                //SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.EditAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                 SL.EndTime = DateTime.Now;
                 SF.logandshowInfo(Configer.ReviewAction + "範本結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);

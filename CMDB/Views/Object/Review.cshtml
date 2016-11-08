@@ -104,6 +104,32 @@
                 </div>
             </div>
 
+            @if (Model.ObjectRelationshipData !=null)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ObjectRelationshipData, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr class="active">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ObjectRelationshipData.First().RelationshipObjectName)
+                                </th>
+                            </tr>
+                            @foreach (var item in Model.ObjectRelationshipData)
+                            {
+                                string inputName = item.RelationshipObjectID + "_" + item.RelationshipObjectName;
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RelationshipObjectName)
+                                        <input type="hidden" name=@inputName value="@item.RelationshipObjectID">
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            }
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-6">
@@ -243,15 +269,6 @@
     <script>
         $(function () {
             compareReviewData();
-            // $(".SysImg").hide();
-
-            //$("#submitbtn").click(function () {
-            //    var ProfileID = $("#ProfileID").val();
-            //    var ProfileName = $("#ProfileName").val();
-            //    var Description = $("#Description").val();
-            //    var ImgID = $("#ImgID").val();
-
-            //});
         });
     </script>
 }

@@ -31,7 +31,9 @@ namespace CMDB.Models
         [Display(Name = "建立者帳號")]
         public string CreateAccount { get; set; }
 
+        [Key]
         [Required]
+        [Column(Order = 4)]
         [Display(Name = "建立時間")]
         public DateTime? CreateTime { get; set; }
 

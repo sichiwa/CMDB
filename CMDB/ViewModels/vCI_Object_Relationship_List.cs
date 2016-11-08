@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMDB.ViewModels
 {
-    public class vCI_Objects_List
+    public class vCI_Object_Relationship_List
     {
         [Key]
         public int ID { get; set; }
@@ -12,6 +12,6 @@ namespace CMDB.ViewModels
 
         public int Authority { get; set; }
 
-        public IEnumerable<vCI_Objects> ObjectsData { get; set; }
+        public IEnumerable<vCI_Object_Relationship> ObjectRelationshipData { get; set; }
     }
 }

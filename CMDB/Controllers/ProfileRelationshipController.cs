@@ -49,14 +49,14 @@ namespace CMDB.Controllers
             try
             {
                 vCI_Profile_Relationship_List vProRList = new vCI_Profile_Relationship_List();
-                SF.logandshowInfo(Configer.GetAction + "範本關係清單-子程序-" + Configer.GetAction + "待覆核範本關係資料筆數開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本關係清單-子程序-" + Configer.GetAction + "待覆核範本關係資料筆數開始@" + SF.getNowDateString(), log_Info);
                 vProRList.ReviewCount = context.Tmp_CI_Profile_Relationship.Where(b => b.CreateAccount != nowUser).Where(b => b.isClose == false).Count();
-                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序" + Configer.GetAction + "待覆核範本關係資料筆數結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序" + Configer.GetAction + "待覆核範本關係資料筆數結束@" + SF.getNowDateString(), log_Info);
                 SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "待覆核範本關係資料結果:共取得[" + vProRList.ReviewCount.ToString() + "]筆", log_Info);
 
-                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "範本資料開始@" + SF.getNowDateString(), log_Info);
                 vProRList.ProfileRelationshipData = SF.getProfileRelationshipData();
-                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "範本資料結束@" + SF.getNowDateString(), log_Info);
 
                 int ProfileRCount = 0;
 
@@ -76,9 +76,9 @@ namespace CMDB.Controllers
                 {
                     foreach (var item in vProRList.ProfileRelationshipData)
                     {
-                        SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "正在編輯範本關係本資料的帳號開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "正在編輯範本關係本資料的帳號開始@" + SF.getNowDateString(), log_Info);
                         item.EditAccount = SF.canEdit("CI_Profile_Relationship", item.ProfileID.ToString(), "");
-                        SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "正在編輯範本關係資料的帳號結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "正在編輯範本關係資料的帳號結束@" + SF.getNowDateString(), log_Info);
                         SF.logandshowInfo(Configer.GetAction + "範本關係清單子程序-" + Configer.GetAction + "正在編輯範本關係資料的帳號結果:範本關係[" + item.ProfileName + "];編輯帳號[" + item.EditAccount + "]", log_Info);
                     }
                     SL.EndTime = DateTime.Now;
@@ -155,10 +155,10 @@ namespace CMDB.Controllers
             try
             {
                 vCI_Profile_Relationship_CU vProRCU = new vCI_Profile_Relationship_CU();
-                SF.logandshowInfo(Configer.CreateAction + "新增範本關係表單-子程序-" + Configer.GetAction + "範本清單開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "新增範本關係表單-子程序-" + Configer.GetAction + "範本清單開始@" + SF.getNowDateString(), log_Info);
                 vProRCU.ProfileList = SF.getProfileList(1);
                 vProRCU.RelationshipProfileList = vProRCU.ProfileList;
-                SF.logandshowInfo(Configer.CreateAction + "新增範本關係表單-子程序-" + Configer.GetAction + "範本清單結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "新增範本關係表單-子程序-" + Configer.GetAction + "範本清單結束@" + SF.getNowDateString(), log_Info);
 
                 SL.EndTime = DateTime.Now;
                 SF.logandshowInfo(Configer.GetAction + "新增範本關係表單結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -245,16 +245,16 @@ namespace CMDB.Controllers
                                 PlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                 //計算HASH值
-                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                 _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(PlainText.ToString());
-                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                 SF.logandshowInfo(Configer.CreateAction + "範本關係程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                 StringProcessor.Claersb(PlainText);
-                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料開始@" + SF.getNowDateString(), log_Info);
                                 context.Tmp_CI_Profile_Relationship.Add(_Tmp_CI_Profile_Relationship);
                                 context.SaveChanges();
-                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料結束@" + SF.getNowDateString(), log_Info);
                             }
 
                             //context.SaveChanges();
@@ -335,7 +335,7 @@ namespace CMDB.Controllers
         private bool CheckRep(vCI_Profile_Relationship_CU vProRCU)
         {
             bool CheckResult = false;
-            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-檢查重複資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-檢查重複資料開始@" + SF.getNowDateString(), log_Info);
             if (vProRCU.RelationshipProileID.Count() > 0)
             {
                 foreach (int item in vProRCU.RelationshipProileID)
@@ -351,7 +351,7 @@ namespace CMDB.Controllers
                     }
                 }
             }
-            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-檢查重複資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-檢查重複資料結束@" + SF.getNowDateString(), log_Info);
             SF.logandshowInfo(Configer.CreateAction + "範本關係程序-檢查重複資結果:[" + CheckResult.ToString() + "]", log_Info);
             return CheckResult;
         }
@@ -383,9 +383,9 @@ namespace CMDB.Controllers
                 CI_Profile_Relationship _CI_Profile_Relationship = new CI_Profile_Relationship();
                 vCI_Profile_Relationship_CU vProRCU = new vCI_Profile_Relationship_CU();
 
-                SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序" + Configer.GetAction + "範本關係資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序" + Configer.GetAction + "範本關係資料開始@" + SF.getNowDateString(), log_Info);
                 var query = context.CI_Profile_Relationship.Where(b => b.ProfileID == ProfileID);
-                SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序" + Configer.GetAction + "範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序" + Configer.GetAction + "範本關係資料結束@" + SF.getNowDateString(), log_Info);
 
                 if (query.Count() > 0l)
                 {
@@ -401,10 +401,10 @@ namespace CMDB.Controllers
                     vProRCU.RelationshipProileID = RelationshipProfileIDs.ToArray();
                     SF.logandshowInfo(Configer.CreateAction + "編輯範本表單關係-子程序" + Configer.GetAction + "範本關係結果:共取得[" + vProRCU.RelationshipProileID.Count() + " ]筆資料", log_Info);
 
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序-" + Configer.GetAction + "範本清單開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序-" + Configer.GetAction + "範本清單開始@" + SF.getNowDateString(), log_Info);
                     vProRCU.ProfileList = SF.getProfileList(-1);
                     vProRCU.RelationshipProfileList = vProRCU.ProfileList;
-                    SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序-" + Configer.GetAction + "範本清單結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單-子程序-" + Configer.GetAction + "範本清單結束@" + SF.getNowDateString(), log_Info);
 
                     SL.EndTime = DateTime.Now;
                     SF.logandshowInfo(Configer.CreateAction + "編輯範本關係表單結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -505,16 +505,16 @@ namespace CMDB.Controllers
                             PlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                             //計算HASH值
-                            SF.logandshowInfo(Configer.EditAction + "範本關係程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.EditAction + "範本關係程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                             _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(PlainText.ToString());
-                            SF.logandshowInfo(Configer.EditAction + "範本關係程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.EditAction + "範本關係程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                             SF.logandshowInfo(Configer.EditAction + "範本關係程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                             StringProcessor.Claersb(PlainText);
-                            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料開始@" + SF.getNowDateString(), log_Info);
                             context.Tmp_CI_Profile_Relationship.Add(_Tmp_CI_Profile_Relationship);
                             context.SaveChanges();
-                            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                            SF.logandshowInfo(Configer.CreateAction + "範本關係程序-新增資料結束@" + SF.getNowDateString(), log_Info);
                         }
 
                         //context.SaveChanges();
@@ -629,16 +629,16 @@ namespace CMDB.Controllers
                                 PlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                 //計算HASH值
-                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                 _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(PlainText.ToString());
-                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                 SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-計算HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                 StringProcessor.Claersb(PlainText);
-                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-新增資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-新增資料開始@" + SF.getNowDateString(), log_Info);
                                 context.Tmp_CI_Profile_Relationship.Add(_Tmp_CI_Profile_Relationship);
                                 context.SaveChanges();
-                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-新增資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                SF.logandshowInfo(Configer.DeleteAction + "範本關係程序-新增資料結束@" + SF.getNowDateString(), log_Info);
                             }
 
                             dbContextTransaction.Commit();
@@ -849,9 +849,9 @@ namespace CMDB.Controllers
             try
             {
                 vTmp_CI_Profile_Relationship_R _vTmp_CI_Profile_Relationship_R = new vTmp_CI_Profile_Relationship_R();
-                SF.logandshowInfo(Configer.GetAction + "待覆核範本關係資料子程序-" + Configer.GetAction + "資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "待覆核範本關係資料子程序-" + Configer.GetAction + "資料開始@" + SF.getNowDateString(), log_Info);
                 _vTmp_CI_Profile_Relationship_R = getReviewData(ProfileID);
-                SF.logandshowInfo(Configer.GetAction + "待覆核範本關係資料子程序-" + Configer.GetAction + "資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                SF.logandshowInfo(Configer.GetAction + "待覆核範本關係資料子程序-" + Configer.GetAction + "資料結束@" + SF.getNowDateString(), log_Info);
 
                 SL.EndTime = DateTime.Now;
                 SF.logandshowInfo(Configer.GetAction + "待覆核範本關係資料結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -924,11 +924,11 @@ namespace CMDB.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.GetAction + "待覆核範本關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.GetAction + "待覆核範本關係開始@" + SF.getNowDateString(), log_Info);
                     var query = context.Tmp_CI_Profile_Relationship
                         .Where(b => b.ProfileID == _vTmp_CI_Profile_Relationship_R.ProfileID)
                         .Where(b => b.isClose == false);
-                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.GetAction + "待覆核範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.GetAction + "待覆核範本關係結束@" + SF.getNowDateString(), log_Info);
 
                     int TmpProflieRelationshipCount = query.Count();
 
@@ -995,9 +995,9 @@ namespace CMDB.Controllers
                                                 verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                 //重新計算HASH
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 verifyHashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 verifyPlainText.Replace("False", "");
                                                 verifyPlainText.Remove(verifyPlainText.Length - 1, 1);
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結果:原HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "];重新計算HASH值[" + verifyHashValue + "]", log_Info);
@@ -1017,18 +1017,18 @@ namespace CMDB.Controllers
                                                     PlainText.Append(_CI_Profile_Relationship.UpdateTime.ToString());
 
                                                     //計算HASH值
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _CI_Profile_Relationship.HashValue = SF.getHashValue(PlainText.ToString());
                                                     _CI_Profile_Relationship1.HashValue = SF.getHashValue(PlainText1.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                                     //新增範本屬性
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料開始@" + SF.getNowDateString(), log_Info);
                                                     //成對新增
                                                     context.CI_Profile_Relationship.Add(_CI_Profile_Relationship);
                                                     context.CI_Profile_Relationship.Add(_CI_Profile_Relationship1);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料結束@" + SF.getNowDateString(), log_Info);
 
                                                     //修改待覆核屬性
                                                     _Tmp_CI_Profile_Relationship.ReviewAccount = nowUser;
@@ -1041,9 +1041,9 @@ namespace CMDB.Controllers
                                                     verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                     //計算HASH值
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結果:明文:[" + verifyPlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                                     context.Entry(_Tmp_CI_Profile_Relationship).State = EntityState.Modified;
@@ -1051,8 +1051,8 @@ namespace CMDB.Controllers
                                                 else
                                                 {
                                                     dbContextTransaction.Rollback();
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.CreateAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.CreateAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
                                                     //HASH驗證失敗
                                                     SL.EndTime = DateTime.Now;
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1070,8 +1070,8 @@ namespace CMDB.Controllers
                                             else
                                             {
                                                 dbContextTransaction.Rollback();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係結束@" + SF.getNowDateString(), log_Info);
                                                 //記錄錯誤
                                                 SL.EndTime = DateTime.Now;
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1115,7 +1115,7 @@ namespace CMDB.Controllers
                                     catch (Exception ex)
                                     {
                                         dbContextTransaction.Rollback();
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.CreateAction + "範本作業結束@" + SF.getNowDateString(), log_Info);
 
                                         //記錄錯誤
                                         SL.EndTime = DateTime.Now;
@@ -1135,9 +1135,9 @@ namespace CMDB.Controllers
                                     try
                                     {
                                         //移除CI_Profile_Relationship
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-移除原範本關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-移除原範本關係開始@" + SF.getNowDateString(), log_Info);
                                         context.CI_Profile_Relationship.RemoveRange(context.CI_Profile_Relationship.Where(b => b.ProfileID == _vTmp_CI_Profile_Relationship_R.ProfileID));
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-移除原範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-移除原範本關係結束@" + SF.getNowDateString(), log_Info);
 
                                         foreach (var item in query.ToList())
                                         {
@@ -1178,9 +1178,9 @@ namespace CMDB.Controllers
                                                 verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                 //重新計算HASH
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 verifyHashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 verifyPlainText.Replace("False", "");
                                                 verifyPlainText.Remove(verifyPlainText.Length - 1, 1);
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.CreateAction + "範本關係作業子程序-重新計算HASH值結果:原HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "];重新計算HASH值[" + verifyHashValue + "]", log_Info);
@@ -1194,13 +1194,13 @@ namespace CMDB.Controllers
                                                     PlainText.Append(_CI_Profile_Relationship.UpdateTime.ToString());
 
                                                     //計算HASH值
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _CI_Profile_Relationship.HashValue = SF.getHashValue(PlainText.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算範本關係HASH值結果:明文:[" + PlainText.ToString() + "];HASH值[" + _CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                                     //新增範本屬性
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係資料開始@" + SF.getNowDateString(), log_Info);
                                                     //新增
                                                     context.CI_Profile_Relationship.Add(_CI_Profile_Relationship);
 
@@ -1215,9 +1215,9 @@ namespace CMDB.Controllers
                                                     verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                     //計算HASH值
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結果:明文:[" + verifyPlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                                     context.Entry(_Tmp_CI_Profile_Relationship).State = EntityState.Modified;
@@ -1225,8 +1225,8 @@ namespace CMDB.Controllers
                                                 else
                                                 {
                                                     dbContextTransaction.Rollback();
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.CreateAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.CreateAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
                                                     //HASH驗證失敗
                                                     SL.EndTime = DateTime.Now;
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1244,8 +1244,8 @@ namespace CMDB.Controllers
                                             else
                                             {
                                                 dbContextTransaction.Rollback();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.EditAction + "範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.EditAction + "範本關係結束@" + SF.getNowDateString(), log_Info);
                                                 //記錄錯誤
                                                 SL.EndTime = DateTime.Now;
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1289,7 +1289,7 @@ namespace CMDB.Controllers
                                     catch (Exception ex)
                                     {
                                         dbContextTransaction.Rollback();
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.EditAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.EditAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
 
                                         //記錄錯誤
                                         SL.EndTime = DateTime.Now;
@@ -1346,9 +1346,9 @@ namespace CMDB.Controllers
                                                 verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                 //重新計算HASH
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係作業子程序-重新計算HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係作業子程序-重新計算HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 verifyHashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係作業子程序-重新計算HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係作業子程序-重新計算HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 verifyPlainText.Replace("False", "");
                                                 verifyPlainText.Remove(verifyPlainText.Length - 1, 1);
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係作業子程序-重新計算HASH值結果:原HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "];重新計算HASH值[" + verifyHashValue + "]", log_Info);
@@ -1356,44 +1356,44 @@ namespace CMDB.Controllers
                                                 if (verifyHashValue == _Tmp_CI_Profile_Relationship.HashValue)
                                                 {
                                                     //物件關係刪除
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "物件關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "物件關係開始@" + SF.getNowDateString(), log_Info);
 
                                                     context.CI_Object_Relationship
                                                         .RemoveRange(context.CI_Object_Relationship
                                                         .Where(b => b.ProfileID == item.ProfileID)
                                                         .Where(b => b.RelationshipProfileID == item.RelationshipProileID));
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "物件關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "物件關係結束@" + SF.getNowDateString(), log_Info);
 
                                                     //成對物件關係刪除
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對物件關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對物件關係開始@" + SF.getNowDateString(), log_Info);
 
                                                     context.CI_Object_Relationship
                                                         .RemoveRange(context.CI_Object_Relationship
                                                         .Where(b => b.ProfileID == item.RelationshipProileID)
                                                         .Where(b => b.RelationshipProfileID == item.ProfileID));
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對物件關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對物件關係結束@" + SF.getNowDateString(), log_Info);
 
                                                     //範本關係刪除
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "範本關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "範本關係開始@" + SF.getNowDateString(), log_Info);
 
                                                     context.CI_Profile_Relationship
                                                       .RemoveRange(context.CI_Profile_Relationship
                                                       .Where(b => b.ProfileID == item.ProfileID)
                                                       .Where(b => b.RelationshipProfileID == item.RelationshipProileID));
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "範本關係結束@" + SF.getNowDateString(), log_Info);
 
                                                     //成對範本關係刪除
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對範本關係開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對範本關係開始@" + SF.getNowDateString(), log_Info);
 
                                                     context.CI_Profile_Relationship
                                                     .RemoveRange(context.CI_Profile_Relationship
                                                     .Where(b => b.ProfileID == item.RelationshipProileID)
                                                     .Where(b => b.RelationshipProfileID == item.ProfileID));
 
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + Configer.DeleteAction + "成對範本關係結束@" + SF.getNowDateString(), log_Info);
 
                                                     //修改待覆核屬性
                                                     _Tmp_CI_Profile_Relationship.ReviewAccount = nowUser;
@@ -1406,9 +1406,9 @@ namespace CMDB.Controllers
                                                     verifyPlainText.Append(_Tmp_CI_Profile_Relationship.isClose.ToString());
 
                                                     //計算HASH值
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值開始@" + SF.getNowDateString(), log_Info);
                                                     _Tmp_CI_Profile_Relationship.HashValue = SF.getHashValue(verifyPlainText.ToString());
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結束@" + SF.getNowDateString(), log_Info);
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-計算待覆核範本關係HASH值結果:明文:[" + verifyPlainText.ToString() + "];HASH值[" + _Tmp_CI_Profile_Relationship.HashValue + "]", log_Info);
 
                                                     context.Entry(_Tmp_CI_Profile_Relationship).State = EntityState.Modified;
@@ -1416,8 +1416,8 @@ namespace CMDB.Controllers
                                                 else
                                                 {
                                                     dbContextTransaction.Rollback();
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.DeleteAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                    SF.logandshowInfo(Configer.ReviewAction + "範本程序-" + Configer.DeleteAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
                                                     //HASH驗證失敗
                                                     SL.EndTime = DateTime.Now;
                                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1434,8 +1434,8 @@ namespace CMDB.Controllers
                                             }
                                             else {
                                                 dbContextTransaction.Rollback();
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存待覆核範本關係資料結束@" + SF.getNowDateString(), log_Info);
+                                                SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.DeleteAction + "範本關係結束@" + SF.getNowDateString(), log_Info);
                                                 //記錄錯誤
                                                 SL.EndTime = DateTime.Now;
                                                 SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1479,7 +1479,7 @@ namespace CMDB.Controllers
                                     catch (Exception ex)
                                     {
                                         dbContextTransaction.Rollback();
-                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + _vTmp_CI_Profile_Relationship_R.Type + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo(Configer.ReviewAction + "範本關係子程序-" + _vTmp_CI_Profile_Relationship_R.Type + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
 
                                         //記錄錯誤
                                         SL.EndTime = DateTime.Now;
@@ -1497,7 +1497,7 @@ namespace CMDB.Controllers
 
                                 default:
                                     //記錄錯誤
-                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.RemoveAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.RemoveAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
 
                                     SL.EndTime = DateTime.Now;
                                     SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1515,8 +1515,8 @@ namespace CMDB.Controllers
                     }
                     else {
                         //dbContextTransaction.Rollback();
-                        SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
-                        SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.RemoveAction + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                        SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-儲存範本關係屬性資料結束@" + SF.getNowDateString(), log_Info);
+                        SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + Configer.RemoveAction + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
 
                         //記錄錯誤
                         SL.EndTime = DateTime.Now;
@@ -1535,7 +1535,7 @@ namespace CMDB.Controllers
                 else
                 {
                     //記錄錯誤
-                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + _vTmp_CI_Profile_Relationship_R.Type + "範本關係作業結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                    SF.logandshowInfo(Configer.ReviewAction + "範本關係程序-" + _vTmp_CI_Profile_Relationship_R.Type + "範本關係作業結束@" + SF.getNowDateString(), log_Info);
 
                     SL.EndTime = DateTime.Now;
                     SF.logandshowInfo(Configer.ReviewAction + "範本關係結束@" + SL.EndTime.ToString(Configer.SystemDateTimeFormat), log_Info);
@@ -1663,7 +1663,7 @@ namespace CMDB.Controllers
                             UpdateTime = ProR.UpdateTime
                         };
 
-            if (query.Count() == 1)
+            if (query.Count() >0 )
             {
                 _vCI_Profile_Relationship = query.First();
                 //_vCI_Profile_Relationship.RelationshipProileName = SF.getProfileAttributesData(ProfileID);

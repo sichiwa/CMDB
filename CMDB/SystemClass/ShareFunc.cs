@@ -34,29 +34,14 @@ namespace CMDB.SystemClass
             High = 2
         }
 
-        ///// <summary>
-        ///// 資料庫連線字串
-        ///// </summary>
-        ///// <value></value>
-        ///// <returns></returns>
-        ///// <remarks></remarks>
-        //public string ConnStr
-        //{
-        //    get { return _ConnStr; }
-        //    set { _ConnStr = value; }
-        //}
 
-        ///// <summary>
-        ///// 處理模組名稱
-        ///// </summary>
-        ///// <value></value>
-        ///// <returns></returns>
-        ///// <remarks></remarks>
-        //public string op_name
-        //{
-        //    get { return _op_name; }
-        //    set { _op_name = value; }
-        //}
+        public string getNowDateString()
+        {
+            //初始化系統參數
+            Configer.Init();
+
+            return DateTime.Now.ToString(Configer.SystemDateTimeFormat);
+        }
 
         /// <summary>
         /// 將資訊記錄至Log檔中
@@ -104,7 +89,7 @@ namespace CMDB.SystemClass
                     Configer.Init();
 
                     StringBuilder PlainText = new StringBuilder();
-                    PlainText.Append(SL.Account+ Configer.SplitSymbol);
+                    PlainText.Append(SL.Account + Configer.SplitSymbol);
                     PlainText.Append(SL.Controller + Configer.SplitSymbol);
                     PlainText.Append(SL.Action + Configer.SplitSymbol);
                     PlainText.Append(SL.StartTime.ToString() + Configer.SplitSymbol);
@@ -384,11 +369,11 @@ namespace CMDB.SystemClass
             var query = context.CI_Proflies.ToList();
             if (nowProfileID < 0)
             {
-                 ProfileList = new SelectList(query, "ProfileID", "ProfileName");
+                ProfileList = new SelectList(query, "ProfileID", "ProfileName");
             }
             else
             {
-                 ProfileList = new SelectList(query, "ProfileID", "ProfileName", nowProfileID);
+                ProfileList = new SelectList(query, "ProfileID", "ProfileName", nowProfileID);
             }
             return ProfileList;
         }
@@ -399,7 +384,7 @@ namespace CMDB.SystemClass
         /// <param name="Account"></param>
         /// <param name="Type"></param>
         /// <returns></returns>
-        public string getAccountAttribute(string Account,string Type)
+        public string getAccountAttribute(string Account, string Type)
         {
             Accounts _Account = context.Accounts.Find(Account);
             if (_Account != null)
@@ -434,7 +419,7 @@ namespace CMDB.SystemClass
             string SysImgPath = "";
             SystemImgs _SystemImgs = context.SystemImgs.Where(b => b.ImgID == ImgID).First();
 
-            if (_SystemImgs!=null)
+            if (_SystemImgs != null)
             {
                 SysImgPath = _SystemImgs.ImgPath;
             }
@@ -467,7 +452,7 @@ namespace CMDB.SystemClass
 
             if (query.Count() > 0)
             {
-                return query.OrderBy(b=>b.AttributeID).ToList();
+                return query.OrderBy(b => b.AttributeID).ToList();
             }
             else
             {
@@ -499,11 +484,87 @@ namespace CMDB.SystemClass
 
             if (query.Count() > 0)
             {
-                return query.OrderBy(b=>b.ProfileID).ToList();
+                return query.OrderBy(b => b.ProfileID).ToList();
             }
             else
             {
                 return null;
+            }
+        }
+
+        public IEnumerable<vCI_Object_Relationship> getReviewObjectRelationshipData(int ObjectID, string Type)
+        {
+            Configer.Init();
+
+            if (Type == Configer.CreateAction)
+            {
+                var query = from ObjR in context.Tmp_CI_Object_Relationship
+                        .Where(b => b.ObjectID == ObjectID)
+                        .Where(b => b.isClose == false)
+                            join Obj in context.Tmp_CI_Objects on ObjR.ObjectID equals Obj.ObjectID
+                            join Obj1 in context.CI_Objects on ObjR.RelationshipObjectID equals Obj1.ObjectID
+                            join Cre in context.Accounts on ObjR.CreateAccount equals Cre.Account
+                            // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                            into y
+                            from x in y.DefaultIfEmpty()
+                            select new vCI_Object_Relationship
+                            {
+                                ObjectID = ObjR.ObjectID,
+                                ProfileID = ObjR.ProfileID,
+                                ObjectName = Obj.ObjectName,
+                                RelationshipObjectID = ObjR.RelationshipObjectID,
+                                RelationshipProfileID = ObjR.RelationshipProfileID,
+                                RelationshipObjectName = Obj1.ObjectName,
+                                Creator = x.Name,
+                                CreateTime = ObjR.CreateTime,
+                                Upadter = x.Name,
+                                UpdateTime = x.UpdateTime
+                            };
+
+
+                if (query.Count() > 0)
+                {
+                    return query.OrderBy(b => b.ProfileID).ToList();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                var query = from ObjR in context.Tmp_CI_Object_Relationship
+                       .Where(b => b.ObjectID == ObjectID)
+                       .Where(b => b.isClose == false)
+                            join Obj in context.CI_Objects on ObjR.oObjectID equals Obj.ObjectID
+                            join Obj1 in context.CI_Objects on ObjR.RelationshipObjectID equals Obj1.ObjectID
+                            join Cre in context.Accounts on ObjR.CreateAccount equals Cre.Account
+                            // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                            into y
+                            from x in y.DefaultIfEmpty()
+                            select new vCI_Object_Relationship
+                            {
+                                ObjectID = ObjR.ObjectID,
+                                ProfileID = ObjR.ProfileID,
+                                ObjectName = Obj.ObjectName,
+                                RelationshipObjectID = ObjR.RelationshipObjectID,
+                                RelationshipProfileID = ObjR.RelationshipProfileID,
+                                RelationshipObjectName = Obj1.ObjectName,
+                                Creator = x.Name,
+                                CreateTime = ObjR.CreateTime,
+                                Upadter = x.Name,
+                                UpdateTime = x.UpdateTime
+                            };
+
+
+                if (query.Count() > 0)
+                {
+                    return query.OrderBy(b => b.ProfileID).ToList();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -515,10 +576,11 @@ namespace CMDB.SystemClass
         {
             var query = from ProR in context.Tmp_CI_Profile_Relationship
                         .Where(b => b.ProfileID == ProfileID)
+                         .Where(b => b.isClose == false)
                         join Pro in context.CI_Proflies on ProR.ProfileID equals Pro.ProfileID
                         join Pro1 in context.CI_Proflies on ProR.RelationshipProileID equals Pro1.ProfileID
                         join Cre in context.Accounts on ProR.CreateAccount equals Cre.Account
-                       // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                        // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
                         into y
                         from x in y.DefaultIfEmpty()
                         select new vCI_Profile_Relationship
@@ -543,6 +605,66 @@ namespace CMDB.SystemClass
             }
         }
 
+        public IEnumerable<vCI_Object_Relationship> getObjectRelationshipData(int ObjectID)
+        {
+            var query = from ObjR in context.CI_Object_Relationship
+                        .Where(b => b.ObjectID == ObjectID)
+                        join Obj in context.CI_Objects on ObjR.ObjectID equals Obj.ObjectID
+                        join Obj1 in context.CI_Objects on ObjR.RelationshipObjectID equals Obj1.ObjectID
+                        join Cre in context.Accounts on ObjR.CreateAccount equals Cre.Account
+                        // join Upd in context.Accounts on ProR.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Object_Relationship
+                        {
+                            ObjectID = ObjR.ObjectID,
+                            ProfileID = ObjR.ProfileID,
+                            ObjectName = Obj.ObjectName,
+                            RelationshipObjectID = ObjR.RelationshipObjectID,
+                            RelationshipProfileID = ObjR.RelationshipProfileID,
+                            RelationshipObjectName = Obj1.ObjectName,
+                            Creator = x.Name,
+                            CreateTime = ObjR.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = x.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                //var query1 = query.Select(b => b.ObjectID).Distinct().ToList();
+                //List<vCI_Object_Relationship> vCIObjectRelationships = new List<vCI_Object_Relationship>();
+
+                //foreach (var item in query1)
+                //{
+                //    vCI_Object_Relationship T = new vCI_Object_Relationship();
+                //    T.ObjectID = item;
+                //    StringBuilder bb = new StringBuilder();
+                //    List<string> RelationshipObjectNames = new List<string>();
+                //    foreach (var item1 in query.Where(b => b.ObjectID == item).ToList())
+                //    {
+                //        if (string.IsNullOrEmpty(T.ObjectName))
+                //        {
+                //            T.ProfileName = item1.ObjectName;
+                //            T.Creator = item1.Creator;
+                //            T.CreateTime = item1.CreateTime;
+                //            T.Upadter = item1.Upadter;
+                //            T.UpdateTime = item1.UpdateTime;
+                //        }
+                //        string RelationshipObjectName = item1.RelationshipProfileName;
+                //        RelationshipObjectNames.Add(RelationshipObjectName);
+                //    }
+                //    T.RelationshipObjectNames = RelationshipObjectNames;
+                //    vCIObjectRelationships.Add(T);
+                //}
+                //return vCIObjectRelationships;
+                return query.ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 取得範本關係清單資料
         /// </summary>
@@ -559,9 +681,9 @@ namespace CMDB.SystemClass
                         select new vCI_Profile_Relationship
                         {
                             ProfileID = ProR.ProfileID,
-                            ProfileName=Pro.ProfileName,
+                            ProfileName = Pro.ProfileName,
                             RelationshipProfileID = ProR.RelationshipProfileID,
-                            RelationshipProfileName= Pro1.ProfileName,
+                            RelationshipProfileName = Pro1.ProfileName,
                             Creator = Cre.Name,
                             CreateTime = ProR.CreateTime,
                             Upadter = x.Name,
@@ -655,7 +777,7 @@ namespace CMDB.SystemClass
                         {
                             ObjectID = Obj.ObjectID,
                             ObjectName = Obj.ObjectName,
-                            ProfileName=Pro.ProfileName,
+                            ProfileName = Pro.ProfileName,
                             //EditAccount = canEdit("CI_Objects", Obj.ObjectID.ToString(), ""),
                             Creator = Cre.Name,
                             CreateTime = Obj.CreateTime,
@@ -665,7 +787,7 @@ namespace CMDB.SystemClass
 
             if (query.Count() > 0)
             {
-                return query.OrderBy(b=>b.ObjectID).ToList();
+                return query.OrderBy(b => b.ObjectID).ToList();
             }
             else
             {
@@ -728,7 +850,7 @@ namespace CMDB.SystemClass
                             AttributeID = Att.AttributeID,
                             AttributeName = Att.AttributeName,
                             AttributeTypeName = AttType.AttributeTypeName,
-                            AttributeOrder= ProAtts.AttributeOrder,
+                            AttributeOrder = ProAtts.AttributeOrder,
                             Creator = Cre.Name,
                             CreateTime = Att.CreateTime,
                             Upadter = x.Name,
@@ -737,7 +859,7 @@ namespace CMDB.SystemClass
 
             if (query.Count() > 0)
             {
-                return query.OrderBy(b=>b.AttributeOrder).ToList();
+                return query.OrderBy(b => b.AttributeOrder).ToList();
             }
             else
             {
@@ -767,7 +889,7 @@ namespace CMDB.SystemClass
                             AttributeTypeID = Att.AttributeTypeID,
                             AttributeTypeName = AttType.AttributeTypeName,
                             AttributeOrder = ObjAtts.AttributeOrder,
-                            AllowMutiValue= Att.AllowMutiValue,
+                            AllowMutiValue = Att.AllowMutiValue,
                             DropDownValues = Att.DropDownValues,
                             Creator = Cre.Name,
                             CreateTime = Att.CreateTime,
@@ -793,7 +915,7 @@ namespace CMDB.SystemClass
         public IEnumerable<vCI_Attributes> getReviewObjectAttributesData(int ObjectID)
         {
             var query = from Att in context.CI_Attributes
-                        join ObjAtts in context.Tmp_CI_Object_Data.Where(b => b.ObjectID == ObjectID) on Att.AttributeID equals ObjAtts.AttributeID
+                        join ObjAtts in context.Tmp_CI_Object_Data.Where(b => b.ObjectID == ObjectID).Where(b=>b.isClose==false) on Att.AttributeID equals ObjAtts.AttributeID
                         join AttType in context.CI_AttributeTypes on Att.AttributeTypeID equals AttType.AttributeTypeID
                         join Cre in context.Accounts on Att.CreateAccount equals Cre.Account
                         join Upd in context.Accounts on Att.UpdateAccount equals Upd.Account
@@ -803,10 +925,10 @@ namespace CMDB.SystemClass
                         {
                             AttributeID = Att.AttributeID,
                             AttributeName = Att.AttributeName,
-                            AttributeValue= ObjAtts.AttributeValue,
+                            AttributeValue = ObjAtts.AttributeValue,
                             AttributeTypeID = Att.AttributeTypeID,
                             AttributeTypeName = AttType.AttributeTypeName,
-                            AttributeOrder= ObjAtts.AttributeOrder,
+                            AttributeOrder = ObjAtts.AttributeOrder,
                             //DropDownValues = Att.DropDownValues,
                             Creator = Cre.Name,
                             CreateTime = Att.CreateTime,
@@ -816,7 +938,7 @@ namespace CMDB.SystemClass
 
             if (query.Count() > 0)
             {
-                return query.OrderBy(b=>b.AttributeOrder).ToList();
+                return query.OrderBy(b => b.AttributeOrder).ToList();
             }
             else
             {
@@ -832,7 +954,7 @@ namespace CMDB.SystemClass
         /// <param name="ProfileID">範本ID</param>
         /// <param name="ObjectID">物件ID</param>
         /// <returns></returns>
-        public bool hasAttribute(string Type,int AttributeID, int ProfileID,int ObjectID)
+        public bool hasAttribute(string Type, int AttributeID, int ProfileID, int ObjectID)
         {
             bool Result = false;
             int ResultCount = 0;
@@ -845,12 +967,12 @@ namespace CMDB.SystemClass
 
                     break;
                 case "Object":
-                    ResultCount= context.CI_Object_Data.Where(b => b.ObjectID == ObjectID)
+                    ResultCount = context.CI_Object_Data.Where(b => b.ObjectID == ObjectID)
                         .Where(b => b.AttributeID == AttributeID).Count();
 
-                //case "Tmp_ObjectReverse":
-                //    ResultCount = context.Tmp_CI.Where(b => b.ObjectID == ObjectID)
-                //        .Where(b => b.AttributeID == AttributeID).Count();
+                    //case "Tmp_ObjectReverse":
+                    //    ResultCount = context.Tmp_CI.Where(b => b.ObjectID == ObjectID)
+                    //        .Where(b => b.AttributeID == AttributeID).Count();
 
                     break;
 
@@ -880,20 +1002,20 @@ namespace CMDB.SystemClass
         public string canEdit(string EntityName, string EntityKey, string Account)
         {
             string Result = "noBody";
-        
+
             switch (EntityName)
             {
                 case "CI_Attributes":
                     int AttributeID = Convert.ToInt32(EntityKey);
-                    var CI_Attributes = context.Tmp_CI_Attributes.Where(b => b.isClose == false).Where(b=>b.oAttributeID== AttributeID);
-                    if (CI_Attributes.Count()>0)
+                    var CI_Attributes = context.Tmp_CI_Attributes.Where(b => b.isClose == false).Where(b => b.oAttributeID == AttributeID);
+                    if (CI_Attributes.Count() > 0)
                     {
-                         Result = CI_Attributes.First().CreateAccount;
+                        Result = CI_Attributes.First().CreateAccount;
                     }
                     break;
                 case "CI_Profiles":
                     int ProfileID = Convert.ToInt32(EntityKey);
-                    var CI_Profiles = context.Tmp_CI_Proflies.Where(b => b.isClose == false).Where(b=>b.oProfileID== ProfileID);
+                    var CI_Profiles = context.Tmp_CI_Proflies.Where(b => b.isClose == false).Where(b => b.oProfileID == ProfileID);
                     if (CI_Profiles.Count() > 0)
                     {
                         Result = CI_Profiles.First().CreateAccount;
@@ -901,7 +1023,7 @@ namespace CMDB.SystemClass
                     break;
                 case "CI_Objects":
                     int ObjectID = Convert.ToInt32(EntityKey);
-                    var CI_Objects = context.Tmp_CI_Objects.Where(b => b.isClose == false).Where(b=>b.oObjectID== ObjectID);
+                    var CI_Objects = context.Tmp_CI_Objects.Where(b => b.isClose == false).Where(b => b.oObjectID == ObjectID);
                     if (CI_Objects.Count() > 0)
                     {
                         Result = CI_Objects.First().CreateAccount;
@@ -918,7 +1040,7 @@ namespace CMDB.SystemClass
                 default:
                     break;
             }
-           
+
             return Result;
         }
 
@@ -934,7 +1056,7 @@ namespace CMDB.SystemClass
 
             string ResultStr = string.Empty;
 
-            byte[] SaltBytes= Encoding.UTF8.GetBytes(Configer.SystemSlat);
+            byte[] SaltBytes = Encoding.UTF8.GetBytes(Configer.SystemSlat);
 
             if (SaltBytes.Length > 0)
             {

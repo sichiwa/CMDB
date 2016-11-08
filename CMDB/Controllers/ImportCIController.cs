@@ -553,16 +553,16 @@ namespace CMDB.Controllers
                                         PlainText.Append(Attr.UpdateTime.ToString());
 
                                         //計算HASH值
-                                        SF.logandshowInfo("匯入屬性子程序-計算第[" + i.ToString() + "]筆屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入屬性子程序-計算第[" + i.ToString() + "]筆屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                         Attr.HashValue = SF.getHashValue(PlainText.ToString());
-                                        SF.logandshowInfo("匯入屬性子程序-計算第[" + i.ToString() + "]筆屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入屬性子程序-計算第[" + i.ToString() + "]筆屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                         SF.logandshowInfo("匯入屬性子程序-計算第[" + i.ToString() + "]筆屬性HASH值結果:明文:[" + PlainText.ToString() + "];HASH[" + Attr.HashValue + "]", log_Info);
 
                                         //新增屬性
-                                        SF.logandshowInfo("匯入屬性子程序-儲存第[" + i.ToString() + "]筆屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入屬性子程序-儲存第[" + i.ToString() + "]筆屬性資料開始@" + SF.getNowDateString(), log_Info);
                                         context.CI_Attributes.Add(Attr);
                                         context.SaveChanges();
-                                        SF.logandshowInfo("匯入屬性子程序-儲存第[" + i.ToString() + "]筆屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入屬性子程序-儲存第[" + i.ToString() + "]筆屬性資料結束@" + SF.getNowDateString(), log_Info);
                                         SL.SuccessCount += 1;
                                     }
                                 }
@@ -730,16 +730,16 @@ namespace CMDB.Controllers
                                         PlainText.Append(Pro.UpdateTime.ToString());
 
                                         //計算HASH值
-                                        SF.logandshowInfo("匯入範本子程序-計算第[" + i.ToString() + "]筆屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入範本子程序-計算第[" + i.ToString() + "]筆屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                         Pro.HashValue = SF.getHashValue(PlainText.ToString());
-                                        SF.logandshowInfo("匯入範本子程序-計算第[" + i.ToString() + "]筆屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入範本子程序-計算第[" + i.ToString() + "]筆屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                         SF.logandshowInfo("匯入範本子程序-計算第[" + i.ToString() + "]筆屬性HASH值結果:明文:[" + PlainText.ToString() + "];HASH[" + Pro.HashValue + "]", log_Info);
 
                                         //新增屬性
-                                        SF.logandshowInfo("匯入範本子程序-儲存第[" + i.ToString() + "]筆範本資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入範本子程序-儲存第[" + i.ToString() + "]筆範本資料開始@" + SF.getNowDateString(), log_Info);
                                         context.CI_Proflies.Add(Pro);
                                         context.SaveChanges();
-                                        SF.logandshowInfo("匯入範本子程序-儲存第[" + i.ToString() + "]筆範本資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入範本子程序-儲存第[" + i.ToString() + "]筆範本資料結束@" + SF.getNowDateString(), log_Info);
                                         SL.SuccessCount += 1;
                                     }
                                 }
@@ -968,16 +968,16 @@ namespace CMDB.Controllers
                                                 PlainText.Append(ProAttrs.UpdateTime.ToString());
 
                                                 //計算HASH值
-                                                SF.logandshowInfo("匯入範本屬性子程序-計算第[" + i.ToString() + "]筆範本屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo("匯入範本屬性子程序-計算第[" + i.ToString() + "]筆範本屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                                 ProAttrs.HashValue = SF.getHashValue(PlainText.ToString());
-                                                SF.logandshowInfo("匯入範本屬性子程序-計算第[" + i.ToString() + "]筆範本屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo("匯入範本屬性子程序-計算第[" + i.ToString() + "]筆範本屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                                 SF.logandshowInfo("匯入範本屬性子程序-計算第[" + i.ToString() + "]筆範本屬性HASH值結果:明文:[" + PlainText.ToString() + "];HASH[" + ProAttrs.HashValue + "]", log_Info);
 
                                                 //新增屬性
-                                                SF.logandshowInfo("匯入範本屬性子程序-儲存第[" + i.ToString() + "]筆範本屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo("匯入範本屬性子程序-儲存第[" + i.ToString() + "]筆範本屬性資料開始@" + SF.getNowDateString(), log_Info);
                                                 context.CI_Proflie_Attributes.Add(ProAttrs);
                                                 context.SaveChanges();
-                                                SF.logandshowInfo("匯入範本屬性子程序-儲存第[" + i.ToString() + "]筆範本屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                                SF.logandshowInfo("匯入範本屬性子程序-儲存第[" + i.ToString() + "]筆範本屬性資料結束@" + SF.getNowDateString(), log_Info);
                                                 SL.SuccessCount += 1;
                                             }
                                         }
@@ -1154,16 +1154,16 @@ namespace CMDB.Controllers
                                         PlainText.Append(Obj.UpdateTime.ToString());
 
                                         //計算HASH值
-                                        SF.logandshowInfo("匯入物件子程序-計算第[" + i.ToString() + "]筆物件HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入物件子程序-計算第[" + i.ToString() + "]筆物件HASH值開始@" + SF.getNowDateString(), log_Info);
                                         Obj.HashValue = SF.getHashValue(PlainText.ToString());
-                                        SF.logandshowInfo("匯入物件子程序-計算第[" + i.ToString() + "]筆物件HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入物件子程序-計算第[" + i.ToString() + "]筆物件HASH值結束@" + SF.getNowDateString(), log_Info);
                                         SF.logandshowInfo("匯入物件子程序-計算第[" + i.ToString() + "]筆物件HASH值結果:明文:[" + PlainText.ToString() + "];HASH[" + Obj.HashValue + "]", log_Info);
 
                                         //新增屬性
-                                        SF.logandshowInfo("匯入物件子程序-儲存第[" + i.ToString() + "]筆物件資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入物件子程序-儲存第[" + i.ToString() + "]筆物件資料開始@" + SF.getNowDateString(), log_Info);
                                         context.CI_Objects.Add(Obj);
                                         context.SaveChanges();
-                                        SF.logandshowInfo("匯入物件子程序-儲存第[" + i.ToString() + "]筆物件資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                        SF.logandshowInfo("匯入物件子程序-儲存第[" + i.ToString() + "]筆物件資料結束@" + SF.getNowDateString(), log_Info);
                                         SL.SuccessCount += 1;
                                     }
                                 }
@@ -1392,16 +1392,16 @@ namespace CMDB.Controllers
                                             PlainText.Append(ObjAttrs.UpdateTime.ToString());
 
                                             //計算HASH值
-                                            SF.logandshowInfo("匯入物件屬性子程序-計算第[" + i.ToString() + "]筆物件屬性HASH值開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo("匯入物件屬性子程序-計算第[" + i.ToString() + "]筆物件屬性HASH值開始@" + SF.getNowDateString(), log_Info);
                                             ObjAttrs.HashValue = SF.getHashValue(PlainText.ToString());
-                                            SF.logandshowInfo("匯入物件屬性子程序-計算第[" + i.ToString() + "]筆物件屬性HASH值結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo("匯入物件屬性子程序-計算第[" + i.ToString() + "]筆物件屬性HASH值結束@" + SF.getNowDateString(), log_Info);
                                             SF.logandshowInfo("匯入物件屬性子程序-計算第[" + i.ToString() + "]筆物件屬性HASH值結果:明文:[" + PlainText.ToString() + "];HASH[" + ObjAttrs.HashValue + "]", log_Info);
 
                                             //新增屬性
-                                            SF.logandshowInfo("匯入物件屬性子程序-儲存第[" + i.ToString() + "]筆物件屬性資料開始@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo("匯入物件屬性子程序-儲存第[" + i.ToString() + "]筆物件屬性資料開始@" + SF.getNowDateString(), log_Info);
                                             context.CI_Object_Data.Add(ObjAttrs);
                                             context.SaveChanges();
-                                            SF.logandshowInfo("匯入物件屬性子程序-儲存第[" + i.ToString() + "]筆物件屬性資料結束@" + DateTime.Now.ToString(Configer.SystemDateTimeFormat), log_Info);
+                                            SF.logandshowInfo("匯入物件屬性子程序-儲存第[" + i.ToString() + "]筆物件屬性資料結束@" + SF.getNowDateString(), log_Info);
                                             SL.SuccessCount += 1;
                                         }
                                     }
