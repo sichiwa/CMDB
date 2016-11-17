@@ -69,6 +69,10 @@
 @section CreateObjectScript{
     <script>
         $(function () {
+            //取得屬性選單
+            getAttributeDropList("", "SearchAttributeID");
+            $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+
             var ProfileID = $("#ProfileID").val();
             // alert(ProfileID);
             getAttributeInputList(ProfileID);
@@ -171,6 +175,15 @@
                 else {
                     alert("資料輸入錯誤");
                 }
+            });
+
+
+            $("#Searchbtn").click(function () {
+                var Keyword = $("#Keyword").val();
+                var SearchAttributeID = $("#SearchAttributeID").val();
+                var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
             });
         });
 

@@ -116,7 +116,7 @@ namespace CMDB.Controllers
                             int UserRole = SF.getUserRole(model.UserID);
                             Session["UserRole"] = UserRole;
 
-                            return RedirectToAction("Index", "Attribute");
+                            return RedirectToAction("Index", "Main");
                         }
                         else
                         {
@@ -186,6 +186,7 @@ namespace CMDB.Controllers
 
             try
             {
+                SL.EndTime = DateTime.Now;
                 SL.SuccessCount = 1;
                 SL.FailCount = 0;
                 SL.Result = true;

@@ -51,12 +51,18 @@ namespace CMDB.Models
         [Display(Name = "建立者帳號")]
         public string CreateAccount { get; set; }
 
+        [Required]
+        [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime? CreateTime { get; set; }
+
         [Column(TypeName = "varchar")]
         [StringLength(10)]
         [Display(Name = "覆核者帳號")]
         public string ReviewAccount { get; set; }
 
         [Display(Name = "覆核時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? ReviewTime { get; set; }
 
         [Column(TypeName = "nvarchar")]

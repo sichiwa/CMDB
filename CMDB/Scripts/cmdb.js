@@ -32,19 +32,24 @@ function compareReviewData() {
 }
 
 //取得屬性選單
-function getAttributeDropList(AttributeID) {
+function getAttributeDropList(AttributeID,SelectListID) {
     $.getJSON("/Attribute/getAttributeList", function (data) {
-        $("#AttributeDrop option").remove();
+
+        if (SelectListID == "AttributeDrop") {
+            $("#AttributeDrop").remove();
+        }
+        //$("#" + SelectListID).remove();
         $.each(data, function (i, opt) {
-            //alert("aaaa");
+            //alert("AttributeID:" + AttributeID);
+            //alert("SelectListID:" + SelectListID);
             var ImputElement = "";
             if (AttributeID != "" && opt.AttributeID == AttributeID) {
                 ImputElement = "<option selected class=" + opt.AttributeTypeName + "></option>";
-                $(ImputElement).val(opt.AttributeID).text(opt.AttributeName).appendTo($("#AttributeDrop"));
+                $(ImputElement).val(opt.AttributeID).text(opt.AttributeName).appendTo($("#" + SelectListID));
             }
             else {
                 ImputElement = "<option class=" + opt.AttributeTypeName + "></option>";
-                $(ImputElement).val(opt.AttributeID).text(opt.AttributeName).appendTo($("#AttributeDrop"));
+                $(ImputElement).val(opt.AttributeID).text(opt.AttributeName).appendTo($("#" + SelectListID));
             }
         });
     });
@@ -293,4 +298,5 @@ function getRelationshipProfileMenu(ProfileID) {
             }
         });
     }
+
 }

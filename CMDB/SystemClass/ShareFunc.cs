@@ -14,6 +14,7 @@ using CMDB.DAL;
 using CMDB.Models;
 using System.Globalization;
 using CMDB.ViewModels;
+using System.Data.Entity.SqlServer;
 
 namespace CMDB.SystemClass
 {
@@ -796,6 +797,159 @@ namespace CMDB.SystemClass
         }
 
         /// <summary>
+        /// 取得物件清單資料
+        /// </summary>
+        /// <returns></returns>
+        public vCI_Objects getObjectsDatabyObjectID(int ObjectID)
+        {
+            var query = from Obj in context.CI_Objects
+                        .Where(b => b.ObjectID == ObjectID)
+                        join Pro in context.CI_Proflies on Obj.ProfileID equals Pro.ProfileID
+                        join Cre in context.Accounts on Obj.CreateAccount equals Cre.Account
+                        join Upd in context.Accounts on Obj.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Objects
+                        {
+                            ObjectID = Obj.ObjectID,
+                            ObjectName = Obj.ObjectName,
+                            ProfileName = Pro.ProfileName,
+                            Creator = Cre.Name,
+                            CreateTime = Obj.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = Obj.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                return query.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得物件清單資料
+        /// </summary>
+        /// <returns></returns>
+        public vCI_Objects getObjectsDatabyObjectName(string ObjectName)
+        {
+            var query = from Obj in context.CI_Objects
+                        .Where(b => b.ObjectName.Contains(ObjectName))
+                        join Pro in context.CI_Proflies on Obj.ProfileID equals Pro.ProfileID
+                        join Cre in context.Accounts on Obj.CreateAccount equals Cre.Account
+                        join Upd in context.Accounts on Obj.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Objects
+                        {
+                            ObjectID = Obj.ObjectID,
+                            ObjectName = Obj.ObjectName,
+                            ProfileName = Pro.ProfileName,
+                            Creator = Cre.Name,
+                            CreateTime = Obj.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = Obj.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                return query.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得套用特定範本物件清單資料
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<vCI_Objects> getObjectsData(int ProfileID)
+        {
+            var query = from Obj in context.CI_Objects
+                        .Where(b => b.ProfileID == ProfileID)
+                        join Pro in context.CI_Proflies on Obj.ProfileID equals Pro.ProfileID
+                        join Cre in context.Accounts on Obj.CreateAccount equals Cre.Account
+                        join Upd in context.Accounts on Obj.UpdateAccount equals Upd.Account
+                        into y
+                        from x in y.DefaultIfEmpty()
+                        select new vCI_Objects
+                        {
+                            ObjectID = Obj.ObjectID,
+                            ObjectName = Obj.ObjectName,
+                            ProfileName = Pro.ProfileName,
+                            //EditAccount = canEdit("CI_Objects", Obj.ObjectID.ToString(), ""),
+                            Creator = Cre.Name,
+                            CreateTime = Obj.CreateTime,
+                            Upadter = x.Name,
+                            UpdateTime = Obj.UpdateTime
+                        };
+
+            if (query.Count() > 0)
+            {
+                return query.OrderBy(b => b.ObjectID).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得特定範本物件清單資料(關鍵字)
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<vCI_Objects> getObjectsData(List<vSearchKeywords> SearchKeywords)
+        {
+            List<vCI_Objects> Result = new List<vCI_Objects>();
+            var query = from Obj in context.CI_Objects
+                        join ObjData in context.CI_Object_Data on Obj.ObjectID equals ObjData.ObjectID
+                        select new { ObjectID = ObjData.ObjectID, ObjectName = Obj.ObjectName, AttributeID = ObjData.AttributeID, AttributeValue = ObjData.AttributeValue };
+
+            foreach (var item in SearchKeywords)
+            {
+                if (item.AttributeID >= 0)
+                {
+                    if (item.Keyword != "" )
+                    {
+                        if (item.AttributeID == 0)
+                        {
+                            query = query
+                           .Where(b => b.ObjectName.Contains(item.Keyword));
+                        }
+                        else
+                        {
+                            query = query
+                          .Where(b => b.AttributeID == item.AttributeID)
+                          .Where(b => b.AttributeValue.Contains(item.Keyword));
+
+                        }
+                        var query2 = query.Select(b => b.ObjectID).Distinct();
+
+                        foreach (var q in query2.ToList())
+                        {
+                            vCI_Objects o = new vCI_Objects();
+                            o = getObjectsDatabyObjectID(q);
+                            if (o != null)
+                            {
+                                Result.Add(o);
+                            }
+                        }
+                    }
+                }
+                else {
+                    //var query = getObjectsDatabyObjectName(item.Keyword);
+                }
+            }
+
+            return Result;
+        }
+
+        /// <summary>
         /// 取得範本中屬性清單
         /// </summary>
         /// <param name="ProfileID">範本ID</param>
@@ -915,7 +1069,7 @@ namespace CMDB.SystemClass
         public IEnumerable<vCI_Attributes> getReviewObjectAttributesData(int ObjectID)
         {
             var query = from Att in context.CI_Attributes
-                        join ObjAtts in context.Tmp_CI_Object_Data.Where(b => b.ObjectID == ObjectID).Where(b=>b.isClose==false) on Att.AttributeID equals ObjAtts.AttributeID
+                        join ObjAtts in context.Tmp_CI_Object_Data.Where(b => b.ObjectID == ObjectID).Where(b => b.isClose == false) on Att.AttributeID equals ObjAtts.AttributeID
                         join AttType in context.CI_AttributeTypes on Att.AttributeTypeID equals AttType.AttributeTypeID
                         join Cre in context.Accounts on Att.CreateAccount equals Cre.Account
                         join Upd in context.Accounts on Att.UpdateAccount equals Upd.Account
@@ -1069,6 +1223,61 @@ namespace CMDB.SystemClass
             {
                 return null;
             }
+        }
+
+        public vMainPage getMainPageInfo()
+        {
+            Configer.Init();
+
+            vMainPage _vMainPage = new vMainPage();
+            _vMainPage.NumberOfProfilePerRow = Configer.NumofgridviewPage_perrows;
+            _vMainPage.NumberOfProfile = context.CI_Proflies.Count();
+            _vMainPage.ProfileSearchList = ProfileSearchList();
+            if (_vMainPage != null)
+            {
+                return _vMainPage;
+            }
+            else {
+                return null;
+            }
+        }
+
+        private IEnumerable<vMainPage_ProfileSearch> ProfileSearchList()
+        {
+            List<vMainPage_ProfileSearch> Result = new List<vMainPage_ProfileSearch>();
+
+            var query = from Pro in context.CI_Proflies
+                        join Img in context.SystemImgs on Pro.ImgID equals Img.ImgID
+                        select new vMainPage_ProfileSearch
+                        {
+                            ProfileID = Pro.ProfileID,
+                            ProfileName = Pro.ProfileName,
+                            ImgID = Pro.ImgID,
+                            ImgPath = Img.ImgPath
+                        };
+
+            if (query.Count() > 0)
+            {
+                //foreach (var item in query)
+                //{
+                //    int UsedObjectCount = getUsedObjectCount(item.ProfileID);
+                //    item.UsedObjectCount = UsedObjectCount;
+                //    Result.Add(item);
+                //}
+                return query.ToList();
+            }
+            else {
+                return null;
+            }
+        }
+
+        public int getUsedObjectCount(int ProfileID)
+        {
+            int UsedObjectCount = context.CI_Objects
+                    .Where(b => b.ProfileID == ProfileID)
+                    .Count();
+
+            return UsedObjectCount;
         }
 
     }

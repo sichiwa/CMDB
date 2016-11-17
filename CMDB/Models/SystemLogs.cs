@@ -29,10 +29,12 @@ namespace CMDB.Models
 
         [Required]
         [Display(Name = "起始時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime StartTime { get; set; }
 
         [Required]
         [Display(Name = "結束時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime EndTime { get; set; }
 
         [Display(Name = "處理總筆數")]

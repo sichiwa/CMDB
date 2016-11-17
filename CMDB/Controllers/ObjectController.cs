@@ -93,6 +93,9 @@ namespace CMDB.Controllers
 
                     TempData["SystemInfo"] = "OK";
 
+                    vObjList.ProfileID = 0;
+                    vObjList.Profile = SF.getProfileList(0);
+
                     return View(vObjList);
                 }
                 else
@@ -129,7 +132,7 @@ namespace CMDB.Controllers
         }
 
         // GET: Create
-        public ActionResult Create()
+        public ActionResult Create(int ProfileID = -1)
         {
             //初始化系統參數
             Configer.Init();
@@ -155,7 +158,13 @@ namespace CMDB.Controllers
                 vCI_Objects_CU vObjCU = new vCI_Objects_CU();
 
                 SF.logandshowInfo(Configer.CreateAction + "新增物件表單子程序-" + Configer.GetAction + "範本類型下拉式選單開始@" + SF.getNowDateString(), log_Info);
-                vObjCU.Profile = SF.getProfileList(0);
+                if (ProfileID > 0){
+                    vObjCU.Profile = SF.getProfileList(ProfileID);
+                }
+                else {
+                    vObjCU.Profile = SF.getProfileList(0);
+                }
+
                 SF.logandshowInfo(Configer.CreateAction + "新增物件表單子程序-" + Configer.GetAction + "範本類型下拉式選單結束@" + SF.getNowDateString(), log_Info);
 
                 int ProfileCount = vObjCU.Profile.Count();

@@ -28,6 +28,7 @@ namespace CMDB.ViewModels
         public string Creator { get; set; }
 
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [Display(Name = "作業類型")]

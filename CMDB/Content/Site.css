@@ -74,3 +74,31 @@ select {
 .divnew .diff {
     color: red;
 }
+
+.dashlet-content {
+  background: #fff;
+  margin: 0;
+}
+
+.dashlet-inline {
+  display: inline-block;
+}
+.dashlet-badge a.actions {
+  background: none repeat scroll 0 0 transparent;
+  color: #666;
+  font-size: 16px;
+  text-decoration: none;
+}
+.dashlet-content .display_block {
+  text-align: left;
+}
+
+.Searchbar {
+position:absolute;
+left:0px;
+}
+
+.ReviewNumLink {
+color:red;
+font-size:x-large;
+}

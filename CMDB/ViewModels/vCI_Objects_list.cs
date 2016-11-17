@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace CMDB.ViewModels
 {
@@ -11,6 +12,12 @@ namespace CMDB.ViewModels
         public int ReviewCount { get; set; }
 
         public int Authority { get; set; }
+
+        [Display(Name = "範本ID")]
+        public int ProfileID { get; set; }
+
+        [Display(Name = "範本")]
+        public SelectList Profile { get; set; }
 
         public IEnumerable<vCI_Objects> ObjectsData { get; set; }
     }

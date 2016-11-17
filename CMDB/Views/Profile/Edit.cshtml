@@ -65,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            <div class=" col-md-10 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-2">
                 <table class="table table-bordered" id="Attributetb">
                     <thead>
                         <tr class="active">
@@ -122,7 +122,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/cmdb")
+    @*@Scripts.Render("~/bundles/cmdb")*@
 }
 
 @section EditProfileScript
@@ -130,7 +130,9 @@
     <script>
         $(function () {
             //取得屬性選單
-            getAttributeDropList();
+            getAttributeDropList("", "SearchAttributeID");
+            $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+            getAttributeDropList("", "AttributeDrop");
 
             $('tbody').sortable();
 
@@ -261,6 +263,14 @@
                 else {
                     alert("請至少選一屬性");
                 }
+            });
+
+            $("#Searchbtn").click(function () {
+                var Keyword = $("#Keyword").val();
+                var SearchAttributeID = $("#SearchAttributeID").val();
+                var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
             });
         });
     </script>

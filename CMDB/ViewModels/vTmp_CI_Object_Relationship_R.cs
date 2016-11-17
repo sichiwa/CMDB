@@ -32,6 +32,7 @@ namespace CMDB.ViewModels
         public string Creator { get; set; }
 
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [Display(Name = "物件名稱")]
@@ -44,6 +45,7 @@ namespace CMDB.ViewModels
         public string oUpadter { get; set; }
 
         [Display(Name = "最後異動時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? oUpdateTime { get; set; }
 
     }

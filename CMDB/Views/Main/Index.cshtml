@@ -1,0 +1,63 @@
+﻿@model CMDB.ViewModels.vMainPage
+@{
+    ViewBag.Title = "Index";
+}
+<p>
+</p>
+
+@if (Model.ProfileSearchList != null)
+{
+    <div class="row">
+        <br />
+        @{
+            //int NumberofRows = Model.NumberOfProfile / Model.NumberOfProfilePerRow;
+            int TotalCount = Model.NumberOfProfile;
+            for (int i = 0; i < TotalCount; i++)
+            {
+                string imgPath = @Model.ProfileSearchList.ElementAt(i).ImgPath.Replace("~", "");
+
+                <div class="dashlet dashlet-inline dashlet-badge">
+                    <div class="dashlet-content">
+                        <div class="display_block">
+                            <p style="margin-right:80px">
+                                <img src=@imgPath />
+                                <a href="/ObjectSearch/index?ProfileID=@Model.ProfileSearchList.ElementAt(i).ProfileID">
+                                    @Model.ProfileSearchList.ElementAt(i).ProfileName: @Model.ProfileSearchList.ElementAt(i).UsedObjectCount.ToString()
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                if ((i + 1) % (Model.NumberOfProfilePerRow) == 0 && i > 0)
+                {
+                    <p></p>
+                }
+            }
+        }
+
+
+    </div>
+            }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section MainPageScript
+{
+    <script>
+        $(function () {
+            //取得屬性選單
+            getAttributeDropList("", "SearchAttributeID");
+            $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+
+            $("#Searchbtn").click(function () {
+                var Keyword = $("#Keyword").val();
+                var SearchAttributeID = $("#SearchAttributeID").val();
+                var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
+            });
+        });
+    </script>
+}

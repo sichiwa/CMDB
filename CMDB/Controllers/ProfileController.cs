@@ -818,7 +818,12 @@ namespace CMDB.Controllers
                     Tmp_CI_Proflies _Tmp_CI_Proflies = new Tmp_CI_Proflies();
 
                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本開始@" + SF.getNowDateString(), log_Info);
-                    _Tmp_CI_Proflies = context.Tmp_CI_Proflies.Where(b=>b.oProfileID==_vTmp_CI_Profiles_R.ProfileID).Where(b=>b.isClose==false).First();
+                    var queryX = context.Tmp_CI_Proflies
+                        .Where(b=>b.ProfileID==_vTmp_CI_Profiles_R.ProfileID)
+                        .Where(b=>b.isClose==false);
+
+                    _Tmp_CI_Proflies = queryX.First();
+
                     SF.logandshowInfo(Configer.ReviewAction + "範本子程序-" + Configer.GetAction + "待覆核範本結束@" + SF.getNowDateString(), log_Info);
 
                     if (_Tmp_CI_Proflies != null)

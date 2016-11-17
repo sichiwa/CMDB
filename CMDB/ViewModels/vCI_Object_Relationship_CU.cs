@@ -25,6 +25,7 @@ namespace CMDB.ViewModels
         public string CreateAccount { get; set; }
 
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [StringLength(10)]
@@ -32,6 +33,7 @@ namespace CMDB.ViewModels
         public string UpdateAccount { get; set; }
 
         [Display(Name = "最後異動時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? UpdateTime { get; set; }
 
     }

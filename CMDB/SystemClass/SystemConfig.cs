@@ -35,6 +35,7 @@ namespace CMDB.SystemClass
         private string _DeleteAction;
         private string _GetAction;
         private string _VerifyAction;
+        private string _SearchAction;
         private string _ReviewAction;
         private string _LoginAction;
         private string _LogoutAction;
@@ -346,6 +347,18 @@ namespace CMDB.SystemClass
         }
 
         /// <summary>
+        /// 系統動作(查詢)
+        /// </summary>
+        /// <value></value>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public string SearchAction
+        {
+            get { return _SearchAction; }
+            set { _SearchAction = value; }
+        }
+
+        /// <summary>
         /// 系統動作(登入)
         /// </summary>
         /// <value></value>
@@ -552,7 +565,7 @@ namespace CMDB.SystemClass
         public void Init(string Version,string VersionName, int Schedule, int NumofgridviewPage_perrows, int SelectTopN, string C_DBConnstring,
         string SystemHashAlg,string SystemSlat, string SystemDateTimeFormat, string SplitSymbol, string SplitSymbol2, string SplitSymbol3,
         int PublicRoleID,
-        string CreateAction,string EditAction,string RemoveAction,string InsertAction,string UpdateAction,string DeleteAction,string GetAction,string ReviewAction, string VerifyAction, string LoginAction,string LogoutAction,
+        string CreateAction,string EditAction,string RemoveAction,string InsertAction,string UpdateAction,string DeleteAction,string GetAction,string ReviewAction, string VerifyAction, string SearchAction, string LoginAction,string LogoutAction,
         string UploadPath,
         string MailServer, int MailServerPort, string MailSender, List<string> MailReceiver, List<string> MailCC, bool MailUseSSL, bool MailBodyUseHTML, string MailPriority, int MailCodePage, string MailSubject, string MailBody,
         List<string> TextReceivers,
@@ -585,6 +598,7 @@ namespace CMDB.SystemClass
             this.GetAction = GetAction;
             this.ReviewAction = ReviewAction;
             this.VerifyAction = VerifyAction;
+            this.SearchAction = SearchAction;
             this.LoginAction = LoginAction;
             this.LogoutAction = LogoutAction;
 
@@ -638,6 +652,7 @@ namespace CMDB.SystemClass
             this.GetAction = WebConfigurationManager.AppSettings["GetAction"];
             this.ReviewAction = WebConfigurationManager.AppSettings["ReviewAction"];
             this.VerifyAction = WebConfigurationManager.AppSettings["VerifyAction"];
+            this.SearchAction = WebConfigurationManager.AppSettings["SearchAction"];
             this.LoginAction = WebConfigurationManager.AppSettings["LoginAction"];
             this.LogoutAction = WebConfigurationManager.AppSettings["LogoutAction"];
 

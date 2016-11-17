@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("回主畫面", "Home", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("回主畫面", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -28,6 +28,23 @@
                     @Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)
                 </ul>
                 @*@Html.Partial("_LoginPartial")*@
+
+                <div class="text-right al" id="serachdiv">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <select class="form-control" id="SearchAttributeID" style="margin-top:7px">
+                                @*<option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>*@
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Keyword" placeholder="請填入關鍵字" style="margin-top:7px">
+                        </div>
+                        <button type="button" class="btn btn-info" style="margin-top:7px" id="Searchbtn">查詢</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -44,22 +61,25 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryform")
     @Scripts.Render("~/bundles/bootbox")
-    @Scripts.Render("~/bundles/bootbox")
+    @Scripts.Render("~/bundles/cmdb")
     @RenderSection("scripts", required: false)
+    @RenderSection("IndexScript", required: false)
     @RenderSection("CreateAttributeScript", required: false)
     @RenderSection("ReviewAttributeScript", required: false)
     @RenderSection("EditAttributeScript", required: false)
     @RenderSection("EditProfileScript", required: false)
     @RenderSection("CreateProfileScript", required: false)
     @RenderSection("ReviewProfileScript", required: false)
-    @RenderSection("CreateObjectScript", required:false)
-    @RenderSection("EditObjectScript",required:false)
+    @RenderSection("CreateObjectScript", required: false)
+    @RenderSection("EditObjectScript", required: false)
     @RenderSection("ReviewObjectScript", required: false)
-    
+
     @RenderSection("CreateProfileRelationshipScript", required: false)
     @RenderSection("EditProfileRelationshipScript", required: false)
     @RenderSection("ReviewProfileRelationshipScript", required: false)
+    @RenderSection("MainPageScript", required: false)
     @RenderSection("ImporrtCIScript", required: false)
+  
     @*@@Scripts.Render("~/bundles/angular")
         @RenderSection("EditItemScript", required: false)
         @RenderSection("ProcessIndexScript", required: false)
@@ -68,3 +88,4 @@
         @RenderSection("LogSearchScript", required: false)*@
 </body>
 </html>
+

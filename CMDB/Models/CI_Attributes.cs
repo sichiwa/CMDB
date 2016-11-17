@@ -47,6 +47,7 @@ namespace CMDB.Models
         public string CreateAccount { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         [Display(Name = "建立時間")]
         public DateTime? CreateTime { get; set; }
 
@@ -57,6 +58,7 @@ namespace CMDB.Models
         public string UpdateAccount { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         [Display(Name = "最後異動時間")]
         public DateTime? UpdateTime { get; set; }
 

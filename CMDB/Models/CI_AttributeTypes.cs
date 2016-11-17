@@ -34,6 +34,7 @@ namespace CMDB.Models
 
         [Required]
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [Required]
@@ -44,6 +45,7 @@ namespace CMDB.Models
 
         [Required]
         [Display(Name = "最後異動時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? UpdateTime { get; set; }
 
         [Column(TypeName = "nvarchar")]

@@ -47,6 +47,7 @@ namespace CMDB.Models
 
         [Required]
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [Column(TypeName = "varchar")]
@@ -55,6 +56,7 @@ namespace CMDB.Models
         public string ReviewAccount { get; set; }
 
         [Display(Name = "覆核時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? ReviewTime { get; set; }
 
         [Column(TypeName = "nvarchar")]

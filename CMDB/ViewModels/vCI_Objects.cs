@@ -10,7 +10,7 @@ namespace CMDB.ViewModels
         [Display(Name = "物件ID")]
         public int ObjectID { get; set; }
 
-        [Display(Name = "屬性名稱")]
+        [Display(Name = "物件名稱")]
         public string ObjectName { get; set; }
 
         [Display(Name = "套用範本ID")]

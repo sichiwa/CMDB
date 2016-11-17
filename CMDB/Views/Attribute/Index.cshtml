@@ -17,7 +17,7 @@
 {
     <hr />
     <div class="row">
-        <label class="control-label col-md-12">待覆核屬性:<a href=@Url.Action("ReviewIndex")>@Model.ReviewCount.ToString()</a></label>
+        <label class="control-label col-md-12">待覆核屬性:<a href=@Url.Action("ReviewIndex") class="ReviewNumLink">@Model.ReviewCount.ToString()</a></label>
     </div>
     <hr />
 }
@@ -51,6 +51,29 @@
         {
             <tr>
                 <td>
+                    @if (Model.Authority == 1)
+                    {
+                        string aa = " |";
+                        if (item.EditAccount == "noBody")
+                        {
+
+                            @Html.ActionLink("編輯", "Edit", new { AttributeID = item.AttributeID }) ;
+                            @aa;
+                            @*@Html.ActionLink("刪除", "Delete", new { AttributeID = item.AttributeID });*@
+                        }
+                        else
+                        {
+                            <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
+                            @aa;
+                        }
+                        @*@Html.ActionLink("詳細資料", "Details", new { AttributeID = item.AttributeID }) ;*@
+                    }
+                    else
+                    {
+                        @*@Html.ActionLink("詳細資料", "Details", new { AttributeID = item.AttributeID });*@
+                    }
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.AttributeName)
                 </td>
                 <td>
@@ -68,29 +91,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdateTime)
                 </td>
-                <td>
-                    @if (Model.Authority == 1)
-                    {
-                        string aa = " |";
-                        if (item.EditAccount == "noBody")
-                        {
-
-                            @Html.ActionLink("編輯", "Edit", new { AttributeID = item.AttributeID }) ;
-                            @aa;
-                            @*@Html.ActionLink("刪除", "Delete", new { AttributeID = item.AttributeID });*@
-                        }
-                        else
-                        {
-                            <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
-                            @aa;
-                        }
-                        @Html.ActionLink("詳細資料", "Details", new { AttributeID = item.AttributeID }) ;
-                    }
-                    else
-                    {
-                        @Html.ActionLink("詳細資料", "Details", new { AttributeID = item.AttributeID });
-                    }
-                </td>
             </tr>
         }
     </table>
@@ -98,4 +98,22 @@
 else
 {
     <h3>@TempData["SystemInfo"].ToString()</h3>
+}
+
+@section IndexScript{
+    <script>
+            $(function () {
+                //取得屬性選單
+                getAttributeDropList("", "SearchAttributeID");
+                $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+
+                $("#Searchbtn").click(function () {
+                    var Keyword = $("#Keyword").val();
+                    var SearchAttributeID = $("#SearchAttributeID").val();
+                    var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                    //alert("Keyword:" + Keyword);
+                    document.location.href = Url;
+                });
+            });
+    </script>
 }

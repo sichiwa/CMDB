@@ -292,6 +292,7 @@
     <Compile Include="Controllers\ImportCIController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ObjectController.cs" />
+    <Compile Include="Controllers\ObjectSearchController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProfileRelationshipController.cs" />
     <Compile Include="Controllers\SystemImgController.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemClass\ShareFunc.cs" />
     <Compile Include="SystemClass\SystemConfig.cs" />
+    <Compile Include="ViewModels\vSearchKeywords.cs" />
     <Compile Include="ViewModels\vCI_Attributes.cs" />
     <Compile Include="ViewModels\vCI_Attributes_CU.cs" />
     <Compile Include="ViewModels\vCI_Attributes_List.cs" />
@@ -346,6 +348,8 @@
     <Compile Include="ViewModels\vCI_Profile_Relationship.cs" />
     <Compile Include="ViewModels\vCI_Profile_Relationship_CU.cs" />
     <Compile Include="ViewModels\vCI_Profile_Relationship_List.cs" />
+    <Compile Include="ViewModels\vMainPage.cs" />
+    <Compile Include="ViewModels\vMainPage_ProfileSearch.cs" />
     <Compile Include="ViewModels\vTmp_CI_Object_Relationship.cs" />
     <Compile Include="ViewModels\vTmp_CI_Object_Relationship_R.cs" />
     <Compile Include="ViewModels\vTmp_CI_Profile_Relationship_R.cs" />
@@ -399,6 +403,8 @@
     <Content Include="Views\ProfileRelationship\ReviewIndex.cshtml" />
     <Content Include="Views\ProfileRelationship\Review.cshtml" />
     <Content Include="Views\ProfileRelationship\Edit.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\ObjectSearch\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

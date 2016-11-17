@@ -18,7 +18,7 @@ namespace CMDB.Models
             {
                 //var LoginUserID = HttpContext.Current.Session["UserID"].ToString();
                 //int UserRole = Convert.ToInt32(HttpContext.Current.Session["UserRole"].ToString());
-                var LoginUserID = "TAS170";
+                //var LoginUserID = "TAS170";
                 int UserRole = 1;
                 var query = from rm in context.RoleFunctions
                             where rm.RoleID == UserRole

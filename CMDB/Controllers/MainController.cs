@@ -21,7 +21,53 @@ namespace CMDB.Controllers
         // GET: Main
         public ActionResult Index()
         {
-            return View();
+            //初始化系統參數
+            Configer.Init();
+
+            string nowUser = Session["UserID"].ToString();
+            int nowRole = Convert.ToInt32(Session["UserRole"]);
+
+            //Log記錄用
+            SystemLogs SL = new SystemLogs();
+            SL.Account = nowUser;
+            SL.Controller = "Main";
+            SL.Action = "Index";
+            SL.StartTime = DateTime.Now;
+            SF.logandshowInfo(Configer.GetAction + "首頁資料開始@" + SL.StartTime.ToString(Configer.SystemDateTimeFormat), log_Info);
+
+            string MailServer = Configer.MailServer;
+            int MailServerPort = Configer.MailServerPort;
+            string MailSender = Configer.MailSender;
+            List<string> MailReceiver = Configer.MailReceiver;
+
+            try
+            {
+                vMainPage _MainPageInfo = new vMainPage();
+                _MainPageInfo = SF.getMainPageInfo();
+                SF.logandshowInfo(Configer.GetAction + "首頁資料結束@" + SL.StartTime.ToString(Configer.SystemDateTimeFormat), log_Info);
+
+                if (_MainPageInfo.ProfileSearchList.Count() > 0)
+                {
+                    foreach (var item in _MainPageInfo.ProfileSearchList)
+                    {
+                        int UsedObjectCount = SF.getUsedObjectCount(item.ProfileID);
+                        item.UsedObjectCount = UsedObjectCount;
+                    }
+                }
+                return View(_MainPageInfo);
+            }
+            catch (Exception ex)
+            {
+                SL.EndTime = DateTime.Now;
+                SL.TotalCount = 0;
+                SL.SuccessCount = 0;
+                SL.FailCount = 0;
+                SL.Result = false;
+                SL.Msg = Configer.GetAction + "系統資訊作業失敗，" + "異常訊息[" + ex.ToString() + "]";
+                SF.log2DB(SL, MailServer, MailServerPort, MailSender, MailReceiver);
+
+                return RedirectToAction("Index", "Main");
+            }
         }
 
         // GET: Main/About
@@ -71,6 +117,7 @@ namespace CMDB.Controllers
                 DevelopmentHistory.Append("12.2016/09/10  支援屬性可設定為搜尋條件(0.6.2.20160910)\r\n");
                 DevelopmentHistory.Append("13.2016/10/21  完成範本關係管理功能開發(0.7.0.20161021)\r\n");
                 DevelopmentHistory.Append("14.2016/11/08  完成物件關係管理功能開發(0.8.0.20161108)\r\n");
+                DevelopmentHistory.Append("15.2016/11/17  加入首頁功能、全域關鍵字查詢、介面優化(0.8.2.20161117)\r\n");
 
                 SI.DevelopmentHistory = DevelopmentHistory.ToString();
                 SL.TotalCount = 1;

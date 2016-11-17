@@ -26,12 +26,14 @@ namespace CMDB.ViewModels
         public string Creator { get; set; }
 
         [Display(Name = "建立時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? CreateTime { get; set; }
 
         [Display(Name = "最後異動者")]
         public string Upadter { get; set; }
 
         [Display(Name = "最後異動時間")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime? UpdateTime { get; set; }
 
         public string EditAccount { get; set; }

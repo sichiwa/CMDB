@@ -203,6 +203,10 @@
 {
     <script>
         $(function () {
+            //取得屬性選單
+            getAttributeDropList("", "SearchAttributeID");
+            $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+
             compareReviewData();
             $("#AttributeTypeID").change(function () {
                 var AttributeTypeID = $(this).val();
@@ -212,6 +216,14 @@
                 else {
                     $(".DropDownValue").hide();
                 }
+            });
+
+            $("#Searchbtn").click(function () {
+                var Keyword = $("#Keyword").val();
+                var SearchAttributeID = $("#SearchAttributeID").val();
+                var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
             });
         });
     </script>

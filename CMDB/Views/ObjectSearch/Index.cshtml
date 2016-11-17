@@ -1,32 +1,21 @@
 ﻿@model  CMDB.ViewModels.vCI_Objects_List
-
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>物件管理</h2>
+<h2>物件查詢</h2>
 <p></p>
-<div class="row form-inline">
-    <div class="col-md-10">
-        @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label" })
-        @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID" })
-        @if (Model.Authority == 1)
-        {
-            //@Html.ActionLink("建立物件", "Create", "Object",null,new { id="aaaa"})
-            <a id="CreateObject" href="#">建立物件</a>
-        }
+<div class="row form-inline">     
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.Profile, htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownListFor(model => model.ProfileID, (SelectList)Model.Profile, new { Class = "form-control", id = "ProfileID" })
+            @if (Model.Authority == 1){
+                //@Html.ActionLink("建立物件", "Create", "Object",null,new { id="aaaa"})
+                <a id="CreateObject" href="#">建立物件</a>
+            }
+        </div>
     </div>
-</div>
 <br />
-
-@if (Model.ReviewCount > 0)
-{
-    <hr />
-    <div class="row">
-        <label class="control-label col-md-12">待覆核物件:<a href=@Url.Action("ReviewIndex") class="ReviewNumLink">@Model.ReviewCount.ToString()</a></label>
-    </div>
-    <hr />
-}
 @if (TempData["SystemInfo"].ToString() == "OK")
 {
     <table class="table table-bordered">
@@ -61,8 +50,7 @@
                         string aa = " |";
                         if (item.EditAccount == "noBody")
                         {
-
-                            @Html.ActionLink("編輯", "Edit", new { ObjectID = item.ObjectID }) ;
+                            @Html.ActionLink("編輯", "Edit", "Object", new { ObjectID = item.ObjectID }, null) ;
                             @aa;
                             @*@Html.ActionLink("刪除", "Delete", new { AttributeID = item.AttributeID });*@
                         }
@@ -71,11 +59,11 @@
                             <label class="text-danger">此筆資料正被 @item.EditAccount 編輯</label>
                             @aa;
                         }
-                        @*@Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID }) ;*@
+                        @Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID }) ;
                     }
                     else
                     {
-                        @*@Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID });*@
+                        @Html.ActionLink("詳細資料", "Details", new { ObjectID = item.ObjectID });
                     }
                 </td>
                 <td>
@@ -96,7 +84,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdateTime)
                 </td>
-      
+
             </tr>
         }
     </table>
@@ -108,32 +96,38 @@ else
 
 @section IndexScript{
     <script>
-            $(function () {
-                //取得屬性選單
-                getAttributeDropList("", "SearchAttributeID");
-                $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
+        $(function () {
+            //取得屬性選單
+            getAttributeDropList("", "SearchAttributeID");
+            $("#SearchAttributeID").prepend("<option value='0'>物件名稱</option>");
 
-                $("#Searchbtn").click(function () {
-                    var Keyword = $("#Keyword").val();
-                    var SearchAttributeID = $("#SearchAttributeID").val();
-                    var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
-                    //alert("Keyword:" + Keyword);
-                    document.location.href = Url;
-                });
-
-                $("#CreateObject").click(function () {
-                    var _ProfileID = $("#ProfileID").val();
-                    var Url = "/Object/Create?ProfileID=" + _ProfileID;
-                    //alert("Keyword:" + Keyword);
-                    document.location.href = Url;
-                    //alert("CreateObject");
-                });
+            $("#Searchbtn").click(function () {
+                var Keyword = $("#Keyword").val();
+                var SearchAttributeID = $("#SearchAttributeID").val();
+                var Url = "/ObjectSearch/Index?AttributeID=" + SearchAttributeID + "&Keyword=" + encodeURIComponent(Keyword);
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
             });
+
+            $("#ProfileID").change(function () {
+                var _ProfileID = $("#ProfileID").val();
+                //getAttributeInputList(_ProfileID);
+                //getRelationshipProfileMenu(_ProfileID);
+
+                var Url = "/ObjectSearch/Index?ProfileID=" + _ProfileID;
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
+            });
+
+            $("#CreateObject").click(function () {
+                var _ProfileID = $("#ProfileID").val();
+                var Url = "/Object/Create?ProfileID=" + _ProfileID;
+                //alert("Keyword:" + Keyword);
+                document.location.href = Url;
+                //alert("CreateObject");
+            });
+        });
     </script>
 }
-
-
-
- 
 
 
